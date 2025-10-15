@@ -10,7 +10,11 @@ This is a example suite for Java 9 jigsaw modules. Many aspects of the new Java 
 [Project Jigsaw](http://openjdk.java.net/projects/jigsaw/) by [JSR 376](https://www.jcp.org/en/jsr/detail?id=376) and [JEP 261](http://openjdk.java.net/jeps/261). 
 
 All the examples have been successfully tested with Windows (64bit), Linux and MacOSX - running Java 9, Java 10 and Java 11. Eclipse projects can be used with Eclipse Oxygen.1 4.7.1a.
-The three Maven examples need Maven 3.5.2 (if run with Java 9 or 10), Maven 3.6.1 (if run with Java 11). The Gradle example needs at least Gradle 5.4.1 (if run with JDK11),  4.6 (if run with JDK10) or 4.2.1 (if run with JDK9).
+
+**Build Tool Wrappers:** All Maven and Gradle examples now include build tool wrappers, so manual installation of Maven or Gradle is no longer required:
+- Maven examples include **Maven Wrapper 3.9.11** (mvnw/mvnw.cmd)
+- Gradle example includes **Gradle Wrapper 9.1.0** (gradlew/gradlew.cmd) - requires **JDK 17 or later**
+
 ## Setup
 
 1. Clone this repository
@@ -60,6 +64,12 @@ Then either:
 ### Additional information
 
 All examples have been tested with Java 9 build 181, 9.0.1+11, 9.0.4+11 and also JDK 10, JDK 11 all on Windows 10-x64.
+
+**Using Build Tool Wrappers:**
+- For Maven examples: Use `./mvnw` (Unix/Mac) or `mvnw.cmd` (Windows) instead of `mvn`
+- For Gradle example: Use `./gradlew` (Unix/Mac) or `gradlew.cmd` (Windows) instead of `gradle`
+  - **Important**: Set `JAVA_HOME` to JDK 17+ before running: `export JAVA_HOME=/path/to/jdk17` (or use `JAVA_HOME=... ./gradlew ...`)
+
 Note that all scripts have been tested with bash only. 
 There might be minor issues with the *.sh scripts whenever they call each other.
 To be sure, you should use all of these clean, compile, run, test etc. scripts in a bash.
@@ -126,8 +136,8 @@ Needs probably Maven/Plugin updates, to be done soon.</span>
 || example_unnamed-module_access-from-explicit-module-reflection   | Can a Explicit Module access the classpath (i.e. the unnamed module) via reflection? | all other examples in this section
 || example_unnamed-module-reflection-illegal-access                | Can the classpath (i.e. the unnamed module) access concealed packages in the JDK and what happens when the JDK "kill switch" is activated? |all other examples in this section
 || example_unnamed-module_accessing-module-path                    | Can the classpath (i.e. the unnamed module) access modules on the module path? | all other examples in this section
-| **Examples on build systems**| example_gradle-project                                          | How can one use Gradle 4.2.1 for building a modularized project? | all other examples in this section
-|| example_maven-project                                           | How can one use Maven 3.5.2 for building a modularized project? | all other examples in this section
+| **Examples on build systems**| example_gradle-project                                          | How can one use Gradle 9.1.0 for building a modularized project? Includes Gradle Wrapper. Requires JDK 17+. | all other examples in this section
+|| example_maven-project                                           | How can one use Maven 3.9.11 for building a modularized project? Includes Maven Wrapper. | all other examples in this section
 | **Examples on porting applications from Java8 to Java9**| example_spring-hibernate                                        | How does the migration of a Spring Boot application with a bunch of Maven plugins look like and where do we have to tweak / change in comparison to Java 8? |
 || example_compile-target-jdk8                                     | What happens when one compiles with JDK9 with or without targeting a Java release 9 or 8? |
 | **Examples on non-Jigsaw topics**| example_version                                        | How does the new Java 9 version string (cf JEP 223) look like? |
@@ -138,9 +148,12 @@ The examples have been used and tested with these tools and libraries (on Window
 |Tool|Version|Used for|Remark|Link|
 |--|--|--|--|--|
 |JDK|9 b181, 9.0.1, 9.0.4, 10 and 11|all examples at compile and runtime||http://jdk.java.net/9/ and http://jdk.java.net/10/ and Java 11. All open jdks should work. Tested with corretto https://aws.amazon.com/de/corretto/|
+|JDK|17 or later|Gradle example (`example_gradle-project`)|Required by Gradle 9.x|https://adoptium.net/ or https://sdkman.io/|
 |JDK|1.8.0_144|only needed for `example_compile-target-jdk8`||http://jdk.java.net/8/|
-|Maven|3.5.2, 3.6.1 with JDK11|Maven examples|Note that we use Maven compiler plugin 3.7.0|https://maven.apache.org/download.cgi|
-|Gradle|4.2.1 with JDK9, 4.6 with JDK10, 5.4.1 with JDK11|Gradle example||https://github.com/gradle/gradle|
+|Maven Wrapper|3.9.11|Maven examples|**Included in all Maven examples** - no manual installation required|https://maven.apache.org/wrapper/|
+|Gradle Wrapper|9.1.0|Gradle example|**Included in `example_gradle-project`** - no manual installation required. Requires JDK 17+|https://docs.gradle.org/current/userguide/gradle_wrapper.html|
+|~~Maven~~|~~3.5.2, 3.6.1~~|~~Maven examples~~|**Deprecated** - Use Maven Wrapper instead (./mvnw)|https://maven.apache.org/download.cgi|
+|~~Gradle~~|~~4.2.1, 4.6, 5.4.1~~|~~Gradle example~~|**Deprecated** - Use Gradle Wrapper instead (./gradlew)|https://github.com/gradle/gradle|
 |Eclipse|4.7.1a (Oxygen.1a) and 4.7.3a (Oxygen.3a)|all examples||https://www.eclipse.org/|
 |Junit|4.12|all test examples|together with Hamcrest 1.3||
 |Spring Boot, various libs|various|only in `example_spring-hibernate`|refer to POM.xml in this example||
@@ -155,6 +168,22 @@ Note that these are the versions with with we have tested the example suite. Old
 - Use .envrc (works nicely with direnv.net) to configure without changing existing files
 - Only set/export environment variables in `env.sh` if necessary (no configured value)
 - Align Setup documentation and indent sections logically
+- Added Maven Wrapper 3.9.11 to all Maven examples:
+  - `example_maven-project` (created parent POM for multi-module support)
+  - `example_maven-test-blackbox`
+  - `example_maven-test-whitebox`
+  - `example_spring-hibernate`
+- Updated Gradle Wrapper to 9.1.0 in `example_gradle-project`:
+  - **Breaking change**: Gradle 9.x requires **JDK 17 or later** (previously JDK 11)
+  - Updated build scripts for Gradle 9.x compatibility:
+    - Replaced deprecated `jcenter()` with `mavenCentral()`
+    - Updated `sourceSets.test.java.outputDir` to `sourceSets.test.java.classesDirectory`
+    - Migrated `mainClassName` property to `application { mainClass }` block
+- Environment simplification:
+  - Manual installation of Maven and Gradle no longer required
+  - `MAVEN_HOME` and `GRADLE_HOME` removed from `env.sh` (no longer needed due to wrapper usage)
+  - Use `./mvnw` (Maven) or `./gradlew` (Gradle) instead of system-installed tools
+- All builds tested and verified on macOS with JDK 11 (Maven) and JDK 17 (Gradle)
 
 ### Example for layer module resolution
 - Example demonstrating the resolution of modules across layers added

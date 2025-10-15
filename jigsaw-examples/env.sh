@@ -11,9 +11,9 @@
 # Path to Eclipse 4.7.3a Oxygen.3a (but 4.7.1a Oxygen.1a should still work)
 [ -z "$ECLIPSE_HOME" ] && export ECLIPSE_HOME=TODO/path/to/eclipse4.7.3a/goes/here
 
-# Path to Maven >=3.5.2
-export MAVEN_HOME=TODO/path/to/Maven3.5.2/goes/here
-export M2_HOME=${MAVEN_HOME}
+# Note: MAVEN_HOME and GRADLE_HOME are no longer needed as all Maven and Gradle
+# examples now include wrappers (Maven Wrapper 3.9.11, Gradle Wrapper 9.1.0)
+# Use ./mvnw or ./gradlew instead
 
 # Path to GraphViz >=2.38
 [ -z "$GRAPHVIZ_HOME" ] && export GRAPHVIZ_HOME=TODO/path/to/graphviz2.38/goes/here
@@ -46,7 +46,7 @@ JAVADOC_OPTIONS=""
 # ---------------------------------------------------------
 # no need to change anything beyond this line
 
-export PATH=$JAVA_HOME/bin:$MAVEN_HOME/bin:$PATH
+export PATH=$JAVA_HOME/bin:$PATH
 
 # helper echo to highlight errors on the terminal
 function myecho {

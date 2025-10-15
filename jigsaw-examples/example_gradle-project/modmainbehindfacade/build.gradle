@@ -8,4 +8,7 @@ dependencies {
 }
 
 ext.moduleName = 'modmainbehindfacade'
-mainClassName = 'pkgmainbehindfacade.MainBehindFacade'
+
+application {
+    mainClass = 'pkgmainbehindfacade.MainBehindFacade'
+}

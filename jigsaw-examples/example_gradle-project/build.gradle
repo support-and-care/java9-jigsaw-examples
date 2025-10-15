@@ -1,7 +1,7 @@
 subprojects {
     afterEvaluate {
         repositories {
-            jcenter()
+            mavenCentral()
         }
 
         compileJava {
@@ -34,7 +34,7 @@ subprojects {
                     '--module-path', classpath.asPath,
                     '--add-modules', 'ALL-MODULE-PATH',
                     '--add-reads', "$moduleName=junit",
-                    '--patch-module', "$moduleName=" + files(sourceSets.test.java.outputDir).asPath,
+                    '--patch-module', "$moduleName=" + files(sourceSets.test.java.classesDirectory).asPath,
                 ]
                 classpath = files()
             }
