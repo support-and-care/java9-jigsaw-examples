@@ -1,7 +1,7 @@
 ﻿# Java 9 Jigsaw modules - example suite
 
-# Info
-Written by [Martin Lehmann](https://github.com/mrtnlhmnn), [Kristine Schaal](https://github.com/kristines) and [Rüdiger Grammes](https://github.com/rgrammes) 
+## Info
+Written by [Martin Lehmann](https://github.com/mrtnlhmnn), [Kristine Schaal](https://github.com/kristines) and [Rüdiger Grammes](https://github.com/rgrammes)
 
 see https://github.com/accso/java9-jigsaw-examples
 
@@ -11,25 +11,60 @@ This is a example suite for Java 9 jigsaw modules. Many aspects of the new Java 
 
 All the examples have been successfully tested with Windows (64bit), Linux and MacOSX - running Java 9, Java 10 and Java 11. Eclipse projects can be used with Eclipse Oxygen.1 4.7.1a.
 The three Maven examples need Maven 3.5.2 (if run with Java 9 or 10), Maven 3.6.1 (if run with Java 11). The Gradle example needs at least Gradle 5.4.1 (if run with JDK11),  4.6 (if run with JDK10) or 4.2.1 (if run with JDK9).
+## Setup
 
-# Setup
-1. Clone this repo.
-2. Install a Java 9 JDK with Jigsaw support. All examples have been tested with Java 9 build 181, 9.0.1+11, 9.0.4+11 and also JDK 10, JDK 11 all on Windows 10-x64
-3. Install [GraphViz 2.38](http://www.graphviz.org/).
-4. Install [Maven 3.6.1, for JDK 11, Maven 3.5.2 for JDK 10, 9](https://maven.apache.org/download.cgi). Note that this is needed for `example_maven-project`, `example_maven_blackbox` and `example_maven_whitebox` only.
-5. Install [Gradle 5.4.1, for JDK 11, Gradle 4.6, for JDK10 or Gradle 4.2.1 for JDK9](https://github.com/gradle/gradle). Note that this is needed for `example_gradle-project` only.
-6. If running on Windows, install a bash, like for example [Babun](https://babun.github.io/) or [git bash](https://gitforwindows.org/)
-7. To generate the GraphViz graphs, you also need to clone and compile [depvis](https://github.com/accso/java9-jigsaw-depvis).
-8. Edit file `env.sh` to configure `JAVA_HOME` and `JAVA_HOME_JDK8` and `GRAPHVIZ_HOME` and `MAVEN_HOME` and `GRADLE_HOME` and `DEPVIS_HOME` (see TODO markers)
-9. Also edit file `env.sh` to configure the path separator. If run on Windows, use \; (a blackslash quoting a ;). If you run all stuff on *nix, use a colon : .
-10. Call one of the scripts on the top level, i.e. one of 
-   `allclean.sh`, `allcompile.sh`, `allcreatevis.sh` and `allrun.sh` (or `all.sh` for all in one step).
-11. Alternatively, cd to one of the examples and call one of the scripts there (again `all.sh` for all in one step).
+1. Clone this repository
+2. Ensure you meet the *Minimal Requirements*
+3. Then either follow the *Quick Setup* or the *Full Setup*
+4. Finally *Run Examples*
 
-Note that all scripts have been tested with bash only. There might be minor issues with the *.sh scripts whenever they call each other.
+### Minimal Requirements
+
+1. If running on Windows, install a bash, like for example [Babun](https://babun.github.io/) or [git bash](https://gitforwindows.org/)
+2. Install a Java JDK:
+   - **For most examples**: Java 9, 10, or 11 (all examples tested with these versions)
+   - **For Gradle example (`example_gradle-project`)**: Java 17 or later (required by Gradle 9.x)
+
+Note that JDK 17 (or newer) would be enough for everything (except for some example where you would like to explicitly test that the code still works with JDK 8, i.e., example_compile-target-jdk8).
+
+### Optional Software
+
+If you want to evaluate your runtime behavior and generate respective graphs, you need  [depvis](https://github.com/accso/java9-jigsaw-depvis).
+
+1. Install [GraphViz (>=) 2.38](http://www.graphviz.org/).
+2. Install [depvis](https://github.com/accso/java9-jigsaw-depvis).
+
+### Quick Start
+
+Copy and customize the environment template:
+```bash
+cp .envrc-template .envrc
+# Edit .envrc and set your JDK and tool paths
+```
+
+Then either:
+- **Option 1:** Source it manually before running examples: `source .envrc`
+- **Option 2:** Use [direnv](https://direnv.net/) to automatically load environment when entering this directory
+
+### Traditional Setup (Deprecated) 
+
+1. Edit file `env.sh` to configure `JAVA_HOME`, `JAVA_HOME_JDK8`, `GRAPHVIZ_HOME`, and `DEPVIS_HOME` (see TODO markers in the file)
+2. Also edit file `env.sh` to configure the path separator. If run on Windows, use \; (a blackslash quoting a ;). If you run all stuff on *nix, use a colon : . 
+
+### Running Examples
+
+- **Either** call one of the scripts on the top level, i.e., one of
+   `allclean.sh`, `allcompile.sh`, `allcreatevis.sh` and `allrun.sh` (or `all.sh` for all in one step). 
+- **Alternatively**, cd to one of the examples and call one of the scripts there (again `all.sh` for all in one step).
+
+### Additional information
+
+All examples have been tested with Java 9 build 181, 9.0.1+11, 9.0.4+11 and also JDK 10, JDK 11 all on Windows 10-x64.
+Note that all scripts have been tested with bash only. 
+There might be minor issues with the *.sh scripts whenever they call each other.
 To be sure, you should use all of these clean, compile, run, test etc. scripts in a bash.
 
-# Overall conventions
+## Overall conventions
 1. Scripts in top level directory all*.sh call the corresponding scripts recursively
 2. Scripts in each example are all.sh, clean.sh, compile*.sh, run*.sh
 3. Script createvis.sh in each example creates a GraphViz visualiation, see https://github.com/accso/java9-jigsaw-depvis
@@ -42,7 +77,7 @@ To be sure, you should use all of these clean, compile, run, test etc. scripts i
 9. A few examples do compile "old-style" without modules. Results go to `example_.../classes`.
 10. If a module is patched, then the .class files for the patch are in `example_.../patches`. Corresponding JAR files are in `example_.../patchlib`.
 
-# TODOs, LOP, Backlog, Ideas, ...
+## TODOs, LOP, Backlog, Ideas, ...
 No software is ready, ever ;-) So here are some ideas left (any other feedback very welcome!):
 
 - [ ] Do a bit of renaming and refactoring of module names. (modmain had been moda before, so that's why most modules are called modb, modc, ...)
@@ -53,7 +88,7 @@ No software is ready, ever ;-) So here are some ideas left (any other feedback v
 Needs probably Maven/Plugin updates, to be done soon.</span>
 - [ ] Update the Spring-Hibernate and Spring Boot example to use new, JDK9/10-ready libraries
 
-# Example Overview
+## Example Overview
 | |Examples|Description | Related Examples|
 |--|--|--|--|
 | **Examples on the declaration of modules**| example_naming-modules                                          | Which naming conventions exist for modules? Which names are not allowed? | 
@@ -97,7 +132,7 @@ Needs probably Maven/Plugin updates, to be done soon.</span>
 || example_compile-target-jdk8                                     | What happens when one compiles with JDK9 with or without targeting a Java release 9 or 8? |
 | **Examples on non-Jigsaw topics**| example_version                                        | How does the new Java 9 version string (cf JEP 223) look like? |
 
-# Overview on Tools and Libs
+## Overview on Tools and Libs
 The examples have been used and tested with these tools and libraries (on Windows 10, Linux, MacOSX):
 
 |Tool|Version|Used for|Remark|Link|
@@ -114,7 +149,12 @@ The examples have been used and tested with these tools and libraries (on Window
 
 Note that these are the versions with with we have tested the example suite. Older or newer versions might also work but we did not try.
 
-# Changelog
+## Changelog
+
+### Migration to Build Tool Wrappers (October 2025)
+- Use .envrc (works nicely with direnv.net) to configure without changing existing files
+- Only set/export environment variables in `env.sh` if necessary (no configured value)
+- Align Setup documentation and indent sections logically
 
 ### Example for layer module resolution
 - Example demonstrating the resolution of modules across layers added
@@ -197,10 +237,10 @@ Now with print and visualization output like printing uses and provides, printin
 - "opens" instead of "exports dynamic" and "weak modules"
 - "requires transitive" instead of "requires public"
 
-# Related projects
+## Related projects
 DepVis, see https://github.com/accso/java9-jigsaw-depvis : Visualization tool for Jigsaw modules
 
-# License
+## License
 Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the License.
 
 You may obtain a copy of the License at

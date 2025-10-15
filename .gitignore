@@ -4,3 +4,9 @@
 /jigsaw-examples/*/patchlib/*.jar
 /jigsaw-examples/*/cplib/*.jar
 /jigsaw-examples/*/src/*/target
+
+# IDE configuration
+.idea/
+
+# User-specific environment configuration
+.envrc
