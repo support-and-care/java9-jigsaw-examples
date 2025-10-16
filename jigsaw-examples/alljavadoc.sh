@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 javadoc() {
     MODDIR=${dir%*/}
-    pushd ${MODDIR} > /dev/null 2>&1
+    pushd "${MODDIR}" > /dev/null 2>&1 || exit
     if [ -f ./javadoc.sh ] 
     then 
         echo "###################################################################################################################################"
@@ -9,11 +9,11 @@ javadoc() {
         ./javadoc.sh
         echo " "
     fi
-    popd >/dev/null 2>&1 
+    popd >/dev/null 2>&1 || exit
 }
 
 source ./env.sh
-$JAVA_HOME/bin/java --version
+"$JAVA_HOME/bin/java" --version
 
 for dir in example_*/; 
 do

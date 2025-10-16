@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 compile() {
     MODDIR=${dir%*/}
-    pushd ${MODDIR} > /dev/null 2>&1
+    pushd "${MODDIR}" > /dev/null 2>&1 || exit
     if [ -f ./compile.sh ] 
     then 
         echo "###################################################################################################################################"
@@ -11,11 +11,11 @@ compile() {
           fi
         echo " "
     fi
-    popd >/dev/null 2>&1 
+    popd >/dev/null 2>&1 || exit
 }
 
 source ./env.sh
-$JAVA_HOME/bin/java --version
+"$JAVA_HOME/bin/java" --version
 
 for dir in example_*/; 
 do

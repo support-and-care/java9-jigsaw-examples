@@ -1,26 +1,30 @@
 # Environment settings
+# shellcheck shell=bash
 
 set -eu -o pipefail
 
 # configure paths here
 
 # Path to JDK9 or JDK10 (9.0.1, 9.0.4 and 10_18.3_10+46 have been tested)
-[ -z "$JAVA_HOME" ] && export JAVA_HOME=TODO/path/to/java9-or-10-jdk/goes/here
+[ -z "${JAVA_HOME:-}" ] && export JAVA_HOME=TODO/path/to/java9-or-10-jdk/goes/here
 
-# Path to JDK8, only needed in example_compile-target-jdk8
-[ -z "$JAVA8_HOME" ] && export JAVA8_HOME=TODO/path/to/java8-jdk/goes/here
+# Path to JDK8, only needed in example_compile-target-jdk8 (and special profile in example_spring-hibernate)
+[ -z "${JAVA8_HOME:-}" ] && export JAVA8_HOME=TODO/path/to/java8-jdk/goes/here
+
+# Path to JDK17, only needed in example_gradle-project
+[ -z "${JAVA17_HOME:-}" ] && export JAVA17_HOME=TODO/path/to/java8-jdk/goes/here
 
 # Path to Eclipse 4.7.3a Oxygen.3a (but 4.7.1a Oxygen.1a should still work)
-[ -z "$ECLIPSE_HOME" ] && export ECLIPSE_HOME=TODO/path/to/eclipse4.7.3a/goes/here
+[ -z "${ECLIPSE_HOME:-}" ] && export ECLIPSE_HOME=TODO/path/to/eclipse4.7.3a/goes/here
 
 # Note: MAVEN_HOME and GRADLE_HOME are no longer needed as all Maven and Gradle
 # examples now include wrappers (Maven Wrapper 3.9.11, Gradle Wrapper 9.1.0)
 # Use ./mvnw or ./gradlew instead
 
 # Path to GraphViz >=2.38
-[ -z "$GRAPHVIZ_HOME" ] && export GRAPHVIZ_HOME=TODO/path/to/graphviz2.38/goes/here
+[ -z "${GRAPHVIZ_HOME:-}" ] && export GRAPHVIZ_HOME=TODO/path/to/graphviz2.38/goes/here
 # Path to DepVis , see https://github.com/accso/java9-jigsaw-depvis
-[ -z "$DEPVIS_HOME" ] && export DEPVIS_HOME=TODO/path/to/depvis/goes/here
+[ -z "${DEPVIS_HOME:-}" ] && export DEPVIS_HOME=TODO/path/to/depvis/goes/here
 
 # Set PATH_SEPARATOR: ';' on Windows (even when in bash), ':' on Un*x
 case "$(uname | tr '[:lower:]' '[:upper:]')" in
@@ -39,18 +43,18 @@ export PATH_SEPARATOR
 #
 # options used for javac (compile), jar (packaging) and java (launch)
 #
-JAVAC_OPTIONS="-Xlint"
+export JAVAC_OPTIONS="-Xlint"
 # JAVA_OPTIONS="-XshowSettings:all -Xlog:module=trace -showversion --show-module-resolution"
-JAVA_OPTIONS="-showversion"
-JAR_OPTIONS=""
-JAVADOC_OPTIONS=""
+export JAVA_OPTIONS="-showversion"
+export JAR_OPTIONS=""
+export JAVADOC_OPTIONS=""
 
 # ---------------------------------------------------------
 # no need to change anything beyond this line
 
-export PATH=$JAVA_HOME/bin:$PATH
+export PATH="$JAVA_HOME/bin:$PATH"
 
 # helper echo to highlight errors on the terminal
-function myecho {
-    egrep --color=always "Error|error|Exception|exception|Warn|warn|$" $@
+myecho() {
+    grep -E --color=always "Error|error|Exception|exception|Warn|warn|$"
 }
