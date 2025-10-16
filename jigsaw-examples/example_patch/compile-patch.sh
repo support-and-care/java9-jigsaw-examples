@@ -1,4 +1,5 @@
-. ../env.sh
+#!/usr/bin/env bash
+source ../env.sh
 
 # Compile the patch as classes, create (non-modular) jar.
 #

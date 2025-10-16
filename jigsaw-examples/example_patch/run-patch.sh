@@ -1,4 +1,5 @@
-. ../env.sh
+#!/usr/bin/env bash
+source ../env.sh
 
 # Patch the module during startup, using a) exploded classes, b) a jar containing the patch.
 #

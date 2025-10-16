@@ -1,4 +1,5 @@
-. ../env.sh
+#!/usr/bin/env bash
+source ../env.sh
 
 # note: not done here (but via api in modmain, see Main.java#26) as a replacement for --add-reads modmain=modb 
 # note: not done here (but via api in modmain, see Main.java#30) as a replacement for --add-exports modb/pkgbinternal=modmain

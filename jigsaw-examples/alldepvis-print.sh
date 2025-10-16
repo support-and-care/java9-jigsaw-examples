@@ -1,3 +1,4 @@
+#!/usr/bin/env bash
 depvisprint() {
     MODDIR=${dir%*/}
     pushd ${MODDIR} > /dev/null 2>&1
@@ -5,13 +6,13 @@ depvisprint() {
     then 
         echo "###################################################################################################################################"
         echo "Creating DepVis print output for ${MODDIR}"
-        . ./depvis-print.sh
+        ./depvis-print.sh
         echo " "
     fi
     popd >/dev/null 2>&1 
 }
 
-. ./env.sh
+source ./env.sh
 $JAVA_HOME/bin/java --version
 
 for dir in example_*/; 

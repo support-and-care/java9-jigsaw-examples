@@ -1,4 +1,5 @@
-. ../env.sh
+#!/usr/bin/env bash
+source ../env.sh
 
 # Allow access to moda without using the "Add-Exports" entry from MANIFEST.MF
 $JAVA_HOME/bin/java $JAVA_OPTIONS \

@@ -1,4 +1,5 @@
-. ../env.sh
+#!/usr/bin/env bash
+source ../env.sh
 
 function createvis() {
     # Name of the dot file produced by JigsawDepVisualizer

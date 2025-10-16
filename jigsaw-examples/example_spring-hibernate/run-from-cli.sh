@@ -1,4 +1,5 @@
-. ../env.sh
+#!/usr/bin/env bash
+source ../env.sh
 
 echo "Running application as fat JAR as follows:"
 echo "java $JAVA_OPTIONS  java.xml.bind -jar mod.app-0.0.1-SNAPSHOT.jar"

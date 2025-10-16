@@ -1,4 +1,5 @@
-. ./run-main.sh
+#!/usr/bin/env bash
+./run-main.sh
 
 echo " "
-. ./run-mainbehindfacade.sh
+./run-mainbehindfacade.sh

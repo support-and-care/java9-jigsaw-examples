@@ -1,3 +1,4 @@
+#!/usr/bin/env bash
 #
 # Start script for Eclipse 4.7.3 Oxygen.3a (does now support JDK10)
 #
@@ -5,7 +6,7 @@
 #    . ./start_eclipse4.7.3a.sh
 #
 
-. ../env.sh
+source ../env.sh
 
 # OS specific support (must be 'true' or 'false').
 cygwin=false

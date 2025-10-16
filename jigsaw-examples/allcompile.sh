@@ -1,3 +1,4 @@
+#!/usr/bin/env bash
 compile() {
     MODDIR=${dir%*/}
     pushd ${MODDIR} > /dev/null 2>&1
@@ -5,13 +6,15 @@ compile() {
     then 
         echo "###################################################################################################################################"
         echo "Compiling ${MODDIR}"
-        . ./compile.sh
+          if ! ./compile.sh; then
+            echo "Could not compile '${MODDIR}' - this might lead to problems later!" >&2
+          fi
         echo " "
     fi
     popd >/dev/null 2>&1 
 }
 
-. ./env.sh
+source ./env.sh
 $JAVA_HOME/bin/java --version
 
 for dir in example_*/; 

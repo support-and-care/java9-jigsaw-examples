@@ -1,9 +1,10 @@
+#!/usr/bin/env bash
 cat readme.md
 
-. ./run-blackboxtest.sh
+./run-blackboxtest.sh
 
 echo " "
-. ./run-whiteboxtest.sh
+./run-whiteboxtest.sh
 
 echo " "
-. ./run-whiteboxtest_with-optionsfile.sh
+./run-whiteboxtest_with-optionsfile.sh

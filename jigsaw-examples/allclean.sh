@@ -1,3 +1,4 @@
+#!/usr/bin/env bash
 clean() {
     MODDIR=${dir%*/}
     pushd ${MODDIR} > /dev/null 2>&1
@@ -5,13 +6,13 @@ clean() {
     then 
         echo "###################################################################################################################################"
         echo "Cleaning ${MODDIR}"
-        . ./clean.sh
+        ./clean.sh
         echo " "
     fi
     popd >/dev/null 2>&1 
 }
 
-. ./env.sh
+source ./env.sh
 $JAVA_HOME/bin/java --version
 
 for dir in example_*/; 

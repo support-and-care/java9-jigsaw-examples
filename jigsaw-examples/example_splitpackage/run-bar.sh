@@ -1,4 +1,5 @@
-. ../env.sh
+#!/usr/bin/env bash
+source ../env.sh
 
 # this works fine (no problem if modsplitbar1 and modsplitbar2 are both on the module path)
 $JAVA_HOME/bin/java $JAVA_OPTIONS --module-path mlib                            --module modmainbar/pkgmainbar.Main 2>&1 | myecho

@@ -1,3 +1,4 @@
+#!/usr/bin/env bash
 javadoc() {
     MODDIR=${dir%*/}
     pushd ${MODDIR} > /dev/null 2>&1
@@ -5,13 +6,13 @@ javadoc() {
     then 
         echo "###################################################################################################################################"
         echo "Generating JavaDoc in ${MODDIR}"
-        . ./javadoc.sh
+        ./javadoc.sh
         echo " "
     fi
     popd >/dev/null 2>&1 
 }
 
-. ./env.sh
+source ./env.sh
 $JAVA_HOME/bin/java --version
 
 for dir in example_*/; 

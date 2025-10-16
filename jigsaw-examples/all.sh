@@ -1,3 +1,4 @@
+#!/usr/bin/env bash
 all() {
     MODDIR=${dir%*/}
     pushd ${MODDIR} > /dev/null 2>&1
@@ -5,7 +6,7 @@ all() {
     then 
         echo "###################################################################################################################################"
         echo "All in ${MODDIR}"
-        . ./all.sh
+        ./all.sh
     fi
     popd >/dev/null 2>&1 
     echo " "

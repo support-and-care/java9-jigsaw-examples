@@ -1,4 +1,5 @@
-. ../env.sh
+#!/usr/bin/env bash
+source ../env.sh
 
 mkdir -p classes-jdk8
 mkdir -p cplib

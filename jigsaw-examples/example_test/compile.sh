@@ -1,12 +1,13 @@
+#!/usr/bin/env bash
 mkdir -p mods
 mkdir -p patches
 mkdir -p mlib
 mkdir -p patchlib 
 
-. ./compile-blackboxtest.sh
+./compile-blackboxtest.sh
 
 # without options file
 # . ./compile-whiteboxtest.sh
 
 # with options file
-. ./compile-whiteboxtest_with-optionsfile.sh
+./compile-whiteboxtest_with-optionsfile.sh

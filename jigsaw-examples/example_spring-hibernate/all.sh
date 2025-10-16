@@ -1,12 +1,13 @@
+#!/usr/bin/env bash
 cat readme.md
 
 echo "# -------------------------------------------------------------------------------------------------------------------------------"
-. ./clean.sh
+./clean.sh
 
-. ./compile.sh
+./compile.sh
 
 echo "# -------------------------------------------------------------------------------------------------------------------------------"
-. ./run-test.sh
+./run-test.sh
 
 # Commented out as otherwise the server starts and stays open, waiting to get closed (which is not ideal is used inside the 
 # example suite)

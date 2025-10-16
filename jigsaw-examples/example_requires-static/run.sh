@@ -1,4 +1,5 @@
-. ../env.sh
+#!/usr/bin/env bash
+source ../env.sh
 
 # --add-modules for both modb and modc is needed as otherwise a java.lang.ClassNotFoundException is thrown because classes from modb/pkgb and modc/pkgc are not found
 # $JAVA_HOME/bin/java $JAVA_OPTIONS --module-path mlib --module modmain/pkgmain.Main  2>&1 | myecho

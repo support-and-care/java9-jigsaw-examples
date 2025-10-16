@@ -1,4 +1,5 @@
-. ../env.sh
+#!/usr/bin/env bash
+source ../env.sh
 
 # Config properties file
 PROPS_FILENAME=depvis.properties

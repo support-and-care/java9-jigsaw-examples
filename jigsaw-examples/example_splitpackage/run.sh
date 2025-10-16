@@ -1,4 +1,5 @@
-. ./run-foo.sh
+#!/usr/bin/env bash
+./run-foo.sh
 
 echo " "
-. ./run-bar.sh
+./run-bar.sh

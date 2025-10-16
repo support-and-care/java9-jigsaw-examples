@@ -1,4 +1,5 @@
-. ../env.sh
+#!/usr/bin/env bash
+source ../env.sh
 
 echo "Running the application with only modauto1 on the module path... "
 

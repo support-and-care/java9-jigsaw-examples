@@ -1,7 +1,8 @@
+#!/usr/bin/env bash
 mkdir -p mods
 mkdir -p mlib 
 
 # does not compile
-. ./compile-foo.sh
+./compile-foo.sh
 
-. ./compile-bar.sh
+./compile-bar.sh

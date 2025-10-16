@@ -1,3 +1,4 @@
+#!/usr/bin/env bash
 #
 # Copy all apps from our app whitelist (various example will not work, e.g. when we provide additional options in the run script)
 #

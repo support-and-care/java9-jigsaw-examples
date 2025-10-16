@@ -1,4 +1,5 @@
-. ../env.sh
+#!/usr/bin/env bash
+source ../env.sh
 
 rm -rf classes*/*
 rm -rf cplib/*.jar

@@ -1,4 +1,5 @@
-. ../env.sh
+#!/usr/bin/env bash
+source ../env.sh
 
 echo "Running the application with both modauto1 and modauto2 on the module path... "
 echo "- When we run the application and have both amlib1 and amlib2 on the module path, we see a 'split package' problem"
