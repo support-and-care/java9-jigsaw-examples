@@ -92,14 +92,14 @@ public class Main {
 	// create a new layer and add the given module modfoo or modbar, respectively
 	private ModuleLayer createLayer(final ModuleLayer parentLayer, ClassLoader classLoader, String modName,
 			String amlib) {
-		String mlibPath = new java.io.File(System.getProperty("user.dir")).getAbsolutePath() + "./mlib";
-		String amlibPath = new java.io.File(System.getProperty("user.dir")).getAbsolutePath() + amlib;
+		String mlibPath = new java.io.File(System.getProperty("user.dir")).getAbsolutePath() + "/mlib";
+		String amlibPath = new java.io.File(System.getProperty("user.dir")).getAbsolutePath() + "/" + amlib;
 		ModuleFinder moduleFinder = ModuleFinder.of(Paths.get(mlibPath).toAbsolutePath().normalize(),
 				Paths.get(amlibPath).toAbsolutePath().normalize());
 		Set<ModuleReference> allModules = moduleFinder.findAll();
 		Set<String> allModuleNames = new HashSet<>();
-		allModules.stream().map(modRef -> modRef.descriptor().name()).filter(name -> modName.contains(modName))
-				.forEach(name -> allModuleNames.add(modName));
+		allModules.stream().map(modRef -> modRef.descriptor().name()).filter(name -> name.equals(modName))
+				.forEach(name -> allModuleNames.add(name));
 		if (allModuleNames.isEmpty()) {
 			throw new RuntimeException(
 					"No observable module " + modName + " found on the module paths. Terminating ...");
