@@ -4,6 +4,7 @@
 /jigsaw-examples/*/patchlib/*.jar
 /jigsaw-examples/*/cplib/*.jar
 /jigsaw-examples/*/src/*/target
+/jigsaw-examples/*/classes[12]
 
 # IDE configuration
 .idea/

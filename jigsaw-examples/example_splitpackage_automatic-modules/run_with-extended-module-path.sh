@@ -6,7 +6,10 @@ echo "- When we run the application and have both amlib1 and amlib2 on the modul
 echo "  as modauto1 and modauto2 both use the package pkgsplitted, which results in a java.lang.module.ResolutionException."
 echo "- This error is caused as modauto1 is required and used by modmain. With that modauto1 automatically requires all other automatic modules on the module path,"
 echo "  hence modauto2 which then causes the runtime error."
-$JAVA_HOME/bin/java $JAVA_OPTIONS \
+if $JAVA_HOME/bin/java $JAVA_OPTIONS \
     --show-module-resolution \
     --module-path mlib${PATH_SEPARATOR}amlib1${PATH_SEPARATOR}amlib2 \
-    --module modmain/pkgmain.Main .  2>&1 | myecho
+    --module modmain/pkgmain.Main .  2>&1 | myecho; then
+  echo "Expected a runtime problem here!" >&2
+  exit 1
+fi
