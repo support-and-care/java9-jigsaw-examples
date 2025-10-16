@@ -1,5 +1,7 @@
 # Environment settings
 
+set -eu -o pipefail
+
 # configure paths here
 
 # Path to JDK9 or JDK10 (9.0.1, 9.0.4 and 10_18.3_10+46 have been tested)
