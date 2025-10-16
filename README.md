@@ -25,8 +25,9 @@ All the examples have been successfully tested with Windows (64bit), Linux and M
 ### Minimal Requirements
 
 1. If running on Windows, install a bash, like for example [Babun](https://babun.github.io/) or [git bash](https://gitforwindows.org/)
-2. Install a Java JDK:
-   - **For most examples**: Java 9, 10, or 11 (all examples tested with these versions)
+2. Install Java JDK:
+   - **For most examples**: Java 11 (all examples tested with these versions)
+   - **For some examples**: Java 17 
    - **For Gradle example (`example_gradle-project`)**: Java 17 or later (required by Gradle 9.x)
 
 Note that JDK 17 (or newer) would be enough for everything (except for some example where you would like to explicitly test that the code still works with JDK 8, i.e., example_compile-target-jdk8).

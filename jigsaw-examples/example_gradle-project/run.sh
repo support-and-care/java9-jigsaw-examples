@@ -1,5 +1,8 @@
 #!/usr/bin/env bash
 source ../env.sh
 
-chmod a+x ./gradlew
+PATH="${JAVA17_HOME}/bin:$PATH"
+JAVA_HOME=${JAVA17_HOME}
+
+./gradlew --version
 ./gradlew --info --stacktrace --no-daemon run 2>&1
