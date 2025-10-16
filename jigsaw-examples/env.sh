@@ -14,6 +14,14 @@ set -eu -o pipefail
 # Path to JDK17, only needed in example_gradle-project
 [ -z "${JAVA17_HOME:-}" ] && export JAVA17_HOME=TODO/path/to/java8-jdk/goes/here
 
+# Check whether JAVA8 is a "real" Java 8
+if test -x "${JAVA8_HOME}/bin/java" && "${JAVA8_HOME}/bin/java" -version 2>&1 | grep -q 'version "1.8' 2>/dev/null; then
+  USE_JAVA8=true
+else
+  USE_JAVA8=false
+fi
+export USE_JAVA8
+
 # Path to Eclipse 4.7.3a Oxygen.3a (but 4.7.1a Oxygen.1a should still work)
 [ -z "${ECLIPSE_HOME:-}" ] && export ECLIPSE_HOME=TODO/path/to/eclipse4.7.3a/goes/here
 
@@ -58,3 +66,4 @@ export PATH="$JAVA_HOME/bin:$PATH"
 myecho() {
     grep -E --color=always "Error|error|Exception|exception|Warn|warn|$"
 }
+
