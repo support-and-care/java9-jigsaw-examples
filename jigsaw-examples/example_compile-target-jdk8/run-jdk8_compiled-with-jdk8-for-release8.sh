@@ -6,5 +6,9 @@ echo "java.lang.UnsupportedClassVersionError: pkgmain/Main has been compiled by 
 
 echo "$JAVA8_HOME/bin/java $JAVA_OPTIONS  -cp cplib/cpmain-jdk9.jar  pkgmain.Main"
 
-$JAVA8_HOME/bin/java $JAVA_OPTIONS  -cp cplib/cpmain-jdk9.jar  pkgmain.Main 2>&1 | myecho
+if $JAVA8_HOME/bin/java $JAVA_OPTIONS  -cp cplib/cpmain-jdk9.jar  pkgmain.Main 2>&1 | myecho; then
+  echo "An exception should occur here!" >&2
+  exit 1
+fi
+
 
