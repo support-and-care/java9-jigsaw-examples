@@ -63,13 +63,15 @@ jobs:
       if: runner.os != 'Windows'
       run: |
         arch="$(uname -m | sed -e 's/aarch/arm/g' -e 's/x86_/x/g')"
-        JAVA11_HOME="$(ls -d /opt/hostedtoolcache/Java_Temurin-Hotspot_jdk/11*/${arch} 2>/dev/null || ls -d $RUNNER_TOOL_CACHE/Java_Temurin-Hotspot_jdk/11*/${arch})"
-        JAVA17_HOME="$(ls -d /opt/hostedtoolcache/Java_Temurin-Hotspot_jdk/17*/${arch} 2>/dev/null || ls -d $RUNNER_TOOL_CACHE/Java_Temurin-Hotspot_jdk/17*/${arch})"
         if test "$(uname)" = "Darwin"; then
+          JAVA11_HOME="$(ls -d $RUNNER_TOOL_CACHE/Java_Temurin-Hotspot_jdk/11*/${arch}/Contents/Home)"
+          JAVA17_HOME="$(ls -d $RUNNER_TOOL_CACHE/Java_Temurin-Hotspot_jdk/17*/${arch}/Contents/Home)"
           echo "Using Java 11 instead of Java 8 on macOS"
           JAVA8_HOME=$JAVA11_HOME
         else
-          JAVA8_HOME="$(ls -d /opt/hostedtoolcache/Java_Temurin-Hotspot_jdk/8*/${arch} 2>/dev/null || ls -d $RUNNER_TOOL_CACHE/Java_Temurin-Hotspot_jdk/8*/${arch})"
+          JAVA11_HOME="$(ls -d $RUNNER_TOOL_CACHE/Java_Temurin-Hotspot_jdk/11*/${arch})"
+          JAVA17_HOME="$(ls -d $RUNNER_TOOL_CACHE/Java_Temurin-Hotspot_jdk/17*/${arch})"
+          JAVA8_HOME="$(ls -d $RUNNER_TOOL_CACHE/Java_Temurin-Hotspot_jdk/8*/${arch})"
         fi
         cat > .envrc << EOF
         # Environment configuration for Java 9 Jigsaw Examples
