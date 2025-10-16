@@ -7,4 +7,7 @@ $JAVA_HOME/bin/java $JAVA_OPTIONS --module-path mlib                            
 # but this does not work, throws RuntimeException: 
 #    java.lang.reflect.LayerInstantiationException: Package pkgbar in both module modbar2 and module modbar1
 # reason: modsplitbar1 and modsplitbar2 are both in the same Configuration
-$JAVA_HOME/bin/java $JAVA_OPTIONS --module-path mlib --add-modules modsplitbar2 --module modmainbar/pkgmainbar.Main 2>&1 | myecho
+if $JAVA_HOME/bin/java $JAVA_OPTIONS --module-path mlib --add-modules modsplitbar2 --module modmainbar/pkgmainbar.Main 2>&1 | myecho; then
+  echo "A runtime exception was expected here" >&2
+  exit 1
+fi

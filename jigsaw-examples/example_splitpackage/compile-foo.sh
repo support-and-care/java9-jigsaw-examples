@@ -6,7 +6,10 @@ mkdir -p mlib
 
 # does not compile
 echo "javac $JAVAC_OPTIONS  -d mods --module-path mlib --module-source-path src \$(find src/*foo* -name \"*.java\")"
-$JAVA_HOME/bin/javac $JAVAC_OPTIONS  -d mods --module-path mlib --module-source-path src $(find src/*foo* -name "*.java") 2>&1
+if $JAVA_HOME/bin/javac $JAVAC_OPTIONS  -d mods --module-path mlib --module-source-path src $(find src/*foo* -name "*.java") 2>&1; then
+  echo "A compile time error was expected here" >&2
+  exit 1
+fi
 
 # as it does not compile anyway, the creation of the JAR file will not work
 #pushd mods > /dev/null 2>&1

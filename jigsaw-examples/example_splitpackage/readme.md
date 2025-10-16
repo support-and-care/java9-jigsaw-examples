@@ -2,7 +2,7 @@
 ## Example example_splitpackage
 
 ### Info
-Written by [Martin Lehmann](https://github.com/mrtnlhmnn), [Kristine Schaal](https://github.com/kristines) and [Rüdiger Grammes](https://github.com/rgrammes) 
+Written by [Martin Lehmann](https://github.com/mrtnlhmnn), [Kristine Schaal](https://github.com/kristines) and [Rï¿½diger Grammes](https://github.com/rgrammes) 
 
 see https://github.com/accso/java9-jigsaw-examples
 
@@ -28,4 +28,4 @@ Case 2)
 Shows a runtime exception: In one classloader, two or more modules must not be loaded, which have/export the same package.
 
 ### TODOs
-- [ ] Does case 2 work, if the classloader for modsplitbar1 and modsplitbar2 is different (i.e. what about layers)?
+- [ ] Does case 2 work, if the classloader for modsplitbar1 and modsplitbar2 is different (i.e., what about layers)?
