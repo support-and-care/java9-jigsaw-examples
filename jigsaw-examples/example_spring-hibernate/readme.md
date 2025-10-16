@@ -2,12 +2,9 @@
 ## Example example_spring-hibernate 
 
 ### Info
-Written by [Martin Lehmann](https://github.com/mrtnlhmnn), [Kristine Schaal](https://github.com/kristines) and [Rüdiger Grammes](https://github.com/rgrammes) 
+Written by [Martin Lehmann](https://github.com/mrtnlhmnn), [Kristine Schaal](https://github.com/kristines) and [Rï¿½diger Grammes](https://github.com/rgrammes) 
 
 see https://github.com/accso/java9-jigsaw-examples
-
-## <span style="color:red">THIS EXAMPLE IS CURRENTLY BROKEN WHEN USING JDK10</span>
-Details see end of this readme.
 
 ## What is this example about?
 * Running a Spring Boot application with Java9.
@@ -20,13 +17,13 @@ Details see end of this readme.
 TODO
 
 ### Example shows ...
-A Java 9 application, using Spring and Hibernate, based on Spring Boot 2.0.0M5.
+A Java 9 application, using Spring and Hibernate, based on Spring Boot 2.x.
 There are clean-, compile- and run scripts to build and start tests, resp. to run the application.
 
 Currently work in progress. Below see the steps we did so far to get this state:
 - Spring Boot application, with one module (`mod.app`) containing only the (empty) SpringBootApplication.
-- Compiles and tests ok with Java 9  
-- Runs with Java 9, but only on the class path. Can be started via the Maven `spring-boot-plugin`, or as fat jar via CLI.
+- Compiles and tests ok with Java 11+  
+- Runs with Java 11+, via the Maven `spring-boot-plugin`, or as fat jar via CLI.
 
 #### Step A: Preparing the project, Bootstrap with Java 8
 1. Configured and downloaded our application with the [Spring initializr](http://start.spring.io) using Spring Boot 2.0.0 M5, to be run with maven. We included 
@@ -37,7 +34,7 @@ Currently work in progress. Below see the steps we did so far to get this state:
 
 Now the application starts with Java 8.
 
-#### Step B: Prepare for Java 9 - without modules
+#### Step B: Prepare for Java 9+ - without modules
 2. To compile and test, the Maven surefire plugin version 2.20.1 is needed. `java.xml.bind` has to be added as module for test: `--add-modules java.xml.bind` 
 3. We use the `spring-boot:run` goal to run the application (see `run.sh`). The argument `--add-modules java.xml.bind` has to be configured here, too.
 4. We created a Eclipse project structure (including the m2e plugin).
@@ -51,8 +48,17 @@ The application now compiles, tests and runs with Java 9.
 8. We converted `mod.app`into a module by adding a `module-info`.
 9. We then needed to solve more bytecode enhancement issues. Therefore we declared the main class explicitely in the `spring-boot:run-plugin`. This avoids letting Spring Boot search a main class itself, see https://github.com/spring-projects/spring-boot/issues/10647
 10. Resolving a `javassist` problem by using the newest version 3.22.0-GA, see https://stackoverflow.com/questions/46132019/java-io-ioexception-invalid-constant-type-19-at-5
+11. Open the module (Adding `opens` directive to module-info.java).
 
-The application now compiles, tests and runs with Java 9 and with a `module-info.java`. Note that both tests and launch are still done on the classpath.
+> [!NOTE]
+> The SpringBoot Application (module) becomes a *top level* module, i.e., it is directly loaded
+> as the starting point of the application. It is hardly ever consumed as a module. Therefore,
+> opening the module will do no harm.
+> 
+> TODO: Extend the application with further (sub-) modules.
+
+The application now compiles, tests and runs with Java 11+ and with a
+`module-info.java`. Note that both tests and launch are still done on the classpath.
 
 ### TODOs, LOP, Backlog, Ideas, ...
 No software is ready, ever ;-) So here are some ideas left (any other feedback very welcome!):
@@ -64,16 +70,3 @@ No software is ready, ever ;-) So here are some ideas left (any other feedback v
 
 ### Related work
 * Nicolas Frankel's DZone articles [Migrating a Spring Boot App to Java 9: Compatibility](https://dzone.com/articles/migrating-a-spring-boot-application-to-java-9-comp) and [Migrating a Spring Boot App to Java 9 (Part 2): Modules](https://dzone.com/articles/migrating-a-spring-boot-app-to-java-9-modules)
-
-### Current status: Example works except from calls by maven plugin
-
-Application starts when called from cli, see script run-from-cli.sh
-
-When starting it via maven plugin (spring-boot:run), this error message shows up - allthough plugin is downloaded correctly.
-
-<pre>
-[ERROR] No plugin found for prefix 'spring-boot' in the current project and in the plugin groups [org.apache.maven.plugins, org.codehaus.mojo] available from the repositories [local (u:\Common_Env\.home\.m2), central (https://repo.maven.apache.org/maven2)] -> [Help 1]
-org.apache.maven.plugin.prefix.NoPluginFoundForPrefixException: No plugin found for prefix 'spring-boot' in the current project and in the plugin groups [org.apache.maven.plugins, org.codehaus.mojo] available from the repositories [local (u:\Common_Env\.home\.m2), central (https://repo.maven.apache.org/maven2)]
-</pre>
-
-Also, the surefire-tests do not work, see run-test.sh. Seems to be a maven-Problem again - as there are not yet tests implemented :-)

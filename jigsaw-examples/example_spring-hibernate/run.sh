@@ -1,11 +1,11 @@
 #!/usr/bin/env bash
 source ../env.sh
 
-pushd src > /dev/null 2>&1
+pushd src/mod.app > /dev/null 2>&1
 
-./mvnw --version
+../mvnw --version
 
-./mvnw -s ../mvn_settings.xml -e spring-boot:run 2>&1
+../mvnw -s ../../mvn_settings.xml -e spring-boot:run 2>&1
 
 popd >/dev/null 2>&1 
 
