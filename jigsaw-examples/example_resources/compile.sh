@@ -11,9 +11,7 @@ $JAVA_HOME/bin/javac $JAVAC_OPTIONS  -d mods --module-path mlib --module-source-
 pushd src > /dev/null 2>&1
 for dir in */; 
 do
-  pushd ${dir} > /dev/null 2>&1
-  find . -name '*.properties' | grep -v '/target/' | xargs -i cp --parents -v {} ../../mods/${dir}
-  popd > /dev/null 2>&1
+  find ${dir} -name '*.properties' -exec cp -p -v {} ../mods/{} \;
 done
 popd >/dev/null 2>&1
 
