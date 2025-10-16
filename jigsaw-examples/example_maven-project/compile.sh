@@ -4,9 +4,9 @@ source ../env.sh
 ./mvnw --version --fail-at-end
 
 cd src/moda
-../../mvnw -s ../../mvn_settings.xml install -DskipTests --fail-at-end 2>&1
+../../mvnw -B -s ../../mvn_settings.xml install -DskipTests --fail-at-end 2>&1
 cd - >/dev/null 2>&1
 
 cd src/modmain
-../../mvnw -s ../../mvn_settings.xml install -DskipTests --fail-at-end 2>&1
+../../mvnw -B -s ../../mvn_settings.xml install -DskipTests --fail-at-end 2>&1
 cd - >/dev/null 2>&1
