@@ -87,3 +87,15 @@ jobs:
         PATH="$JAVA17_HOME/bin:$PATH"
         java -version
         echo "✓ JDK 17 is available at: $JAVA17_HOME"
+
+    - name: Compile all Samples
+      run: |
+        source .envrc
+        cd jigsaw-examples
+        ./allcompile.sh
+        
+    - name: Run all Samples
+      run: |
+        source .envrc
+        cd jigsaw-examples
+        ./allrun.sh
