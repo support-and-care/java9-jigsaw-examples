@@ -67,7 +67,8 @@ JAVA_HOME_OS=$JAVA_HOME
 (echo $OSTYPE | grep -i win >/dev/null) && JAVA_HOME_OS=$(echo $JAVA_HOME | sed -r s/^\\\/\([a-z]\)/\\\1:/)
 echo "   jlink --module-path mlib${PATH_SEPARATOR}$JAVA_HOME_OS/jmods --add-modules modb --output jimage/modb"
 rm -rf ./jimage
-$JAVA_HOME/bin/jlink --module-path mlib${PATH_SEPARATOR}$JAVA_HOME_OS/jmods --add-modules modb --output jimage/modb 2>&1 | myecho
+# TODO The following seems to work (on JDK 11) only with the `-v` option (otherwise `jlink` failss silently)
+$JAVA_HOME/bin/jlink -v --module-path mlib${PATH_SEPARATOR}$JAVA_HOME_OS/jmods --add-modules modb --output jimage/modb 2>&1 | myecho
 
 echo "... and running the linked runtime image with root module modb"
 echo "./jimage/modb/bin/java $JAVA_OPTIONS --module modb/pkgb.BMain"
