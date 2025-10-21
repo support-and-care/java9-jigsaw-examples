@@ -12,7 +12,8 @@ see https://github.com/accso/java9-jigsaw-examples
 This is a example suite for Java 9 jigsaw modules.
 Many aspects of the new Java 9 Jigsaw modules as defined in https://openjdk.java.net/projects/jigsaw/[Project Jigsaw] by https://www.jcp.org/en/jsr/detail?id=376[JSR 376] and https://openjdk.java.net/jeps/261[JEP 261].
 
-All the examples have been successfully tested with Windows (64bit), Linux and MacOSX - running Java 9, Java 10 and Java 11.
+All the examples have been successfully tested with Windows (64bit), Linux and MacOSX - running Java 11 LTS and Java 17 LTS.
+Originally developed for Java 9 (which introduced JPMS), the examples are continuously updated for current Java versions.
 Eclipse projects can be used with Eclipse Oxygen.1 4.7.1a.
 
 *Build Tool Wrappers:* All Maven and Gradle examples now include build tool wrappers, so manual installation of Maven or Gradle is no longer required:
@@ -43,13 +44,15 @@ Note that this overrides any other settings, e.g., by `mvn_settings.xml`.
 
 . If running on Windows, install a bash, like for example https://babun.github.io/[Babun] or https://gitforwindows.org/[git bash]
 . Install Java JDK:
-** *For most examples*: Java 11 (all examples tested with these versions)
-** *For some examples*: Java 17
+** *Recommended*: Java 17 LTS or later (works with all examples)
+** *Minimum*: Java 11 LTS
 ** *For Gradle example (`example_gradle-project`)*: Java 17 or later (required by Gradle 9.x)
+** *For cross-compilation example*: Java 8 (only needed for `example_compile-target-jdk8`)
 
 [NOTE]
 ====
-JDK 17 (or newer) would be enough for everything (except for some example where you would like to explicitly test that the code still works with JDK 8, i.e., example_compile-target-jdk8).
+JDK 17 (or newer) is recommended for all examples.
+Java 8 is only needed for the cross-compilation example where you want to explicitly test that code still works with JDK 8.
 ====
 
 === Optional Software
@@ -88,7 +91,8 @@ If you run all stuff on *nix, use a colon : .
 
 === Additional information
 
-All examples have been tested with Java 9 build 181, 9.0.1+11, 9.0.4+11 and also JDK 10, JDK 11 all on Windows 10-x64.
+All examples have been tested with Java 11 and Java 17 on Windows, Linux, and macOS.
+The examples were originally developed with Java 9 (which introduced JPMS) and have been continuously updated to work with current LTS versions.
 
 *Using Build Tool Wrappers:*
 
@@ -131,15 +135,13 @@ No software is ready, ever ;-) So here are some ideas left (any other feedback v
 * [ ] New example for open modules
 * [ ] New example for Java agents and instrumentation
 * [ ] New example for test coverage when doing whitebox tests
-* [ ] Fix this problem:
+* [ ] Known issues:
 +
-[WARNING]
+[NOTE]
 ====
-Update to JDK10 works fine except the `example_spring-hibernate` because of a compile problem.
-See https://github.com/accso/java9-jigsaw-examples/blob/master/jigsaw-examples/example_spring-hibernate/readme.md[`readme.md`] there for details.
-Needs probably Maven/Plugin updates, to be done soon.
+All examples work with current Java LTS versions (11, 17).
+The `example_spring-hibernate` may need updates for optimal Java 17+ compatibility.
 ====
-* [ ] Update the Spring-Hibernate and Spring Boot example to use new, JDK9/10-ready libraries
 
 == Example Overview
 
@@ -212,7 +214,7 @@ Needs probably Maven/Plugin updates, to be done soon.
 
 3+| *Examples on porting applications from Java8 to Java9*
 | xref:jigsaw-examples/example_spring-hibernate/README.adoc[example_spring-hibernate] | How does the migration of a Spring Boot application with a bunch of Maven plugins look like and where do we have to tweak / change in comparison to Java 8? |
-| xref:jigsaw-examples/example_compile-target-jdk8/README.adoc[example_compile-target-jdk8] | What happens when one compiles with JDK9 with or without targeting a Java release 9 or 8? |
+| xref:jigsaw-examples/example_compile-target-jdk8/README.adoc[example_compile-target-jdk8] | What happens when one compiles with a modern JDK while targeting Java release 8 for backwards compatibility? |
 
 3+| *Examples on non-Jigsaw topics*
 | xref:jigsaw-examples/example_version/README.adoc[example_version] | How does the new Java 9 version string (cf JEP 223) look like? |
@@ -226,9 +228,9 @@ The examples have been used and tested with these tools and libraries (on Window
 |===
 | Tool | Version | Used for | Remark | Link
 
-| JDK | 9 b181, 9.0.1, 9.0.4, 10 and 11 | all examples at compile and runtime | | https://jdk.java.net/9/ and https://jdk.java.net/10/ and Java 11. All open jdks should work. Tested with corretto https://aws.amazon.com/de/corretto/
-| JDK | 17 or later | Gradle example (`example_gradle-project`) | Required by Gradle 9.x | https://adoptium.net/ or https://sdkman.io/
-| JDK | 1.8.0_144 | only needed for `example_compile-target-jdk8` | | https://jdk.java.net/8/
+| JDK | 11 LTS or 17 LTS | all examples at compile and runtime | Recommended: JDK 17 LTS | https://adoptium.net/ or https://sdkman.io/
+| JDK | 17 LTS or later | Gradle example (`example_gradle-project`) | Required by Gradle 9.x | https://adoptium.net/ or https://sdkman.io/
+| JDK | 8 LTS | only needed for `example_compile-target-jdk8` | For cross-compilation testing | https://adoptium.net/temurin/releases/?version=8
 | Maven Wrapper | 3.9.11 | Maven examples | *Included in all Maven examples* - no manual installation required | https://maven.apache.org/wrapper/
 | Gradle Wrapper | 9.1.0 | Gradle example | *Included in `example_gradle-project`* - no manual installation required. Requires JDK 17+ | https://docs.gradle.org/current/userguide/gradle_wrapper.html
 | +++<s>+++Maven+++</s>+++ | +++<s>+++3.5.2, 3.6.1+++</s>+++ | +++<s>+++Maven examples+++</s>+++ | *Deprecated* - Use Maven Wrapper instead (./mvnw) | https://maven.apache.org/download.cgi
@@ -276,8 +278,8 @@ Older or newer versions might also work but we did not try.
 
 === Migration to JDK 11
 
-* Migrated examples to Java 11.0.3.
-* Tested with OpenJDK Runtime Environment Corretto-11.0.3.7.1, 64-Bit Server VM Corretto-11.0.3.7.1 (build 11.0.3+7-LTS, mixed mode)
+* Migrated examples to Java 11.
+* Tested with Eclipse Temurin-11.0.27+6 (build 11.0.27+6)
 * Currently example_spring-hibernate is not working.
 
 === Migration to Eclipse 4.7.3a Oxygen.3a

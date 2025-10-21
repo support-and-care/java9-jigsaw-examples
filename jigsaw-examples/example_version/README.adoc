@@ -16,14 +16,20 @@ For more background information, refer to https://openjdk.java.net/jeps/223[JEP 
 
 == Sample output
 
-This is the output of the main class for Java 9.0.4:
+This is sample output of the main class (example shown with Temurin-11.0.27+6):
 
 ----
-Runtime.version() says, we are using Java version 9.0.4, build version 11
+Runtime.version() says, we are using Java version 11.0.27, build version 6
 System properties say, we are using Java version as follows:
-  java.version = 9.0.4
-  java.runtime.version = 9.0.4+11
-  java.vm.version = 9.0.4+11
-  java.specification.version = 9
-  java.vm.specification.version = 9
+  java.version = 11.0.27
+  java.runtime.version = 11.0.27+6
+  java.vm.version = 11.0.27+6
+  java.specification.version = 11
+  java.vm.specification.version = 11
 ----
+
+[NOTE]
+====
+The output will vary depending on your installed Java version.
+This example demonstrates the version string format introduced in JEP 223 (Java 9).
+====
