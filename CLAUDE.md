@@ -6,6 +6,60 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 This is a comprehensive example suite demonstrating Java 9+ Jigsaw module system (Project Jigsaw/JSR 376/JEP 261). The repository contains 40+ independent examples, each illustrating specific aspects of the Java Platform Module System (JPMS).
 
+## Transformation Workflow
+
+When performing large-scale transformations or refactorings across the repository, follow this structured approach to ensure consistency and capture reusable patterns:
+
+### Process
+
+1. **Planning Phase**
+   - Break down the transformation into discrete, manageable subtasks
+   - Each subtask should target a single example or a logically grouped set of examples
+   - Document the plan using TodoWrite tool to track progress
+
+2. **Execution Phase**
+   - Work through subtasks sequentially
+   - Apply the transformation to each target
+   - Observe and document any patterns, edge cases, or best practices that emerge
+   - Update progress in the todo list
+
+3. **Pattern Recognition Phase**
+   - After completing each subtask, identify common patterns encountered
+   - Document recurring issues and their solutions
+   - Note any transformation-specific techniques that prove effective
+
+4. **Documentation Phase**
+   - Create or update a transformation-specific guide in `.claude/transformations/`
+   - Each guide should capture:
+     - Transformation objectives
+     - Common patterns identified
+     - Edge cases and how to handle them
+     - Step-by-step procedures for applying the transformation
+     - Example before/after code snippets
+   - Reference the transformation guide from this CLAUDE.md file
+
+### Transformation Guides
+
+Transformation-specific guides are stored in `.claude/transformations/` directory:
+
+- **Markdown to AsciiDoc Migration**: `.claude/transformations/markdown-to-asciidoc.md` (planned)
+- Additional transformations will be documented as they are undertaken
+
+Each guide serves as a living document that:
+- Captures institutional knowledge from completed work
+- Accelerates future similar transformations
+- Ensures consistency across the codebase
+- Provides troubleshooting reference for common issues
+
+### Benefits
+
+This approach ensures:
+- Systematic completion of large-scale changes
+- Knowledge capture for future reference
+- Consistent application of patterns
+- Reduced cognitive load through structured workflow
+- Easier onboarding for future transformations
+
 ## Example Classification Guide
 
 The examples can be classified along multiple dimensions to help you quickly find relevant examples:
