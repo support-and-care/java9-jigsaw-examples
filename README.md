@@ -12,8 +12,15 @@ This is a example suite for Java 9 jigsaw modules. Many aspects of the new Java 
 All the examples have been successfully tested with Windows (64bit), Linux and MacOSX - running Java 9, Java 10 and Java 11. Eclipse projects can be used with Eclipse Oxygen.1 4.7.1a.
 
 **Build Tool Wrappers:** All Maven and Gradle examples now include build tool wrappers, so manual installation of Maven or Gradle is no longer required:
+**Build Tool Wrappers:** All Maven and Gradle examples now include build tool wrappers, so manual installation of Maven or Gradle is no longer required:
 - Maven examples include **Maven Wrapper 3.9.11** (mvnw/mvnw.cmd)
 - Gradle example includes **Gradle Wrapper 9.1.0** (gradlew/gradlew.cmd) - requires **JDK 17 or later**
+
+> **Tip**: Use a local Maven repository to avoid polluting your global one, set a repository location in the top level directory:
+> ```bash
+> export MAVEN_OPTS="-Dmaven.repo.local=${PWD}/.m2/repository"
+> ```
+> Note that this overrides any other settings, e.g., by 
 
 ## Setup
 

@@ -9,5 +9,8 @@
 # IDE configuration
 .idea/
 
+# Downloaded files
+.m2/
+
 # User-specific environment configuration
 .envrc
