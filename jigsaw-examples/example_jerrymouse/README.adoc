@@ -17,19 +17,19 @@ TODO
 
 TODO
 
-==== Laden von Modulen in Layern
+==== Loading Modules in Layers
 
-Starter implementiert einen primitiven App-Server, der modulare Anwendungen im Unterverzeichnis apps/ in einen jeweils eigenen Layer unter dem boot-Layer lädt und per Reflection ausfuehrt.
+Starter implements a primitive app server that loads modular applications from the subdirectory apps/ into their own layer under the boot layer and executes them via reflection.
 
-Zu Anforderungen an die modularen Anwendungen und details zur Ablage siehe apps/README.txt
+For requirements on modular applications and details on storage, see apps/README.txt
 
-* Anwendungen werden unter apps abgelegt.
-Jede Anwendung in einem eigenen Verzeichnis "x".
-Name des Verzeichnis = Name des Anwendungsordners
-* Konfiguration der Anwendungs über x/app.json
-* Die Module der Anwendung liegen unter x/mods/
+* Applications are stored under apps.
+Each application in its own directory "x".
+Directory name = application folder name
+* Configuration of the application via x/app.json
+* The application's modules are located under x/mods/
 
-z.B.
+e.g.
 
 ----
 apps/example_requires_exports
@@ -44,7 +44,7 @@ apps/example_hiddenmain/mods
 > ...
 ----
 
-* app.json legt das Root-Modul sowie die zu startende Main-Klasse und Methode fest, z.B.:
+* app.json defines the root module as well as the main class and method to be started, e.g.:
 
 [source,json]
 ----
@@ -55,6 +55,6 @@ apps/example_hiddenmain/mods
 }
 ----
 
-Achtung: "bootMethod" muss statisch sein und String[] als Parameter haben!
+Note: "bootMethod" must be static and have String[] as parameter!
 
 END TODO

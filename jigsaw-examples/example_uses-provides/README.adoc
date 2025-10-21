@@ -20,4 +20,4 @@ image::moduledependencies.png[Example's Module Dependency Graph]
 
 === Example shows ...
 
-* Usage of uses und provides
+* Usage of uses and provides
