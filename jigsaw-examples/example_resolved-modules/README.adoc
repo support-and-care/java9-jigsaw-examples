@@ -20,6 +20,8 @@ image::moduledependencies.png[Example's Module Dependency Graph]
 
 === Example shows ...
 
+.TBD
+----
 Example for
 
 * resolvedmods: What is loaded?
@@ -35,11 +37,11 @@ The Main method in each module outputs the modules in the boot layer:
 
 Although only java.base is required, some java.* modules are loaded (java.rmi, java.scripting, java.logging, ...)
 
---
 An automatic module is only loaded if it is also required.
 First the configuration is created based on the required relationships, then the read edges for automatic modules are added.
 
 See also "State of the Module System":
 
-      *After* a module graph is resolved, therefore, an automatic module
-      is made to read every other named module, whether automatic or explicit.
+*After* a module graph is resolved, therefore, an automatic module
+is made to read every other named module, whether automatic or explicit.
+----
