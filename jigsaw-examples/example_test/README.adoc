@@ -40,6 +40,6 @@ Advantages:
 
 === See also
 
-Examples xref:../example_whitebox-test-exports/README.adoc[example_whitebox-test-exports], xref:../example_patch/README.adoc[example_patch]
+Examples xref:../example_patch/README.adoc[example_patch]
 
 Note: No JavaDoc generation for this example
