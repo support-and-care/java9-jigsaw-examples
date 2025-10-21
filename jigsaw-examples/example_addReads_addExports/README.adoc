@@ -1,0 +1,31 @@
+= Java 9 Jigsaw modules example suite
+== Example example_addReads_addExports
+
+=== Info
+
+Written by https://github.com/mrtnlhmnn[Martin Lehmann], https://github.com/kristines[Kristine Schaal] and https://github.com/rgrammes[Rüdiger Grammes]
+
+see https://github.com/accso/java9-jigsaw-examples
+
+== What is this example about?
+
+=== Modules in this example
+
+* modb, modc, modmain
+* modmain has a Main class which is started in run.sh
+
+=== Module Dependency Graph, created with https://github.com/accso/java9-jigsaw-depvis[DepVis]
+
+image::moduledependencies.png[Example's Module Dependency Graph]
+
+=== Example shows ...
+
+... how to use --add-reads and --add-exports for javac compiler and java launcher
+
+All module-info.java files are empty.
+All is done in compile.sh and run.sh in command-line options --add-reads and --add-exports for javac and java.
+
+a) modb needs a read relationship to modc
+b) modc needs to export its package pkgc to modb
+c) modmain needs a read relationship to modb
+d) modb needs to exports it package pkgb to modmain

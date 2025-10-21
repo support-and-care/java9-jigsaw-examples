@@ -1,0 +1,26 @@
+= Java 9 Jigsaw modules example suite
+== Example example_interface-callback
+
+=== Info
+
+Written by https://github.com/mrtnlhmnn[Martin Lehmann], https://github.com/kristines[Kristine Schaal] and https://github.com/rgrammes[Rüdiger Grammes]
+
+see https://github.com/accso/java9-jigsaw-examples
+
+== What is this example about?
+
+=== Modules in this example
+
+* modcallbackhandler, modcallee, modmain
+* modmain has a Main class which is started in run.sh
+
+=== Module Dependency Graph, created with https://github.com/accso/java9-jigsaw-depvis[DepVis]
+
+image::moduledependencies.png[Example's Module Dependency Graph]
+
+=== Example shows ...
+
+* Calling a callback interface
+* Module modcallee defines a callback interface ICallback, which is returned when calling Callee.doIt().
+* Module modcallbackhandler does implement the interface ICallback
+* Module modmain brings Callee and implementation together: Callee can call the implementation of ICallback

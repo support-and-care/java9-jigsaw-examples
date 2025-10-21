@@ -1,0 +1,23 @@
+= Java 9 Jigsaw modules example suite
+== Example example_requires_exports-to
+
+=== Info
+
+Written by https://github.com/mrtnlhmnn[Martin Lehmann], https://github.com/kristines[Kristine Schaal] and https://github.com/rgrammes[Rüdiger Grammes]
+
+see https://github.com/accso/java9-jigsaw-examples
+
+== What is this example about?
+
+=== Modules in this example
+
+* modb1, modb2, modc, modmain
+* modmain has a Main class which is started in run.sh
+
+=== Module Dependency Graph, created with https://github.com/accso/java9-jigsaw-depvis[DepVis]
+
+image::moduledependencies.png[Example's Module Dependency Graph]
+
+=== Example shows ...
+
+* Usage of requires and exports-to

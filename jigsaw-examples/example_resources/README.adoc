@@ -1,0 +1,27 @@
+= Java 9 Jigsaw modules example suite
+== Example example_resources
+
+=== Info
+
+Written by https://github.com/mrtnlhmnn[Martin Lehmann], https://github.com/kristines[Kristine Schaal] and https://github.com/rgrammes[Rüdiger Grammes]
+
+see https://github.com/accso/java9-jigsaw-examples
+
+== What is this example about?
+
+=== Modules in this example
+
+* modb, modc, modmain
+* modmain has a Main class which is started in run.sh
+
+=== Module Dependency Graph, created with https://github.com/accso/java9-jigsaw-depvis[DepVis]
+
+image::moduledependencies.png[Example's Module Dependency Graph]
+
+=== Example shows resources handling in Java 9 Jigsaw modules
+
+see http://openjdk.java.net/projects/jigsaw/spec/issues/#ResourceEncapsulation[ResourceEncapsulation]
+
+* modb and modc both have their own resources.properties.
+* They can access it via Module.getResourceAsStream()
+* Note that modb/pkgb.B *can* also access the resources file in modc

@@ -12,8 +12,9 @@ This guide documents patterns and best practices for converting Markdown (`.md`)
 ## Process
 
 1. **Preserve History**: Always use `git mv README.md README.adoc` to preserve git history
-2. **Convert Content**: Apply systematic conversions following the patterns below
-3. **Verify**: Check that tables, code blocks, and admonitions render correctly
+2. **Fix Encoding**: Convert from ISO-8859-1 (or similar) to UTF-8 to handle special characters (e.g., "Rüdiger")
+3. **Convert Content**: Apply systematic conversions following the patterns below
+4. **Verify**: Check that tables, code blocks, and admonitions render correctly
 
 ## Conversion Patterns
 
@@ -82,6 +83,19 @@ This guide documents patterns and best practices for converting Markdown (`.md`)
 - ❌ Bad: `link:https://github.com/user[GitHub Profile]`
 - ✅ Exception: `link:file:///path/to/file[local file]` (special protocol)
 
+### Images
+
+| Markdown | AsciiDoc |
+|----------|----------|
+| `![alt text](image.png)` | `image::image.png[alt text]` |
+| `![alt text](path/to/image.png)` | `image::path/to/image.png[alt text]` |
+
+**Rule**: Use `image::filename[alt text]` syntax. Note the double colon `::` for block images.
+
+**Examples**:
+- Markdown: `![Module Dependency Graph](moduledependencies.png)`
+- AsciiDoc: `image::moduledependencies.png[Module Dependency Graph]`
+
 ### Code Blocks
 
 **Markdown**:
@@ -111,6 +125,12 @@ Markdown blockquotes should be converted to semantic AsciiDoc admonition blocks:
 | `> Tip: ...` | `[TIP]\n====\n...\n====` | Helpful tips |
 | `> Warning: ...` | `[WARNING]\n====\n...\n====` | Warnings |
 | `> Important: ...` | `[IMPORTANT]\n====\n...\n====` | Critical information |
+| `> [!NOTE]\n> text` | `[NOTE]\n====\ntext\n====` | GitHub-style alert (NOTE) |
+| `> [!TIP]\n> text` | `[TIP]\n====\ntext\n====` | GitHub-style alert (TIP) |
+| `> [!WARNING]\n> text` | `[WARNING]\n====\ntext\n====` | GitHub-style alert (WARNING) |
+| `> [!IMPORTANT]\n> text` | `[IMPORTANT]\n====\ntext\n====` | GitHub-style alert (IMPORTANT) |
+
+**Rule**: GitHub-style alerts (`> [!NOTE]`) should be converted to corresponding AsciiDoc admonitions, removing the `> ` prefix from continuation lines.
 
 **Example**:
 

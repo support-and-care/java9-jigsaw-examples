@@ -1,0 +1,32 @@
+= Java 9 Jigsaw modules example suite
+== Example example_requires_exports_requires-transitive_exports-to
+
+=== Info
+
+Written by https://github.com/mrtnlhmnn[Martin Lehmann], https://github.com/kristines[Kristine Schaal] and https://github.com/rgrammes[Rüdiger Grammes]
+
+see https://github.com/accso/java9-jigsaw-examples
+
+== What is this example about?
+
+=== Modules in this example
+
+* moda, modb, modc, modfacade, modmain, modmainbehindfacade
+* modmain has a Main class which is started in run.sh
+
+=== Module Dependency Graph, created with https://github.com/accso/java9-jigsaw-depvis[DepVis]
+
+without facade modules
+
+image::moduledependencies.png[Example's Module Dependency Graph]
+
+withfacade modules
+
+image::moduledependencies-with-facade.png[Example's Module Dependency Graph]
+
+=== Example shows ...
+
+* Usage of requires
+* Usage of exports
+* Usage of requires transitive
+* Usage of exports to
