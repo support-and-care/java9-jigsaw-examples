@@ -94,4 +94,6 @@ No software is ready, ever ;-) So here are some ideas left (any other feedback v
 
 === Related work
 
-* Nicolas Frankel's DZone articles https://dzone.com/articles/migrating-a-spring-boot-application-to-java-9-comp[Migrating a Spring Boot App to Java 9: Compatibility] and https://dzone.com/articles/migrating-a-spring-boot-app-to-java-9-modules[Migrating a Spring Boot App to Java 9 (Part 2): Modules]
+* Nicolas Frankel's DZone articles
+** https://dzone.com/articles/migrating-a-spring-boot-application-to-java-9-comp[Migrating a Spring Boot App to Java 9: Compatibility], and
+** https://dzone.com/articles/migrating-a-spring-boot-app-to-java-9-modules[Migrating a Spring Boot App to Java 9 (Part 2): Modules]

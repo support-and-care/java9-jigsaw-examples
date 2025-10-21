@@ -21,7 +21,7 @@ image::moduledependencies.png[Example's Module Dependency Graph]
 
 === Example shows resources handling in Java 9 Jigsaw modules
 
-see http://openjdk.java.net/projects/jigsaw/spec/issues/#ResourceEncapsulation[ResourceEncapsulation]
+see https://openjdk.java.net/projects/jigsaw/spec/issues/#ResourceEncapsulation[ResourceEncapsulation]
 
 * modb and modc both have their own resources.properties.
 * They can access it via Module.getResourceAsStream()

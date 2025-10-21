@@ -31,4 +31,4 @@ For this to work
 * Add-Exports must be specified in the manifest file of modmain
 * modmain has to be in the unnamed module
 
-see: http://mail.openjdk.java.net/pipermail/jpms-spec-experts/2016-September/000391.html
+see: https://mail.openjdk.java.net/pipermail/jpms-spec-experts/2016-September/000391.html

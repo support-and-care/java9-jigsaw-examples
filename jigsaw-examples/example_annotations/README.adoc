@@ -21,7 +21,7 @@ image::moduledependencies.png[Example's Module Dependency Graph]
 
 === Example shows modules with annotations
 
-see http://openjdk.java.net/projects/jigsaw/spec/issues/#ModuleAnnotations[ModuleAnnotations]
+see https://openjdk.java.net/projects/jigsaw/spec/issues/#ModuleAnnotations[ModuleAnnotations]
 
 * modmain looks up modules modb and mod.annotations and prints their annotations available at runtime
 * modb is deprecated via annotation in its module-info.java.

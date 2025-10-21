@@ -16,3 +16,6 @@
 
 # User-specific environment configuration
 .envrc
+
+# Generated HTML (from AsciiDoc)
+*.html

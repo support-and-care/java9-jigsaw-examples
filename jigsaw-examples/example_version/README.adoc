@@ -12,7 +12,7 @@ see https://github.com/accso/java9-jigsaw-examples
 
 This example is not really about the Jigsaw/JPMS module system. Instead it shows that usage of the new versioning scheme.
 
-For more background information, refer to http://openjdk.java.net/jeps/223[JEP 223].
+For more background information, refer to https://openjdk.java.net/jeps/223[JEP 223].
 
 == Sample output
 

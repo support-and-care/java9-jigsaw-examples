@@ -23,7 +23,7 @@ image::moduledependencies.png[Example's Module Dependency Graph]
 === Example shows ...
 
 The usage of the Java command line option `--illegal-access`, aka the "kill switch".
-See http://mail.openjdk.java.net/pipermail/jigsaw-dev/2017-May/012673.html[Java9 Maillinglist] for details.
+See https://mail.openjdk.java.net/pipermail/jigsaw-dev/2017-May/012673.html[Java9 Maillinglist] for details.
 
 Four classes on the classpath, i.e. in the unnamed module, access other classes with reflective access.
 
