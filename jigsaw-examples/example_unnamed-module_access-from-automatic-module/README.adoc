@@ -1,4 +1,5 @@
 = Java 9 Jigsaw modules example suite
+include::../../.asciidoctorconfig[]
 == Example example_unnamed-module_access-from-automatic-module
 
 === Info

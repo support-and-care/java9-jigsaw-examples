@@ -1,4 +1,5 @@
 = Java 9 Jigsaw modules example suite
+include::../../.asciidoctorconfig[]
 == Example example_requires_exports_requires-transitive_exports-to
 
 === Info

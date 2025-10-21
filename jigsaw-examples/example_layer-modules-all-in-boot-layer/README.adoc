@@ -1,4 +1,5 @@
 = Java 9 Jigsaw modules example suite
+include::../../.asciidoctorconfig[]
 == Example example_layer-all-modules-in-boot-layer
 
 === Info
