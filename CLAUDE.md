@@ -42,7 +42,7 @@ When performing large-scale transformations or refactorings across the repositor
 
 Transformation-specific guides are stored in `.claude/transformations/` directory:
 
-- **Markdown to AsciiDoc Migration**: `.claude/transformations/markdown-to-asciidoc.md` (planned)
+- **Markdown to AsciiDoc Migration**: `.claude/transformations/markdown-to-asciidoc.md`
 - Additional transformations will be documented as they are undertaken
 
 Each guide serves as a living document that:
