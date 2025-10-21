@@ -24,7 +24,7 @@ image::moduledependencies.png[Example's Module Dependency Graph]
 It is possible to patch a module (during compile- and runtime). Use cases e.g.:
 
 * Whithebox testing: Unit tests need access to internal classes of a package.
-See link:../example_test[example-test] for details.
+See xref:../example_test/README.adoc[example_test] for details.
 * Fixing a bug in a third party lib: Prior to modules, it was possible to do this by correct order on the classpath - put the patch iahead of the classes to be patched.
 
 To patch a module, the patching code is compiled resp. started "as if" it were part of a module.

@@ -39,6 +39,6 @@ Advantages:
 
 === See also
 
-Examples link:../example_whitebox-test-exports[example_whitebox-test-exports], link:../example_patch[example_patch]
+Examples xref:../example_whitebox-test-exports/README.adoc[example_whitebox-test-exports], xref:../example_patch/README.adoc[example_patch]
 
 Note: No JavaDoc generation for this example

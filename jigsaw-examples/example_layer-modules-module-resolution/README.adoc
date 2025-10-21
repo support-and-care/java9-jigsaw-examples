@@ -9,7 +9,7 @@ see https://github.com/accso/java9-jigsaw-examples
 
 == What is this example about?
 
-This example is similar to https://github.com/accso/java9-jigsaw-examples/tree/master/jigsaw-examples/example_layer-modules-grouped-in-hierarchy[this example].
+This example is similar to xref:../example_layer-modules-grouped-in-hierarchy/README.adoc[this example].
 It shows how a module from the boot layer can be overwritten in a child layer depending on the order of resolution.
 
 === Layers in this example

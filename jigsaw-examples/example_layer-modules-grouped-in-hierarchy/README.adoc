@@ -9,7 +9,7 @@ see https://github.com/accso/java9-jigsaw-examples
 
 == What is this example about?
 
-This example is the same as https://github.com/accso/java9-jigsaw-examples/tree/master/jigsaw-examples/example_layer-modules-all-in-boot-layer[this example].
+This example is the same as xref:../example_layer-modules-all-in-boot-layer/README.adoc[this example].
 The main difference is, that the modules are not all in the boot layer but distributed over a layer hierarchy of the boot layers and 3 child layers.
 
 === Layers in this example
@@ -53,4 +53,4 @@ See its functionality on
 * ... how to call functionality in child layers
 
 You might also want to look at the differences between link:src/modmain/pkgmain/Main.java[`modmain/pkgmain.Main` here in this example] and
-https://github.com/accso/java9-jigsaw-examples/blob/master/jigsaw-examples/example_layer-modules-all-in-boot-layer/src/modmain/pkgmain/Main.java[`modmain/pkgmain.Main` in this example example_layer-all-modules-in-boot-layer].
+xref:../example_layer-modules-all-in-boot-layer/README.adoc#src/modmain/pkgmain/Main.java[`modmain/pkgmain.Main` in example_layer-modules-all-in-boot-layer].

@@ -20,7 +20,7 @@ see https://github.com/accso/java9-jigsaw-examples
 * Whitebox test via patching the module `modmain` with classes in `src/test/`java
 
 The Maven compile plugin and the surefire plugin now use the patch options to compile and run test classes as part of the module to be tested.
-For an example using the patch options explicitly, see https://github.com/accso/java9-jigsaw-examples/tree/master/jigsaw-examples/example_test[here]
+For an example using the patch options explicitly, see xref:../example_test/README.adoc[here].
 It finds out that the patch options are needed because there is no `module-info.java` in `src/main/test`.
 It then parses the module name from the `module-info.java` in `src/main/java`.
 
