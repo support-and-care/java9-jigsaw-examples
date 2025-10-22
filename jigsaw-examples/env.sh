@@ -51,9 +51,11 @@ export PATH_SEPARATOR
 #
 # options used for javac (compile), jar (packaging) and java (launch)
 #
+# NOTE: Be careful with JAVA_OPTIONS that produce output (like -showversion, -XshowSettings, etc.)
+# as they will affect golden master test result comparison in examples using verify.sh
 export JAVAC_OPTIONS="-Xlint"
 # JAVA_OPTIONS="-XshowSettings:all -Xlog:module=trace -showversion --show-module-resolution"
-export JAVA_OPTIONS="-showversion"
+export JAVA_OPTIONS=""
 export JAR_OPTIONS=""
 export JAVADOC_OPTIONS=""
 

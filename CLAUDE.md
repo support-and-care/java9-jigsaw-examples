@@ -6,6 +6,36 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 This is a comprehensive example suite demonstrating Java 9+ Jigsaw module system (Project Jigsaw/JSR 376/JEP 261). The repository contains 40+ independent examples, each illustrating specific aspects of the Java Platform Module System (JPMS).
 
+## Git Commit Message Conventions
+
+**All commits in this repository must include a project reference:**
+
+Every commit message must end with the following line:
+```
+Introduced in the course of support-and-care/maven-support-and-care#137
+```
+
+This reference links all commits to the Maven Support&Care project tracking issue.
+
+**Example commit message:**
+```
+Add golden master testing framework
+
+This commit introduces golden master (characterization) testing to
+enable automated verification of runtime behavior during refactoring.
+
+Key components:
+- Per-example scripts: create-expected-result.sh, verify.sh
+- Global orchestrators: all-create-expected-results.sh, allverify.sh
+- CI/CD integration: GitHub Actions workflow verification step
+
+🤖 Generated with [Claude Code](https://claude.com/claude-code)
+
+Co-Authored-By: Claude <noreply@anthropic.com>
+
+Introduced in the course of support-and-care/maven-support-and-care#137
+```
+
 ## Transformation Workflow
 
 When performing large-scale transformations or refactorings across the repository, follow this structured approach to ensure consistency and capture reusable patterns:
@@ -43,6 +73,7 @@ When performing large-scale transformations or refactorings across the repositor
 Transformation-specific guides are stored in `.claude/transformations/` directory:
 
 - **Markdown to AsciiDoc Migration**: `.claude/transformations/markdown-to-asciidoc.md`
+- **Golden Master Testing**: `.claude/transformations/golden-master-testing.md` - Implementing automated regression testing for example outputs
 - Additional transformations will be documented as they are undertaken
 
 Each guide serves as a living document that:
