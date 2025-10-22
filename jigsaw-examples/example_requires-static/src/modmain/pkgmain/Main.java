@@ -16,4 +16,9 @@ public class Main {
 
         System.out.println("Main: " + mymain.toString() + ", B: " + myb.doIt() + ", C: " + myc.toString());
     }
+
+    @Override
+    public String toString() {
+        return getClass().getName();
+    }
 }
