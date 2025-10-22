@@ -60,6 +60,198 @@ This approach ensures:
 - Reduced cognitive load through structured workflow
 - Easier onboarding for future transformations
 
+## Maven Build Conventions
+
+**When creating scripts that invoke Maven builds:**
+
+### Use `mvn` not `./mvnw`
+
+For transformation and verification scripts, use `mvn` directly instead of Maven Wrapper:
+- This allows easy switching between Maven versions
+- Maven version will be controlled via PATH environment
+- Always verify which Maven version is being used
+
+### Show Maven Version
+
+**Always include `mvn --version` at the beginning of build/verification scripts:**
+
+```bash
+#!/usr/bin/env bash
+set -eu -o pipefail
+
+echo "=== Maven Build Script ==="
+echo
+echo "Step 0: Show Maven version"
+mvn --version
+
+echo
+echo "Step 1: Clean and compile"
+mvn clean compile
+```
+
+**Rationale:**
+- Makes it clear which Maven version was used for the build
+- Helps debug version-specific issues
+- Documents the build environment in the output
+
+### Example Script Structure
+
+```bash
+#!/usr/bin/env bash
+set -eu -o pipefail
+
+: "${TMPDIR:=/tmp}"
+
+EXAMPLE_NAME="$(basename "$(pwd)")"
+echo "=== Verifying Maven build for ${EXAMPLE_NAME} ==="
+
+# Always show Maven version first
+echo
+echo "Step 0: Show Maven version"
+mvn --version
+
+echo
+echo "Step 1: Build"
+mvn clean compile
+```
+
+## Shell Scripting Conventions
+
+**All shell scripts in this repository must follow these conventions:**
+
+### Error Handling
+
+Always start scripts with:
+```bash
+#!/usr/bin/env bash
+set -eu -o pipefail
+```
+
+**Explanation:**
+- `set -e`: Exit immediately if any command exits with non-zero status
+- `set -u`: Treat unset variables as errors
+- `set -o pipefail`: Return exit status of the last command in a pipeline that failed
+
+### Variable Usage
+
+**Always quote variables and use curly braces:**
+
+```bash
+# Good
+echo "${VARIABLE}"
+cd "${PROJECT_DIR}/src"
+FILE_COUNT="$(find "${DIR}" -name "*.java" | wc -l)"
+
+# Bad
+echo $VARIABLE
+cd $PROJECT_DIR/src
+FILE_COUNT=$(find $DIR -name "*.java" | wc -l)
+```
+
+**Rules:**
+- Always use `"${VAR}"` not `$VAR`
+- Quote all variable expansions to handle spaces and special characters
+- Use curly braces for all variable references
+
+### Temporary Files
+
+**Use `${TMPDIR}` for all temporary files:**
+
+```bash
+# Set TMPDIR if not already set
+: "${TMPDIR:=/tmp}"
+
+# Use it for temporary files
+OUTPUT_FILE="${TMPDIR}/my-script-output.txt"
+TEMP_DIR="${TMPDIR}/my-processing-$$"
+```
+
+**Rules:**
+- Always check and set `TMPDIR` at the start of scripts that use temp files
+- Use the pattern: `: "${TMPDIR:=/tmp}"` to set default if unset
+- Include process ID (`$$`) in temp file names for uniqueness when needed
+- Clean up temp files in trap handlers for robust cleanup
+
+### Command Substitution
+
+**Use `$(command)` syntax:**
+
+```bash
+# Good
+CURRENT_DIR="$(pwd)"
+EXAMPLE_NAME="$(basename "$(pwd)")"
+
+# Bad (deprecated backtick syntax)
+CURRENT_DIR=`pwd`
+```
+
+### Blank Lines
+
+**Use `echo` without arguments for blank lines:**
+
+```bash
+# Good
+echo "Step 1: Processing"
+echo
+echo "Step 2: Validating"
+
+# Bad
+echo "Step 1: Processing"
+echo ""
+echo "Step 2: Validating"
+```
+
+**Rationale:** `echo` without arguments is clearer and more concise
+
+### Path Handling
+
+**Always quote paths to handle spaces:**
+
+```bash
+# Good
+if [ -f "${PROJECT_DIR}/pom.xml" ]; then
+  cat "${PROJECT_DIR}/pom.xml"
+fi
+
+# Bad
+if [ -f ${PROJECT_DIR}/pom.xml ]; then
+  cat ${PROJECT_DIR}/pom.xml
+fi
+```
+
+### Example: Well-Formed Script
+
+```bash
+#!/usr/bin/env bash
+set -eu -o pipefail
+
+# Set TMPDIR if not already set
+: "${TMPDIR:=/tmp}"
+
+# Variables
+PROJECT_NAME="$(basename "$(pwd)")"
+OUTPUT_FILE="${TMPDIR}/${PROJECT_NAME}.log"
+
+# Main logic
+echo "Processing ${PROJECT_NAME}..."
+echo
+
+if [ -d "target" ]; then
+  echo "Target directory exists"
+  CLASS_COUNT="$(find target -name "*.class" | wc -l)"
+  echo "Found ${CLASS_COUNT} class files"
+fi
+
+# Use temp file
+mvn compile > "${OUTPUT_FILE}" 2>&1 || {
+  echo "ERROR: Compilation failed"
+  cat "${OUTPUT_FILE}"
+  exit 1
+}
+
+echo "✅ Success"
+```
+
 ## Example Classification Guide
 
 The examples can be classified along multiple dimensions to help you quickly find relevant examples:
