@@ -46,7 +46,7 @@ mkdir -p expected-result
 
 # Run the Java code and capture output
 echo "Running Java module and capturing output..."
-"${JAVA_HOME}/bin/java" ${JAVA_OPTIONS} --module-path mlib --module modmain/pkgmain.Main > expected-result/run.txt 2>&1
+"${JAVA_HOME}/bin/java" ${JAVA_OPTIONS} --module-path mlib --module modmain/pkgmain.Main 2>&1 | tr -d '\r' > expected-result/run.txt
 
 echo "✅ Expected result saved to expected-result/run.txt"
 echo
@@ -59,6 +59,7 @@ cat expected-result/run.txt
 - Respects `${JAVA_OPTIONS}` for flexibility
 - Captures both stdout and stderr
 - Creates `expected-result/run.txt` (committed to git)
+- **Uses `tr -d '\r'` to strip carriage returns** for cross-platform compatibility (Windows uses CRLF, Unix uses LF)
 
 #### 2. `run.sh` (Modified)
 Updated to capture output while still displaying it.
@@ -78,11 +79,12 @@ echo
 mkdir -p run-result
 
 # Run the Java code, save output to run-result/run.txt, and display with highlighting
-"${JAVA_HOME}/bin/java" ${JAVA_OPTIONS} --module-path mlib --module modmain/pkgmain.Main 2>&1 | tee run-result/run.txt | myecho
+"${JAVA_HOME}/bin/java" ${JAVA_OPTIONS} --module-path mlib --module modmain/pkgmain.Main 2>&1 | tr -d '\r' | tee run-result/run.txt | myecho
 ```
 
 **Changes:**
 - Added Java version display (not captured)
+- **Uses `tr -d '\r'` to strip carriage returns** before capturing (cross-platform compatibility)
 - Uses `tee` to capture output to `run-result/run.txt`
 - Still pipes through `myecho` for error highlighting
 - Creates `run-result/` directory (gitignored)
@@ -415,7 +417,7 @@ chmod +x verify.sh
 
 #### Step 2: Modify run.sh
 
-Update to capture output using `tee`:
+Update to capture output using `tee` and strip CR characters for cross-platform compatibility:
 ```bash
 # Before
 "${JAVA_HOME}/bin/java" ${JAVA_OPTIONS} --module-path mlib --module modmain/pkgmain.Main 2>&1 | myecho
@@ -426,7 +428,7 @@ echo "Using Java version:"
 echo
 
 mkdir -p run-result
-"${JAVA_HOME}/bin/java" ${JAVA_OPTIONS} --module-path mlib --module modmain/pkgmain.Main 2>&1 | tee run-result/run.txt | myecho
+"${JAVA_HOME}/bin/java" ${JAVA_OPTIONS} --module-path mlib --module modmain/pkgmain.Main 2>&1 | tr -d '\r' | tee run-result/run.txt | myecho
 ```
 
 #### Step 3: Update clean.sh
@@ -531,16 +533,44 @@ Some examples don't produce stdout output.
 2. Capture other artifacts (e.g., generated files)
 3. Add diagnostic output if meaningful
 
-### Pattern 3: Platform-Specific Output
+### Pattern 3: Cross-Platform Line Endings (Windows CRLF vs Unix LF)
 
-Output differs between OS (Linux/macOS/Windows).
+Windows uses CRLF (`\r\n`) line endings, while Unix/Linux/macOS use LF (`\n`). Java's `System.out.println()` uses platform-specific line endings, causing diff failures across platforms.
+
+**Solution (IMPLEMENTED):** Strip carriage returns at capture time using `tr -d '\r'`:
+
+```bash
+# In run.sh:
+"${JAVA_HOME}/bin/java" ... 2>&1 | tr -d '\r' | tee run-result/run.txt | myecho
+
+# In create-expected-result.sh:
+"${JAVA_HOME}/bin/java" ... 2>&1 | tr -d '\r' > expected-result/run.txt
+```
+
+**Benefits:**
+- Files always stored with Unix line endings (consistent across platforms)
+- Diff output shows actual file names (not process substitution)
+- Committed golden masters are portable
+- Works on all platforms (Windows Git Bash, Linux, macOS)
+
+**Note:** For examples with multiple java commands (like `example_hiddenmain`), apply `tr -d '\r'` to each command:
+```bash
+# First command
+"${JAVA_HOME}/bin/java" ... 2>&1 | tr -d '\r' | tee run-result/run.txt | myecho
+# Second command (append)
+"${JAVA_HOME}/bin/java" ... 2>&1 | tr -d '\r' | tee -a run-result/run.txt | myecho
+```
+
+### Pattern 4: Other Platform-Specific Output
+
+Output differs between OS due to paths, system properties, etc.
 
 **Solutions:**
-1. **Normalize output:** Strip platform-specific paths, line endings
-2. **Platform-specific golden masters:** `expected-result/run-linux.txt`, etc.
+1. **Normalize output:** Strip platform-specific paths using additional `tr` or `sed`
+2. **Platform-specific golden masters:** `expected-result/run-linux.txt`, etc. (high maintenance)
 3. **Make code platform-independent:** Preferred when possible
 
-### Pattern 4: Maven/Gradle Examples
+### Pattern 5: Maven/Gradle Examples
 
 Maven and Gradle produce verbose build output.
 
