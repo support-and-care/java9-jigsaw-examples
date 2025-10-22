@@ -1,7 +1,6 @@
 :toc: left
 :icons: font
 :doctype: book
-
 ifdef::env-github[]
 :tip-caption: :bulb:
 :note-caption: :information_source:

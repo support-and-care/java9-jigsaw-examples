@@ -2,11 +2,16 @@
 include::../../.asciidoctorconfig[]
 == Example example_interface-callback
 
-=== Info
+Part of the full xref:../../README.adoc[Java 9 Jigsaw modules example] suite.
 
-Written by https://github.com/mrtnlhmnn[Martin Lehmann], https://github.com/kristines[Kristine Schaal] and https://github.com/rgrammes[Rüdiger Grammes]
+[IMPORTANT]
+.Authors
+====
+Originally written by https://github.com/mrtnlhmnn[Martin Lehmann], https://github.com/kristines[Kristine Schaal] and https://github.com/rgrammes[Rüdiger Grammes] (cf. https://github.com/accso/java9-jigsaw-examples[original repository]).
 
-see https://github.com/accso/java9-jigsaw-examples
+Migrated for JPMS support documentation of Apache Maven^TM^ in the course of the https://open-elements.com/support-care-maven/[Maven Support & Care] program by https://github.com/ascheman[Gerd Aschemann] (and other team members) as https://github.com/support-and-care/java9-jigsaw-examples[forked repository].
+Please add discussions, requirements, bugfixes, etc. to the fork instead of the original.
+====
 
 == What is this example about?
 
