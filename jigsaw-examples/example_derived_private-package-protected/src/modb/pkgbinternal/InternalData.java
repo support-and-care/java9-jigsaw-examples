@@ -7,4 +7,9 @@ public class InternalData extends Data {
     public String getName() {
         return "is InternalData";
     }
+
+    @Override
+    public String toString() {
+        return getClass().getName();
+    }
 }

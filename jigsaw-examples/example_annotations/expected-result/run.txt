@@ -1,0 +1,7 @@
+Annotations of module modb:
+- @java.lang.Deprecated(forRemoval=true, since="9")
+- @pkgannotations.ReallyCoolModule(wowReason="modb is simply cool")
+- @pkgannotations.RunTimeAnnotation()
+
+Annotations of module mod.annotations:
+- @pkgannotations.RunTimeAnnotation()

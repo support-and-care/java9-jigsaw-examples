@@ -24,4 +24,9 @@ public class Main {
         // does not compile, as type C not visible here
         // C myc = myb.getMyC();
     }
+
+    @Override
+    public String toString() {
+        return getClass().getName();
+    }
 }

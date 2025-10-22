@@ -87,4 +87,9 @@ public class Main {
         m.setAccessible(true);
         System.out.println("11. Main: " + mymain.toString() + ", InternalB: " + m.invoke(myinternalB, "call via reflection"));
     }
+
+    @Override
+    public String toString() {
+        return getClass().getName();
+    }
 }
