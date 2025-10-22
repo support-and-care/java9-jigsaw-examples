@@ -1,0 +1,30 @@
+Main: pkgmain.Main, B: from B
+
+pkgb.MyException: MyException's message
+	at modb/pkgb.B.doItThrowException(B.java:13)
+	at modmain/pkgmain.Main.main(Main.java:18)
+
+pkgb.MyRuntimeException: MyRuntimeException's message
+	at modb/pkgb.B.doItThrowRuntimeException(B.java:17)
+	at modmain/pkgmain.Main.main(Main.java:27)
+
+pkgbinternal.MyInternalException: MyInternalException's message
+	at modb/pkgb.B.doItThrowInternalException(B.java:23)
+	at modmain/pkgmain.Main.main(Main.java:38)
+
+pkgbinternal.MyInternalRuntimeException: MyInternalRuntimeException's message
+	at modb/pkgb.B.doItThrowInternalRuntimeException(B.java:27)
+	at modmain/pkgmain.Main.main(Main.java:51)
+
+java.lang.RuntimeException: chained in B.doItChainInternalExceptionToRuntimeException()
+	at modb/pkgb.B.doItChainInternalExceptionToRuntimeException(B.java:33)
+	at modmain/pkgmain.Main.main(Main.java:64)
+Caused by: pkgbinternal.MyInternalException: MyInternalException's message
+	... 2 more
+
+java.lang.RuntimeException: chained in B.doItChainInternalRuntimeExceptionToRuntimeException()
+	at modb/pkgb.B.doItChainInternalRuntimeExceptionToRuntimeException(B.java:39)
+	at modmain/pkgmain.Main.main(Main.java:73)
+Caused by: pkgbinternal.MyInternalRuntimeException: MyInternalRuntimeException's message
+	... 2 more
+

@@ -77,4 +77,9 @@ public class Main {
             System.out.println();
         }
     }
+
+    @Override
+    public String toString() {
+        return getClass().getName();
+    }
 }

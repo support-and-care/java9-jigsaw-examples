@@ -41,8 +41,13 @@ public class Main {
 //                myDataFactory.createInternalData2().toString());
 
 // does not compile. error: getName() in InternalData is defined in an inaccessible class or interface
-//        System.out.println("Main: " + mymain.toString() + ", Factory.createInternalData2().getName(): " + 
+//        System.out.println("Main: " + mymain.toString() + ", Factory.createInternalData2().getName(): " +
 //                myDataFactory.createInternalData2().getName());
+    }
+
+    @Override
+    public String toString() {
+        return getClass().getName();
     }
 }
 
