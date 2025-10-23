@@ -9,3 +9,4 @@ mkdir -p amlib
 mkdir -p classes
 mkdir -p cplib
 
+rm -rf run-result

@@ -1,0 +1,15 @@
+We are calling various classes from class pkgcpmain.Main (which is on the classpath, i.e. in the unnamed module)
+
+1. Classpath code calling code in an explicit module on the module path
+a. ... calling an exported class B which is in module modb: from pkgb.BFromModule
+b. ... calling an internal, non-exported class which is in module modb - results in a java.lang.IllegalAccessError:
+We caught the expected 'IllegalAccessError'
+
+2. Classpath code calling a class which is also on the classpath
+... calling BFromClasspath which is on the classpath: from pkgboncp.BFromClasspath
+
+3. Classpath code calling a class which is on the classpath, but whose package name is 'covered' by a package in a module on the module path - results in a java.lang.NoClassDefFoundError
+NoClassDefFoundError: pkgb.BFromClasspath can't be found, as it is hidden by pkgb in modb!
+
+4. Classpath code calling a class which is both on the classpath and in a module on the module path - will use the latter from module modb:
+... calling B which is both on the module path and on the classpath: from pkgb.B (in modb)

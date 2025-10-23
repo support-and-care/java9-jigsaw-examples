@@ -27,8 +27,8 @@ public class Main {
             		+ "results in a java.lang.IllegalAccessError:");
             System.out.println(new pkgbinternal.BFromModuleButInternal().doIt());
         }
-        catch (Throwable ex) {
-            ex.printStackTrace(System.err);     // we expect a java.lang.IllegalAccessError
+        catch (IllegalAccessError e) {
+            System.out.println("We caught the expected 'IllegalAccessError'");
         }
 
         // ----------------------------------------------------------------------------------------------------------------------------------
@@ -43,18 +43,18 @@ public class Main {
         try {
              System.out.println("\n3. Classpath code calling a class which is on the classpath, "
              		+ "but whose package name is 'covered' by a package in a module on the module path - "
-             		+ "results in a java.lang.ClassNotFoundException");
+             		+ "results in a java.lang.NoClassDefFoundError");
 
     	     // We access a class which is on the classpath - will not work, but only because the package name "pkgb" is covered by the same class in the same package in modb
           	 pkgb.BFromClasspath myB4 = new pkgb.BFromClasspath();
              System.out.println("ERROR: Calling BFromClasspath whose package is both on the module path and on the classpath - SHOULD NOT WORK: " + myB4.doIt());
         }
-        catch (Throwable ex) {
-            ex.printStackTrace(System.err);     // we expect a java.lang.ClassNotFoundException
+        catch (NoClassDefFoundError e) {
+            System.out.println("NoClassDefFoundError: pkgb.BFromClasspath can't be found, as it is hidden by pkgb in modb!");
         }
 
         // ----------------------------------------------------------------------------------------------------------------------------------
-                
+
     	// We access a class which is both on the classpath and in modb, will use the class in modb
         System.out.println("\n4. Classpath code calling a class which is both on the classpath and in a module on the module path - will use the latter from module modb:");
 
