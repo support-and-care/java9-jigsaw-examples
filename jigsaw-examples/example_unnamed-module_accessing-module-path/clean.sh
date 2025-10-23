@@ -12,3 +12,4 @@ mkdir -p classes
 mkdir -p cplib
 
 rm -rf doc
+rm -rf run-result

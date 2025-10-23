@@ -1,0 +1,3 @@
+Found com.service.impl.ServiceImpl
+Found net.service.impl.ServiceImpl
+We finally use this implementation: net.service.impl.ServiceImpl

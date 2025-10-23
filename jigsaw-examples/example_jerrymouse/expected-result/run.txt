@@ -1,0 +1,3 @@
+[JerryMouse] Scanning for apps in /Users/ascheman/wrk/maven/samples/java9-jigsaw-examples/feature/separate-compile-and-package/jigsaw-examples/example_jerrymouse/apps
+
+[JerryMouse] All apps completed. Shutting down.

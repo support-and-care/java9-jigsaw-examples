@@ -13,3 +13,4 @@ mkdir -p mods
 mkdir -p mlib
 
 rm -rf doc
+rm -rf run-result
