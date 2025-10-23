@@ -6,6 +6,7 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 // helper class which holds the layer hierarchy tree, constructs its root (i.e. the boot layer) and has some more utility collections
 
@@ -30,14 +31,21 @@ public class LayerHierarchy {
 
     // ---------------------------------------------------------------------------------
 
+    public static String sortedModuleListAsString(ModuleLayer moduleLayer) {
+        return moduleLayer.modules().stream()
+                .map(Module::getName)
+                .sorted()
+                .collect(Collectors.joining(", "));
+    }
+
     public static void printLayerHierarchy(final AbstractLayerRef lRef) {
-        System.out.println("Layer  '" + lRef.name + "'on level '" + lRef.level + "' (" + lRef.getLayer().toString() + ")");
+        System.out.println("Layer '" + lRef.name + "' on level '" + lRef.level + "' (" + sortedModuleListAsString(lRef.getLayer()) + ")");
         
         AbstractLayerRef parentRef = lRef.parent;
         if (parentRef != null) {
             List<java.lang.ModuleLayer> parentLayers = lRef.getLayer().parents();
             for (java.lang.ModuleLayer parentLayer: parentLayers) {
-            	System.out.println("Parent '" + parentRef.name + "'on level '" + parentRef.level + "' (" + parentLayer.toString() + ")");
+            	System.out.println("Parent '" + parentRef.name + "' on level '" + parentRef.level + "' (" + sortedModuleListAsString(parentLayer) + ")");
             }
         }
 

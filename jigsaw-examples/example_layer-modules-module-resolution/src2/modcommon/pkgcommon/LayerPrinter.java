@@ -24,7 +24,7 @@ public final class LayerPrinter {
 			} else {
 				for (ModuleLayer parentLayer : parents) {
 					System.out.println(
-							parentLayer.getClass().getName() + "@" + Integer.toHexString(parentLayer.hashCode()));
+							parentLayer.getClass().getName());
 				}
 			}
 		}
@@ -58,11 +58,13 @@ public final class LayerPrinter {
 		return String.format("%s%s%s (%s)", ansiColour, mod.reference().descriptor().toNameAndVersion(), ANSI_RESET, printId(mod.configuration()));
 	}
 
-	/**
-	 * Prints an Id for an object using the simple class name and a hex string of
-	 * the hashcode.
-	 */
-	public static String printId(Object obj) {
-		return obj.getClass().getSimpleName() + "@" + Integer.toHexString(obj.hashCode());
-	}
+    /**
+     * Prints an Id for an object using the simple class name.
+     *
+     * Note: In previous versions the object hash code was also returned, but this prevented end-to-end testing by
+     * output comparison.
+     */
+    public static String printId(Object obj) {
+        return obj.getClass().getSimpleName();
+    }
 }
