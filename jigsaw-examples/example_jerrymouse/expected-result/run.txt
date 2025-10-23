@@ -1,3 +1,39 @@
-[JerryMouse] Scanning for apps in /Users/ascheman/wrk/maven/samples/java9-jigsaw-examples/feature/separate-compile-and-package/jigsaw-examples/example_jerrymouse/apps
-
+[JerryMouse] Scanning for apps in apps
+--------------------------------------------------------------------------------------------------------------------
+[JerryMouse|example_derived_private-package-protected] Initiating layer for application: example_derived_private-package-protected
+[JerryMouse|example_derived_private-package-protected] Loading modules from apps/example_derived_private-package-protected
+[JerryMouse|example_derived_private-package-protected] Loading app description from apps/example_derived_private-package-protected/app.json
+[JerryMouse|example_derived_private-package-protected] Root module: modmain
+[JerryMouse|example_derived_private-package-protected] Boot class: pkgmain.Main
+[JerryMouse|example_derived_private-package-protected] Boot method: main
+[JerryMouse|example_derived_private-package-protected] Created layer containing the following modules:
+         modb
+         modmain
+[JerryMouse|example_derived_private-package-protected] Calling boot method (modmain/pkgmain.Main.main) in foreground
+--------------------------------------------------------------------------------------------------------------------
+[JerryMouse|example_requires_exports] Initiating layer for application: example_requires_exports
+[JerryMouse|example_requires_exports] Loading modules from apps/example_requires_exports
+[JerryMouse|example_requires_exports] Loading app description from apps/example_requires_exports/app.json
+[JerryMouse|example_requires_exports] Root module: modmain
+[JerryMouse|example_requires_exports] Boot class: pkgmain.Main
+[JerryMouse|example_requires_exports] Boot method: main
+[JerryMouse|example_requires_exports] Created layer containing the following modules:
+         modb
+         modc
+         modmain
+[JerryMouse|example_requires_exports] Calling boot method (modmain/pkgmain.Main.main) in foreground
+--------------------------------------------------------------------------------------------------------------------
+[JerryMouse|example_requires_exports-to] Initiating layer for application: example_requires_exports-to
+[JerryMouse|example_requires_exports-to] Loading modules from apps/example_requires_exports-to
+[JerryMouse|example_requires_exports-to] Loading app description from apps/example_requires_exports-to/app.json
+[JerryMouse|example_requires_exports-to] Root module: modmain
+[JerryMouse|example_requires_exports-to] Boot class: pkgmain.Main
+[JerryMouse|example_requires_exports-to] Boot method: main
+[JerryMouse|example_requires_exports-to] Created layer containing the following modules:
+         modb1
+         modb2
+         modc
+         modmain
+[JerryMouse|example_requires_exports-to] Calling boot method (modmain/pkgmain.Main.main) in foreground
+--------------------------------------------------------------------------------------------------------------------
 [JerryMouse] All apps completed. Shutting down.
