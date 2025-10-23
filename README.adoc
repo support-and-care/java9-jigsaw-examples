@@ -17,7 +17,6 @@ Many aspects of the new Java 9 Jigsaw modules as defined in https://openjdk.java
 
 All the examples have been successfully tested with Windows (64bit), Linux and MacOSX - running Java 11 LTS and Java 17 LTS.
 Originally developed for Java 9 (which introduced JPMS), the examples are continuously updated for current Java versions.
-Eclipse projects can be used with Eclipse Oxygen.1 4.7.1a.
 
 *Build Tool Wrappers:* All Maven and Gradle examples now include build tool wrappers, so manual installation of Maven or Gradle is no longer required:
 
@@ -115,9 +114,6 @@ To be sure, you should use all of these clean, compile, run, test etc. scripts i
 . Scripts in top level directory all*.sh call the corresponding scripts recursively
 . Scripts in each example are all.sh, clean.sh, compile*.sh, run*.sh
 . Script createvis.sh in each example creates a GraphViz visualiation, see https://github.com/accso/java9-jigsaw-depvis
-. Eclipse project files are included.
-Per convention: one module == one Eclipse project.
-Putting them all in one workspace will _not_ work, because their names, i.e. Eclipse project names, do overlap which is not allowed in one workspace.
 . Source files are in `example_.../src`.
 That's the module-source-path.
 . Compiled .class files go to `example_.../mods`.
@@ -421,7 +417,6 @@ The examples have been used and tested with these tools and libraries (on Window
 | Gradle Wrapper | 9.1.0 | Gradle example | *Included in `example_gradle-project`* - no manual installation required. Requires JDK 17+ | https://docs.gradle.org/current/userguide/gradle_wrapper.html
 | +++<s>+++Maven+++</s>+++ | +++<s>+++3.5.2, 3.6.1+++</s>+++ | +++<s>+++Maven examples+++</s>+++ | *Deprecated* - Use Maven Wrapper instead (./mvnw) | https://maven.apache.org/download.cgi
 | +++<s>+++Gradle+++</s>+++ | +++<s>+++4.2.1, 4.6, 5.4.1+++</s>+++ | +++<s>+++Gradle example+++</s>+++ | *Deprecated* - Use Gradle Wrapper instead (./gradlew) | https://github.com/gradle/gradle
-| Eclipse | 4.7.1a (Oxygen.1a) and 4.7.3a (Oxygen.3a) | all examples | | https://www.eclipse.org/
 | Junit | 4.12 | all test examples | together with Hamcrest 1.3 |
 | Spring Boot, various libs | various | only in `example_spring-hibernate` | refer to POM.xml in this example |
 | GraphViz | 2.38 | visualizing the module graph | | https://www.graphviz.org/

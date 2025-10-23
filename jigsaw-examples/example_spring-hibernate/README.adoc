@@ -56,8 +56,7 @@ Now the application starts with Java 8.
 `java.xml.bind` has to be added as module for test: `--add-modules java.xml.bind`
 . We use the `spring-boot:run` goal to run the application (see `run.sh`).
 The argument `--add-modules java.xml.bind` has to be configured here, too.
-. We created a Eclipse project structure (including the m2e plugin).
-. We introduced the Eclipse project `mod.app`.
+. We introduced the module `mod.app`.
 It contains the `SpringBootApplication`
 . To get this compiled, we had to drop `jersey` (commented out in `pom.xml`.
 Otherwise we ran into problems with `asm` (version conflict with the asm version the compiler needs).

@@ -27,7 +27,6 @@ Please add discussions, requirements, bugfixes, etc. to the fork instead of the 
 
 The maven compile and surefire plugins recognize the test classes as an own module here, because there is a `module-info.java`
 
-Note: No Eclipse support for this example, just clean/compile/run via scripts
 Note: No JavaDoc generation for this example
 
 === Setup
