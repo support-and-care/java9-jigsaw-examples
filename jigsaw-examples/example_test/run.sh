@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
-cat readme.md
+
+set -eu -o pipefail
 
 ./run-blackboxtest.sh
 
