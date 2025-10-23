@@ -1,0 +1,248 @@
+Layer 'boot' on level 'root' (java.base, java.compiler, java.datatransfer, java.desktop, java.logging, java.management, java.management.rmi, java.naming, java.prefs, java.rmi, java.security.jgss, java.security.sasl, java.smartcardio, java.xml, java.xml.crypto, javax.json, jdk.charsets, jdk.compiler, jdk.crypto.cryptoki, jdk.crypto.ec, jdk.internal.opt, jdk.jartool, jdk.javadoc, jdk.jdeps, jdk.jfr, jdk.jlink, jdk.localedata, jdk.management, jdk.management.jfr, jdk.naming.dns, jdk.naming.rmi, jdk.security.auth, jdk.security.jgss, jdk.unsupported.desktop, jdk.zipfs, mod.layer, mod.main)
+Contains these modules:
+    module java.base
+    module java.compiler
+    module java.datatransfer
+    module java.desktop
+    module java.logging
+    module java.management
+    module java.management.rmi
+    module java.naming
+    module java.prefs
+    module java.rmi
+    module java.security.jgss
+    module java.security.sasl
+    module java.smartcardio
+    module java.xml
+    module java.xml.crypto
+    module javax.json
+    module jdk.charsets
+    module jdk.compiler
+    module jdk.crypto.cryptoki
+    module jdk.crypto.ec
+    module jdk.internal.opt
+    module jdk.jartool
+    module jdk.javadoc
+    module jdk.jdeps
+    module jdk.jfr
+    module jdk.jlink
+    module jdk.localedata
+    module jdk.management
+    module jdk.management.jfr
+    module jdk.naming.dns
+    module jdk.naming.rmi
+    module jdk.security.auth
+    module jdk.security.jgss
+    module jdk.unsupported.desktop
+    module jdk.zipfs
+    module mod.layer
+    module mod.main
+Layer 'toplayer' on level 'top' (mod.u_bottom_middle_top, mod.x_top, mod.y_top, mod.z_top, mod.zreverse_bottom, mod.zreverse_middle, mod.zreverse_top)
+Parent 'boot' on level 'root' (java.base, java.compiler, java.datatransfer, java.desktop, java.logging, java.management, java.management.rmi, java.naming, java.prefs, java.rmi, java.security.jgss, java.security.sasl, java.smartcardio, java.xml, java.xml.crypto, javax.json, jdk.charsets, jdk.compiler, jdk.crypto.cryptoki, jdk.crypto.ec, jdk.internal.opt, jdk.jartool, jdk.javadoc, jdk.jdeps, jdk.jfr, jdk.jlink, jdk.localedata, jdk.management, jdk.management.jfr, jdk.naming.dns, jdk.naming.rmi, jdk.security.auth, jdk.security.jgss, jdk.unsupported.desktop, jdk.zipfs, mod.layer, mod.main)
+Contains these modules:
+    module mod.u_bottom_middle_top
+    module mod.x_top
+    module mod.y_top
+    module mod.z_top
+    module mod.zreverse_bottom
+    module mod.zreverse_middle
+    module mod.zreverse_top
+Layer 'middlelayer_1' on level 'middle' (mod.x_middle, mod.y_middle, mod.z_middle)
+Parent 'toplayer' on level 'top' (mod.u_bottom_middle_top, mod.x_top, mod.y_top, mod.z_top, mod.zreverse_bottom, mod.zreverse_middle, mod.zreverse_top)
+Contains these modules:
+    module mod.x_middle
+    module mod.y_middle
+    module mod.z_middle
+Layer 'bottomlayer_1b' on level 'bottom' (mod.x_bottom, mod.y_bottom, mod.z_bottom)
+Parent 'middlelayer_1' on level 'middle' (mod.x_middle, mod.y_middle, mod.z_middle)
+Contains these modules:
+    module mod.x_bottom
+    module mod.y_bottom
+    module mod.z_bottom
+Layer 'bottomlayer_1a' on level 'bottom' (mod.x_bottom, mod.y_bottom, mod.z_bottom)
+Parent 'middlelayer_1' on level 'middle' (mod.x_middle, mod.y_middle, mod.z_middle)
+Contains these modules:
+    module mod.x_bottom
+    module mod.y_bottom
+    module mod.z_bottom
+Layer 'middlelayer_2' on level 'middle' (mod.x_middle, mod.y_middle, mod.z_middle)
+Parent 'toplayer' on level 'top' (mod.u_bottom_middle_top, mod.x_top, mod.y_top, mod.z_top, mod.zreverse_bottom, mod.zreverse_middle, mod.zreverse_top)
+Contains these modules:
+    module mod.x_middle
+    module mod.y_middle
+    module mod.z_middle
+Layer 'bottomlayer_2a' on level 'bottom' (mod.x_bottom, mod.y_bottom, mod.z_bottom)
+Parent 'middlelayer_2' on level 'middle' (mod.x_middle, mod.y_middle, mod.z_middle)
+Contains these modules:
+    module mod.x_bottom
+    module mod.y_bottom
+    module mod.z_bottom
+Layer 'bottomlayer_2b' on level 'bottom' (mod.x_bottom, mod.y_bottom, mod.z_bottom)
+Parent 'middlelayer_2' on level 'middle' (mod.x_middle, mod.y_middle, mod.z_middle)
+Contains these modules:
+    module mod.x_bottom
+    module mod.y_bottom
+    module mod.z_bottom
+
+-------------------------------------------------------------------------------------------------------------------------------
+Now calling stuff in all mod.x* modules (on any level) ...
+
+Layer 'toplayer' on level 'top'
+Module 'mod.x_top'
+Calling mod.x_top/pkgx.X.doIt() returns:
+	pkgx.X [ class pkgx.X, module mod.x_top, layer 'toplayer' on level 'top' (mod.u_bottom_middle_top, mod.x_top, mod.y_top, mod.z_top, mod.zreverse_bottom, mod.zreverse_middle, mod.zreverse_top) ]
+
+Layer 'middlelayer_1' on level 'middle'
+Module 'mod.x_middle'
+Calling mod.x_middle/pkgx.X.doIt() returns:
+	pkgx.X [ class pkgx.X, module mod.x_middle, layer 'middlelayer_1' on level 'middle' (mod.x_middle, mod.y_middle, mod.z_middle) ]
+
+Layer 'bottomlayer_1b' on level 'bottom'
+Module 'mod.x_bottom'
+Calling mod.x_bottom/pkgx.X.doIt() returns:
+	pkgx.X [ class pkgx.X, module mod.x_bottom, layer 'bottomlayer_1b' on level 'bottom' (mod.x_bottom, mod.y_bottom, mod.z_bottom) ]
+
+Layer 'bottomlayer_1a' on level 'bottom'
+Module 'mod.x_bottom'
+Calling mod.x_bottom/pkgx.X.doIt() returns:
+	pkgx.X [ class pkgx.X, module mod.x_bottom, layer 'bottomlayer_1a' on level 'bottom' (mod.x_bottom, mod.y_bottom, mod.z_bottom) ]
+
+Layer 'middlelayer_2' on level 'middle'
+Module 'mod.x_middle'
+Calling mod.x_middle/pkgx.X.doIt() returns:
+	pkgx.X [ class pkgx.X, module mod.x_middle, layer 'middlelayer_2' on level 'middle' (mod.x_middle, mod.y_middle, mod.z_middle) ]
+
+Layer 'bottomlayer_2a' on level 'bottom'
+Module 'mod.x_bottom'
+Calling mod.x_bottom/pkgx.X.doIt() returns:
+	pkgx.X [ class pkgx.X, module mod.x_bottom, layer 'bottomlayer_2a' on level 'bottom' (mod.x_bottom, mod.y_bottom, mod.z_bottom) ]
+
+Layer 'bottomlayer_2b' on level 'bottom'
+Module 'mod.x_bottom'
+Calling mod.x_bottom/pkgx.X.doIt() returns:
+	pkgx.X [ class pkgx.X, module mod.x_bottom, layer 'bottomlayer_2b' on level 'bottom' (mod.x_bottom, mod.y_bottom, mod.z_bottom) ]
+
+-------------------------------------------------------------------------------------------------------------------------------
+Now calling stuff in all mod.y* modules (on any level) ...
+
+Layer 'toplayer' on level 'top'
+Module 'mod.y_top'
+Calling mod.y_top/pkgy.top.YTopClass.doIt() returns:
+	pkgy.top.YTopClass [ class pkgy.top.YTopClass, module mod.y_top, layer 'toplayer' on level 'top' (mod.u_bottom_middle_top, mod.x_top, mod.y_top, mod.z_top, mod.zreverse_bottom, mod.zreverse_middle, mod.zreverse_top) ]
+
+Layer 'middlelayer_1' on level 'middle'
+Module 'mod.y_middle'
+Calling mod.y_middle/pkgy.middle.YMiddleClass.doIt() returns:
+	pkgy.middle.YMiddleClass [ class pkgy.middle.YMiddleClass, module mod.y_middle, layer 'middlelayer_1' on level 'middle' (mod.x_middle, mod.y_middle, mod.z_middle) ]
+	plus 	pkgy.middle.YMiddleClass [ class pkgy.top.YTopClass, module mod.y_middle, layer 'middlelayer_1' on level 'middle' (mod.x_middle, mod.y_middle, mod.z_middle) ]
+
+Layer 'bottomlayer_1b' on level 'bottom'
+Module 'mod.y_bottom'
+Calling mod.y_bottom/pkgy.bottom.YBottomClass.doIt() returns:
+	pkgy.bottom.YBottomClass [ class pkgy.bottom.YBottomClass, module mod.y_bottom, layer 'bottomlayer_1b' on level 'bottom' (mod.x_bottom, mod.y_bottom, mod.z_bottom) ]
+	plus 	pkgy.bottom.YBottomClass [ class pkgy.middle.YMiddleClass, module mod.y_bottom, layer 'bottomlayer_1b' on level 'bottom' (mod.x_bottom, mod.y_bottom, mod.z_bottom) ]
+	plus 	pkgy.bottom.YBottomClass [ class pkgy.top.YTopClass, module mod.y_bottom, layer 'bottomlayer_1b' on level 'bottom' (mod.x_bottom, mod.y_bottom, mod.z_bottom) ]
+
+Layer 'bottomlayer_1a' on level 'bottom'
+Module 'mod.y_bottom'
+Calling mod.y_bottom/pkgy.bottom.YBottomClass.doIt() returns:
+	pkgy.bottom.YBottomClass [ class pkgy.bottom.YBottomClass, module mod.y_bottom, layer 'bottomlayer_1a' on level 'bottom' (mod.x_bottom, mod.y_bottom, mod.z_bottom) ]
+	plus 	pkgy.bottom.YBottomClass [ class pkgy.middle.YMiddleClass, module mod.y_bottom, layer 'bottomlayer_1a' on level 'bottom' (mod.x_bottom, mod.y_bottom, mod.z_bottom) ]
+	plus 	pkgy.bottom.YBottomClass [ class pkgy.top.YTopClass, module mod.y_bottom, layer 'bottomlayer_1a' on level 'bottom' (mod.x_bottom, mod.y_bottom, mod.z_bottom) ]
+
+Layer 'middlelayer_2' on level 'middle'
+Module 'mod.y_middle'
+Calling mod.y_middle/pkgy.middle.YMiddleClass.doIt() returns:
+	pkgy.middle.YMiddleClass [ class pkgy.middle.YMiddleClass, module mod.y_middle, layer 'middlelayer_2' on level 'middle' (mod.x_middle, mod.y_middle, mod.z_middle) ]
+	plus 	pkgy.middle.YMiddleClass [ class pkgy.top.YTopClass, module mod.y_middle, layer 'middlelayer_2' on level 'middle' (mod.x_middle, mod.y_middle, mod.z_middle) ]
+
+Layer 'bottomlayer_2a' on level 'bottom'
+Module 'mod.y_bottom'
+Calling mod.y_bottom/pkgy.bottom.YBottomClass.doIt() returns:
+	pkgy.bottom.YBottomClass [ class pkgy.bottom.YBottomClass, module mod.y_bottom, layer 'bottomlayer_2a' on level 'bottom' (mod.x_bottom, mod.y_bottom, mod.z_bottom) ]
+	plus 	pkgy.bottom.YBottomClass [ class pkgy.middle.YMiddleClass, module mod.y_bottom, layer 'bottomlayer_2a' on level 'bottom' (mod.x_bottom, mod.y_bottom, mod.z_bottom) ]
+	plus 	pkgy.bottom.YBottomClass [ class pkgy.top.YTopClass, module mod.y_bottom, layer 'bottomlayer_2a' on level 'bottom' (mod.x_bottom, mod.y_bottom, mod.z_bottom) ]
+
+Layer 'bottomlayer_2b' on level 'bottom'
+Module 'mod.y_bottom'
+Calling mod.y_bottom/pkgy.bottom.YBottomClass.doIt() returns:
+	pkgy.bottom.YBottomClass [ class pkgy.bottom.YBottomClass, module mod.y_bottom, layer 'bottomlayer_2b' on level 'bottom' (mod.x_bottom, mod.y_bottom, mod.z_bottom) ]
+	plus 	pkgy.bottom.YBottomClass [ class pkgy.middle.YMiddleClass, module mod.y_bottom, layer 'bottomlayer_2b' on level 'bottom' (mod.x_bottom, mod.y_bottom, mod.z_bottom) ]
+	plus 	pkgy.bottom.YBottomClass [ class pkgy.top.YTopClass, module mod.y_bottom, layer 'bottomlayer_2b' on level 'bottom' (mod.x_bottom, mod.y_bottom, mod.z_bottom) ]
+
+-------------------------------------------------------------------------------------------------------------------------------
+Now calling stuff in all mod.z* modules (on any level) ...
+
+Layer 'toplayer' on level 'top'
+Module 'mod.z_top'
+Calling mod.z_top/pkgz.top.ZTopClass.doIt() returns:
+	pkgz.top.ZTopClass [ class pkgz.top.ZTopClass, module mod.z_top, layer 'toplayer' on level 'top' (mod.u_bottom_middle_top, mod.x_top, mod.y_top, mod.z_top, mod.zreverse_bottom, mod.zreverse_middle, mod.zreverse_top) ]
+
+Layer 'middlelayer_1' on level 'middle'
+Module 'mod.z_middle'
+Calling mod.z_middle/pkgz.middle.ZMiddleClass.doIt() returns:
+	pkgz.middle.ZMiddleClass [ class pkgz.middle.ZMiddleClass, module mod.z_middle, layer 'middlelayer_1' on level 'middle' (mod.x_middle, mod.y_middle, mod.z_middle) ]
+	plus 	pkgz.top.ZTopClass [ class pkgz.top.ZTopClass, module mod.z_top, layer 'toplayer' on level 'top' (mod.u_bottom_middle_top, mod.x_top, mod.y_top, mod.z_top, mod.zreverse_bottom, mod.zreverse_middle, mod.zreverse_top) ]
+
+Layer 'bottomlayer_1b' on level 'bottom'
+Module 'mod.z_bottom'
+Calling mod.z_bottom/pkgz.bottom.ZBottomClass.doIt() returns:
+	pkgz.bottom.ZBottomClass [ class pkgz.bottom.ZBottomClass, module mod.z_bottom, layer 'bottomlayer_1b' on level 'bottom' (mod.x_bottom, mod.y_bottom, mod.z_bottom) ]
+	plus 	pkgz.middle.ZMiddleClass [ class pkgz.middle.ZMiddleClass, module mod.z_middle, layer 'middlelayer_1' on level 'middle' (mod.x_middle, mod.y_middle, mod.z_middle) ]
+	plus 	pkgz.top.ZTopClass [ class pkgz.top.ZTopClass, module mod.z_top, layer 'toplayer' on level 'top' (mod.u_bottom_middle_top, mod.x_top, mod.y_top, mod.z_top, mod.zreverse_bottom, mod.zreverse_middle, mod.zreverse_top) ]
+
+Layer 'bottomlayer_1a' on level 'bottom'
+Module 'mod.z_bottom'
+Calling mod.z_bottom/pkgz.bottom.ZBottomClass.doIt() returns:
+	pkgz.bottom.ZBottomClass [ class pkgz.bottom.ZBottomClass, module mod.z_bottom, layer 'bottomlayer_1a' on level 'bottom' (mod.x_bottom, mod.y_bottom, mod.z_bottom) ]
+	plus 	pkgz.middle.ZMiddleClass [ class pkgz.middle.ZMiddleClass, module mod.z_middle, layer 'middlelayer_1' on level 'middle' (mod.x_middle, mod.y_middle, mod.z_middle) ]
+	plus 	pkgz.top.ZTopClass [ class pkgz.top.ZTopClass, module mod.z_top, layer 'toplayer' on level 'top' (mod.u_bottom_middle_top, mod.x_top, mod.y_top, mod.z_top, mod.zreverse_bottom, mod.zreverse_middle, mod.zreverse_top) ]
+
+Layer 'middlelayer_2' on level 'middle'
+Module 'mod.z_middle'
+Calling mod.z_middle/pkgz.middle.ZMiddleClass.doIt() returns:
+	pkgz.middle.ZMiddleClass [ class pkgz.middle.ZMiddleClass, module mod.z_middle, layer 'middlelayer_2' on level 'middle' (mod.x_middle, mod.y_middle, mod.z_middle) ]
+	plus 	pkgz.top.ZTopClass [ class pkgz.top.ZTopClass, module mod.z_top, layer 'toplayer' on level 'top' (mod.u_bottom_middle_top, mod.x_top, mod.y_top, mod.z_top, mod.zreverse_bottom, mod.zreverse_middle, mod.zreverse_top) ]
+
+Layer 'bottomlayer_2a' on level 'bottom'
+Module 'mod.z_bottom'
+Calling mod.z_bottom/pkgz.bottom.ZBottomClass.doIt() returns:
+	pkgz.bottom.ZBottomClass [ class pkgz.bottom.ZBottomClass, module mod.z_bottom, layer 'bottomlayer_2a' on level 'bottom' (mod.x_bottom, mod.y_bottom, mod.z_bottom) ]
+	plus 	pkgz.middle.ZMiddleClass [ class pkgz.middle.ZMiddleClass, module mod.z_middle, layer 'middlelayer_2' on level 'middle' (mod.x_middle, mod.y_middle, mod.z_middle) ]
+	plus 	pkgz.top.ZTopClass [ class pkgz.top.ZTopClass, module mod.z_top, layer 'toplayer' on level 'top' (mod.u_bottom_middle_top, mod.x_top, mod.y_top, mod.z_top, mod.zreverse_bottom, mod.zreverse_middle, mod.zreverse_top) ]
+
+Layer 'bottomlayer_2b' on level 'bottom'
+Module 'mod.z_bottom'
+Calling mod.z_bottom/pkgz.bottom.ZBottomClass.doIt() returns:
+	pkgz.bottom.ZBottomClass [ class pkgz.bottom.ZBottomClass, module mod.z_bottom, layer 'bottomlayer_2b' on level 'bottom' (mod.x_bottom, mod.y_bottom, mod.z_bottom) ]
+	plus 	pkgz.middle.ZMiddleClass [ class pkgz.middle.ZMiddleClass, module mod.z_middle, layer 'middlelayer_2' on level 'middle' (mod.x_middle, mod.y_middle, mod.z_middle) ]
+	plus 	pkgz.top.ZTopClass [ class pkgz.top.ZTopClass, module mod.z_top, layer 'toplayer' on level 'top' (mod.u_bottom_middle_top, mod.x_top, mod.y_top, mod.z_top, mod.zreverse_bottom, mod.zreverse_middle, mod.zreverse_top) ]
+
+-------------------------------------------------------------------------------------------------------------------------------
+Now calling stuff in all mod.zreverse* modules (on any level) ...
+
+Layer 'toplayer' on level 'top'
+Module 'mod.zreverse_bottom'
+Calling mod.zreverse_bottom/pkgzreverse.bottom.ZBottomClass.doIt() returns:
+	pkgzreverse.bottom.ZBottomClass [ class pkgzreverse.bottom.ZBottomClass, module mod.zreverse_bottom, layer 'toplayer' on level 'top' (mod.u_bottom_middle_top, mod.x_top, mod.y_top, mod.z_top, mod.zreverse_bottom, mod.zreverse_middle, mod.zreverse_top) ]
+
+Layer 'toplayer' on level 'top'
+Module 'mod.zreverse_middle'
+Calling mod.zreverse_middle/pkgzreverse.middle.ZMiddleClass.doIt() returns:
+	pkgzreverse.middle.ZMiddleClass [ class pkgzreverse.middle.ZMiddleClass, module mod.zreverse_middle, layer 'toplayer' on level 'top' (mod.u_bottom_middle_top, mod.x_top, mod.y_top, mod.z_top, mod.zreverse_bottom, mod.zreverse_middle, mod.zreverse_top) ]
+	plus 	pkgzreverse.bottom.ZBottomClass [ class pkgzreverse.bottom.ZBottomClass, module mod.zreverse_bottom, layer 'toplayer' on level 'top' (mod.u_bottom_middle_top, mod.x_top, mod.y_top, mod.z_top, mod.zreverse_bottom, mod.zreverse_middle, mod.zreverse_top) ]
+
+Layer 'toplayer' on level 'top'
+Module 'mod.zreverse_top'
+Calling mod.zreverse_top/pkgzreverse.top.ZTopClass.doIt() returns:
+	pkgzreverse.top.ZTopClass [ class pkgzreverse.top.ZTopClass, module mod.zreverse_top, layer 'toplayer' on level 'top' (mod.u_bottom_middle_top, mod.x_top, mod.y_top, mod.z_top, mod.zreverse_bottom, mod.zreverse_middle, mod.zreverse_top) ]
+	plus 	pkgzreverse.middle.ZMiddleClass [ class pkgzreverse.middle.ZMiddleClass, module mod.zreverse_middle, layer 'toplayer' on level 'top' (mod.u_bottom_middle_top, mod.x_top, mod.y_top, mod.z_top, mod.zreverse_bottom, mod.zreverse_middle, mod.zreverse_top) ]
+	plus 	pkgzreverse.bottom.ZBottomClass [ class pkgzreverse.bottom.ZBottomClass, module mod.zreverse_bottom, layer 'toplayer' on level 'top' (mod.u_bottom_middle_top, mod.x_top, mod.y_top, mod.z_top, mod.zreverse_bottom, mod.zreverse_middle, mod.zreverse_top) ]
+
+-------------------------------------------------------------------------------------------------------------------------------
+Now calling stuff in all mod.u* modules (on any level) ...
+
+Layer 'toplayer' on level 'top'
+Module 'mod.u_bottom_middle_top'
+Calling mod.u_bottom_middle_top/pkgu.U.doIt() returns:
+	pkgu.U [ class pkgu.U, module mod.u_bottom_middle_top, layer toplayer on level top (mod.u_bottom_middle_top, mod.x_top, mod.y_top, mod.z_top, mod.zreverse_bottom, mod.zreverse_middle, mod.zreverse_top) ]
