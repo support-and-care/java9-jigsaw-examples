@@ -48,7 +48,7 @@ fi
 
 # Compare the files
 echo "Step 4: Compare expected vs actual output"
-if diff -u "${EXPECTED}" "${ACTUAL}"; then
+if diff -ru "${EXPECTED}" "${ACTUAL}"; then
   echo
   echo "✅ SUCCESS: Output matches expected result"
   exit 0
