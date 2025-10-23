@@ -18,7 +18,7 @@ mkdir -p expected-result
 # Run the Java code and capture output
 echo "Running Java module and capturing output..."
 echo ""
-"${JAVA_HOME}/bin/java" ${JAVA_OPTIONS} --module-path "mlib${PATH_SEPARATOR}amlib" --module modstarter/pkgstarter.Starter .  2>&1 | tr -d '\r' > expected-result/run.txt
+"${JAVA_HOME}/bin/java" ${JAVA_OPTIONS} --module-path "mlib${PATH_SEPARATOR}amlib" --module modstarter/pkgstarter.Starter .  expected-result --sync 2>&1 | tr -d '\r' > expected-result/run.txt
 
 echo "✅ Expected result saved to expected-result/run.txt"
 echo
