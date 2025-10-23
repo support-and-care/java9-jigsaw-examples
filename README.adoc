@@ -48,8 +48,8 @@ Note that this overrides any other settings, e.g., by `mvn_settings.xml`.
 . Install Java JDK:
 ** *Recommended*: Java 17 LTS or later (works with all examples)
 ** *Minimum*: Java 11 LTS
-** *For Gradle example (`example_gradle-project`)*: Java 17 or later (required by Gradle 9.x)
-** *For cross-compilation example*: Java 8 (only needed for `example_compile-target-jdk8`)
+** *For xref:jigsaw-examples/example_gradle-project/README.adoc[Gradle example]*: Java 17 or later (required by Gradle 9.x)
+** *For xref:jigsaw-examples/example_compile-target-jdk8/README.adoc[cross-compilation example]*: Java 8
 
 [NOTE]
 ====
@@ -139,7 +139,7 @@ No software is ready, ever ;-) So here are some ideas left (any other feedback v
 [NOTE]
 ====
 All examples work with current Java LTS versions (11, 17).
-The `example_spring-hibernate` may need updates for optimal Java 17+ compatibility.
+The xref:jigsaw-examples/example_spring-hibernate/README.adoc[example_spring-hibernate] may need updates for optimal Java 17+ compatibility.
 ====
 
 == Example Overview
@@ -411,14 +411,14 @@ The examples have been used and tested with these tools and libraries (on Window
 | Tool | Version | Used for | Remark | Link
 
 | JDK | 11 LTS or 17 LTS | all examples at compile and runtime | Recommended: JDK 17 LTS | https://adoptium.net/ or https://sdkman.io/
-| JDK | 17 LTS or later | Gradle example (`example_gradle-project`) | Required by Gradle 9.x | https://adoptium.net/ or https://sdkman.io/
-| JDK | 8 LTS | only needed for `example_compile-target-jdk8` | For cross-compilation testing | https://adoptium.net/temurin/releases/?version=8
+| JDK | 17 LTS or later | xref:jigsaw-examples/example_gradle-project/README.adoc[Gradle example] | Required by Gradle 9.x | https://adoptium.net/ or https://sdkman.io/
+| JDK | 8 LTS | only needed for xref:jigsaw-examples/example_compile-target-jdk8/README.adoc[cross-compilation example] | For cross-compilation testing | https://adoptium.net/temurin/releases/?version=8
 | Maven Wrapper | 3.9.11 | Maven examples | *Included in all Maven examples* - no manual installation required | https://maven.apache.org/wrapper/
-| Gradle Wrapper | 9.1.0 | Gradle example | *Included in `example_gradle-project`* - no manual installation required. Requires JDK 17+ | https://docs.gradle.org/current/userguide/gradle_wrapper.html
+| Gradle Wrapper | 9.1.0 | Gradle example | *Included in xref:jigsaw-examples/example_gradle-project/README.adoc[example_gradle-project]* - no manual installation required. Requires JDK 17+ | https://docs.gradle.org/current/userguide/gradle_wrapper.html
 | +++<s>+++Maven+++</s>+++ | +++<s>+++3.5.2, 3.6.1+++</s>+++ | +++<s>+++Maven examples+++</s>+++ | *Deprecated* - Use Maven Wrapper instead (./mvnw) | https://maven.apache.org/download.cgi
 | +++<s>+++Gradle+++</s>+++ | +++<s>+++4.2.1, 4.6, 5.4.1+++</s>+++ | +++<s>+++Gradle example+++</s>+++ | *Deprecated* - Use Gradle Wrapper instead (./gradlew) | https://github.com/gradle/gradle
 | Junit | 4.12 | all test examples | together with Hamcrest 1.3 |
-| Spring Boot, various libs | various | only in `example_spring-hibernate` | refer to POM.xml in this example |
+| Spring Boot, various libs | various | only in xref:jigsaw-examples/example_spring-hibernate/README.adoc[example_spring-hibernate] | refer to POM.xml in this example |
 | GraphViz | 2.38 | visualizing the module graph | | https://www.graphviz.org/
 | DepVis | 0.3 | visualizing the module graph, provides the .dot file as input for GraphViz | | https://github.com/accso/java9-jigsaw-depvis
 |===
@@ -437,11 +437,11 @@ Older or newer versions might also work but we did not try.
 * Only set/export environment variables in `env.sh` if necessary (no configured value)
 * Align Setup documentation and indent sections logically
 * Added Maven Wrapper 3.9.11 to all Maven examples:
-** `example_maven-project` (created parent POM for multi-module support)
-** `example_maven-test-blackbox`
-** `example_maven-test-whitebox`
-** `example_spring-hibernate`
-* Updated Gradle Wrapper to 9.1.0 in `example_gradle-project`:
+** xref:jigsaw-examples/example_maven-project/README.adoc[example_maven-project] (created parent POM for multi-module support)
+** xref:jigsaw-examples/example_maven-test-blackbox/README.adoc[example_maven-test-blackbox]
+** xref:jigsaw-examples/example_maven-test-whitebox/README.adoc[example_maven-test-whitebox]
+** xref:jigsaw-examples/example_spring-hibernate/README.adoc[example_spring-hibernate]
+* Updated Gradle Wrapper to 9.1.0 in xref:jigsaw-examples/example_gradle-project/README.adoc[example_gradle-project]:
 ** *Breaking change*: Gradle 9.x requires *JDK 17 or later* (previously JDK 11)
 ** Updated build scripts for Gradle 9.x compatibility:
 *** Replaced deprecated `jcenter()` with `mavenCentral()`
@@ -461,7 +461,7 @@ Older or newer versions might also work but we did not try.
 
 * Migrated examples to Java 11.
 * Tested with Eclipse Temurin-11.0.27+6 (build 11.0.27+6)
-* Currently example_spring-hibernate is not working.
+* Currently xref:jigsaw-examples/example_spring-hibernate/README.adoc[example_spring-hibernate] is not working.
 
 === Migration to Eclipse 4.7.3a Oxygen.3a
 
@@ -491,8 +491,8 @@ Note that Eclipse 4.7.1a Oxygen.1a still works fine with all examples.
 
 [WARNING]
 ====
-All works fine except the `example_spring-hibernate` because of a compile problem.
-See https://github.com/accso/java9-jigsaw-examples/blob/master/jigsaw-examples/example_spring-hibernate/readme.md[`readme.md`] there for details.
+All works fine except the xref:jigsaw-examples/example_spring-hibernate/README.adoc[example_spring-hibernate] because of a compile problem.
+See xref:jigsaw-examples/example_spring-hibernate/README.adoc[readme] for details.
 Needs probably Maven/Plugin updates, to be done soon.
 ====
 
@@ -504,7 +504,7 @@ Note that JDK 9 (like 9.0.4) still works fine with all examples.
 === Migration to JDK 10+43 (OpenJDK) (Release)
 
 * Gradle needed an update to 4.6 as the JDK 10 class format could not be read with Gradle 4.2.1 (see also https://github.com/gradle/gradle/issues/3770[here]).
-* Gradle scripts in project `example_gradle-project` now also include a `--info --stacktrace` for more info and error output
+* Gradle scripts in xref:jigsaw-examples/example_gradle-project/README.adoc[example_gradle-project] now also include a `--info --stacktrace` for more info and error output
 
 === Migration to JDK 9.0.4 (Release)
 
@@ -517,16 +517,16 @@ Nothing critical but looks "fresher" now.
 Some changes:
 
 * Maven 3.7.0 compiler plugin used now in all maven projects
-* Refactoring of the maven test examples: New name is now `example_maven-test-blackbox` and `example_maven-test-whitebox`
+* Refactoring of the maven test examples: New name is now xref:jigsaw-examples/example_maven-test-blackbox/README.adoc[example_maven-test-blackbox] and xref:jigsaw-examples/example_maven-test-whitebox/README.adoc[example_maven-test-whitebox]
 * Maven settings template file checked to all maven projects
 * Gradle build without the daemon
 * Gradle environment variable GRADLE_USER_HOME introduced, as $HOME is not handled correctly on cygwin systems
-* Refactoring of the example which shows that automatic modules can access the classpath, now in `example_unnamed-module_access-from-automatic-module`
+* Refactoring of the example which shows that automatic modules can access the classpath, now in xref:jigsaw-examples/example_unnamed-module_access-from-automatic-module/README.adoc[example_unnamed-module_access-from-automatic-module]
 * All scripts' calls to java, javac, jar etc. now redirected STDERR to STDOUT to make sure that both standard and error output are printed in order (otherwise some exception output is printed very early and now below the call as expected)
 * Cleanup of Eclipse dependencies and Build paths whereever possible (not easy when e.g. a mixture of explicit modules and/or automatic modules and/or classpath code has to be built in Eclipse)
 * Cleanup of Eclipse launch files (and also renamed them not to have any whitespace in their .launch file name)
 * All kind of cleanup like better comments, a bit more separating whitespaces or separating lines in the output
-* Deleted `example_requires-transitive_exports` (obsolete as all of its contents is covered by `example_requires_exports_requires-transitive_exports-to` already)
+* Deleted `example_requires-transitive_exports` (obsolete as all of its contents is covered by xref:jigsaw-examples/example_requires_exports_requires-transitive_exports-to/README.adoc[example_requires_exports_requires-transitive_exports-to] already)
 
 === Migration to JDK 9.0.1 (Release)
 
@@ -539,15 +539,15 @@ See https://github.com/accso/java9-jigsaw-depvis[DepVis Readme] for details
 
 === New and enhanced examples
 
-* `example_unnamed-module-reflection-illegal-access` is new, shows the usage of the "kill switch"
-* `example_requires-static` is new, shows the usage of the "requires static"
+* xref:jigsaw-examples/example_unnamed-module-reflection-illegal-access/README.adoc[example_unnamed-module-reflection-illegal-access] is new, shows the usage of the "kill switch"
+* xref:jigsaw-examples/example_requires-static/README.adoc[example_requires-static] is new, shows the usage of the "requires static"
 
 === Enhanced examples
 
-* `example_resources` is fixed, now works as expected
+* xref:jigsaw-examples/example_resources/README.adoc[example_resources] is fixed, now works as expected
 * Various other cleanups, refactorings, corrections all over the place
-* `example_jerry-mouse` limits its apps to a whitelist and only uses them, if they work
-* All examples which can be used as an app in `example_jerry-mouse`: Its `modmain` is now an "open module" (instead of "opens pkgmain")
+* xref:jigsaw-examples/example_jerrymouse/README.adoc[example_jerrymouse] limits its apps to a whitelist and only uses them, if they work
+* All examples which can be used as an app in xref:jigsaw-examples/example_jerrymouse/README.adoc[example_jerrymouse]: Its `modmain` is now an "open module" (instead of "opens pkgmain")
 
 === Migration to JDK 9 b181 (Release)
 
@@ -562,7 +562,7 @@ See https://github.com/accso/java9-jigsaw-depvis[DepVis Readme] for details
 === Migration to JDK 9 b156
 
 * changes in API (Configuration.resolve instead of Configuration.resolveRequires)
-* no more java.compact1 profile available (was used in example_resolved-modules)
+* no more java.compact1 profile available (was used in xref:jigsaw-examples/example_resolved-modules/README.adoc[example_resolved-modules])
 * all javac calls now use -Xlint
 * note that compiler and launcher now show various warnings (not sure if this is because of b156 or because of "javac -Xlint")
 
