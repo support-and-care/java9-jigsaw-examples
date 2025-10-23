@@ -1,0 +1,40 @@
+Infos for Layer and Module which contain pkgmain.Main, id=DETERMINISTIC_ID_01
+Layer (java.lang.ModuleLayer), boot layer
+Layer's parents: none, as this is the boot layer
+Layer's list of modules:
+java.base, java.compiler, java.datatransfer, java.desktop, java.logging, java.management, java.management.rmi, java.naming, java.prefs, java.rmi, java.security.jgss, java.security.sasl, java.smartcardio, java.xml, java.xml.crypto, jdk.charsets, jdk.compiler, jdk.crypto.cryptoki, jdk.crypto.ec, jdk.internal.opt, jdk.jartool, jdk.javadoc, jdk.jdeps, jdk.jfr, jdk.jlink, jdk.localedata, jdk.management, jdk.management.jfr, jdk.naming.dns, jdk.naming.rmi, jdk.security.auth, jdk.security.jgss, jdk.unsupported.desktop, jdk.zipfs, modcommon, modmain
+Layer's configuration with its list of resolved modules:
+java.base, java.compiler, java.datatransfer, java.desktop, java.logging, java.management, java.management.rmi, java.naming, java.prefs, java.rmi, java.security.jgss, java.security.sasl, java.smartcardio, java.xml, java.xml.crypto, jdk.charsets, jdk.compiler, jdk.crypto.cryptoki, jdk.crypto.ec, jdk.internal.opt, jdk.jartool, jdk.javadoc, jdk.jdeps, jdk.jfr, jdk.jlink, jdk.localedata, jdk.management, jdk.management.jfr, jdk.naming.dns, jdk.naming.rmi, jdk.security.auth, jdk.security.jgss, jdk.unsupported.desktop, jdk.zipfs, modcommon, modmain
+
+Create a new 'foo layer #1' as a child of the current layer...
+Reflective call to pkgfoo.Foo in modfoo in 'foo layer #1'...
+Infos for Layer and Module which contain pkgfoo.Foo, id=DETERMINISTIC_ID_02, using automatic module version V1
+Layer (java.lang.ModuleLayer), not boot layer
+Layer's parents: Parent is boot layer
+Layer's list of modules:
+modauto1, modfoo
+Layer's configuration with its list of resolved modules:
+modauto1, modfoo
+pkgfoo.Foo, id=DETERMINISTIC_ID_02, using automatic module version V1
+
+Create a new 'bar layer #1' as a child of the current layer...
+Reflective call to pkgbar.Bar in modbar in 'bar layer #1'...
+Infos for Layer and Module which contain pkgbar.Bar, id=DETERMINISTIC_ID_03, using automatic module version V2
+Layer (java.lang.ModuleLayer), not boot layer
+Layer's parents: Parent is boot layer
+Layer's list of modules:
+modauto2, modbar
+Layer's configuration with its list of resolved modules:
+modauto2, modbar
+pkgbar.Bar, id=DETERMINISTIC_ID_03, using automatic module version V2
+
+Create a new 'bar layer #2' as a child of the current layer...
+Reflective call to pkgbar.Bar in modbar in 'bar layer #2'...
+Infos for Layer and Module which contain pkgbar.Bar, id=DETERMINISTIC_ID_04, using automatic module version V2
+Layer (java.lang.ModuleLayer), not boot layer
+Layer's parents: Parent is boot layer
+Layer's list of modules:
+modauto2, modbar
+Layer's configuration with its list of resolved modules:
+modauto2, modbar
+pkgbar.Bar, id=DETERMINISTIC_ID_04, using automatic module version V2

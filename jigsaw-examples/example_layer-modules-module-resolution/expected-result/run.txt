@@ -1,0 +1,32 @@
+Infos for Layer and Module:
+Layer (ModuleLayer), boot layer
+Layer's parents: none, as this is the boot layer
+Layer's configuration including read dependencies:
+[31mjava.base@11.0.28 (Configuration)[0m -> [], [31mjava.compiler@11.0.28 (Configuration)[0m -> [java.base@11.0.28 (Configuration)], [31mjava.datatransfer@11.0.28 (Configuration)[0m -> [java.base@11.0.28 (Configuration)], [31mjava.desktop@11.0.28 (Configuration)[0m -> [java.base@11.0.28 (Configuration), java.datatransfer@11.0.28 (Configuration), java.prefs@11.0.28 (Configuration), java.xml@11.0.28 (Configuration)], [31mjava.logging@11.0.28 (Configuration)[0m -> [java.base@11.0.28 (Configuration)], [31mjava.management.rmi@11.0.28 (Configuration)[0m -> [java.base@11.0.28 (Configuration), java.management@11.0.28 (Configuration), java.naming@11.0.28 (Configuration), java.rmi@11.0.28 (Configuration)], [31mjava.management@11.0.28 (Configuration)[0m -> [java.base@11.0.28 (Configuration)], [31mjava.naming@11.0.28 (Configuration)[0m -> [java.base@11.0.28 (Configuration), java.security.sasl@11.0.28 (Configuration)], [31mjava.prefs@11.0.28 (Configuration)[0m -> [java.base@11.0.28 (Configuration), java.xml@11.0.28 (Configuration)], [31mjava.rmi@11.0.28 (Configuration)[0m -> [java.base@11.0.28 (Configuration), java.logging@11.0.28 (Configuration)], [31mjava.security.jgss@11.0.28 (Configuration)[0m -> [java.base@11.0.28 (Configuration), java.naming@11.0.28 (Configuration)], [31mjava.security.sasl@11.0.28 (Configuration)[0m -> [java.base@11.0.28 (Configuration), java.logging@11.0.28 (Configuration)], [31mjava.smartcardio@11.0.28 (Configuration)[0m -> [java.base@11.0.28 (Configuration)], [31mjava.xml.crypto@11.0.28 (Configuration)[0m -> [java.base@11.0.28 (Configuration), java.logging@11.0.28 (Configuration), java.xml@11.0.28 (Configuration)], [31mjava.xml@11.0.28 (Configuration)[0m -> [java.base@11.0.28 (Configuration)], [31mmodcommon@1.0 (Configuration)[0m -> [java.base@11.0.28 (Configuration)], [31mmodmain@1.0 (Configuration)[0m -> [java.base@11.0.28 (Configuration), modcommon@1.0 (Configuration)]
+
+Create a new 'foo layer #1' as a child of the current layer...
+Reflective call to pkgfoo.Foo in modfoo in 'foo layer #1'...
+Infos for Layer and Module:
+Layer (ModuleLayer), not boot layer
+Layer's parents: Parent is boot layer
+Layer's configuration including read dependencies:
+[31mmodfoo@1.0 (Configuration)[0m -> [java.base@11.0.28 (Configuration), modcommon@1.0 (Configuration), modversion1@1.0 (Configuration)], [31mmodversion1@1.0 (Configuration)[0m -> [java.base@11.0.28 (Configuration)]
+pkgfoo.Foo, id=DETERMINISTIC_ID_02, using automatic module version V1
+
+Create a new 'bar layer #1' as a child of the current layer...
+Reflective call to pkgbar.Bar in modbar in 'bar layer #1'...
+Infos for Layer and Module:
+Layer (ModuleLayer), not boot layer
+Layer's parents: Parent is boot layer
+Layer's configuration including read dependencies:
+[31mmodbar@1.0 (Configuration)[0m -> [java.base@11.0.28 (Configuration), modcommon@1.0 (Configuration), modversion2@1.0 (Configuration)], [31mmodversion2@1.0 (Configuration)[0m -> [java.base@11.0.28 (Configuration)]
+pkgbar.Bar, id=DETERMINISTIC_ID_03, using automatic module version V2
+
+Create a new 'bar layer #2' as a child of the current layer...
+Reflective call to pkgbar.Bar in modbar in 'bar layer #2'...
+Infos for Layer and Module:
+Layer (ModuleLayer), not boot layer
+Layer's parents: Parent is boot layer
+Layer's configuration including read dependencies:
+[31mmodbar@1.0[0m (Configuration) -> [[34mjava.base@11.0.28[0m (Configuration), [34mmodcommon@2.0[0m (Configuration), [34mmodversion2@1.0[0m (Configuration)], [31mmodcommon@2.0[0m (Configuration) -> [[34mjava.base@11.0.28[0m (Configuration)], [31mmodversion2@1.0[0m (Configuration) -> [[34mjava.base@11.0.28[0m (Configuration)]
+pkgbar.Bar, id=DETERMINISTIC_ID_01, using automatic module version V2

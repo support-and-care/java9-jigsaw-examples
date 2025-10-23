@@ -9,7 +9,7 @@ public final class LayerPrinter {
     	System.out.println("Infos for Layer and Module which contain " + o);
 
     	// print the layer's object as an ID
-    	String layerAsString = layer.getClass().getName() + "@" + Integer.toHexString(layer.hashCode());
+    	String layerAsString = layer.getClass().getName();
     	
 	    System.out.println("Layer (" + layerAsString
 	    		+ (layer.equals(ModuleLayer.boot()) ? "), boot layer" : "), not boot layer"));
@@ -24,7 +24,7 @@ public final class LayerPrinter {
 	    	}
 	    	else {
 		    	for (ModuleLayer parentLayer: parents) {
-		    		System.out.println(parentLayer.getClass().getName() + "@" + Integer.toHexString(parentLayer.hashCode()));
+		    		System.out.println(parentLayer.getClass().getName());
 		    	}
 	    	}
 	    }
