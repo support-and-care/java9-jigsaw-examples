@@ -150,77 +150,260 @@ The `example_spring-hibernate` may need updates for optimal Java 17+ compatibili
 
 [cols="2,5,2",options="header"]
 |===
-| Examples | Description | Related Examples
+| Examples | Description | Module Dependencies
 
 3+| *Examples on the declaration of modules*
-| xref:jigsaw-examples/example_naming-modules/README.adoc[example_naming-modules] | Which naming conventions exist for modules? Which names are not allowed? |
-| xref:jigsaw-examples/example_annotations/README.adoc[example_annotations] | How can one specify annotations and deprecation for modules? |
+| xref:jigsaw-examples/example_naming-modules/README.adoc[naming-modules]
+| Which naming conventions exist for modules? Which names are not allowed?
+|
+
+| xref:jigsaw-examples/example_annotations/README.adoc[annotations]
+| How can one specify annotations and deprecation for modules?
+| image:jigsaw-examples/example_annotations/moduledependencies.png[width=200,link=jigsaw-examples/example_annotations/moduledependencies-withlegend.png]
 
 3+| *Examples on basic module reads and exports attributes*
-| xref:jigsaw-examples/example_requires_exports_requires-transitive_exports-to/README.adoc[example_requires_exports_requires-transitive_exports-to] | How does requires, requires transitive and qualified exports look like? | all other examples in this section
-| xref:jigsaw-examples/example_requires-static/README.adoc[example_requires-static] | How does requires static look like? | all other examples in this section
-| xref:jigsaw-examples/example_requires_exports/README.adoc[example_requires_exports] | How does requires and exports look like? | all other examples in this section
-| xref:jigsaw-examples/example_requires_exports-to/README.adoc[example_requires_exports-to] | How does requires and qualified exports look like? | all other examples in this section
-| xref:jigsaw-examples/example_reflection/README.adoc[example_reflection] | How do reflection calls look like? | all other examples in this section
+
+| xref:jigsaw-examples/example_requires_exports_requires-transitive_exports-to/README.adoc[requires_exports_requires-transitive_exports-to]
+| How does requires, requires transitive and qualified exports look like?
+
+Relates to all other examples in this section.
+| image:jigsaw-examples/example_requires_exports_requires-transitive_exports-to/moduledependencies.png[width=200,link=jigsaw-examples/example_requires_exports_requires-transitive_exports-to/moduledependencies-withlegend.png]
+
+| xref:jigsaw-examples/example_requires-static/README.adoc[requires-static]
+| How does requires static look like?
+
+Relates to all other examples in this section.
+| image:jigsaw-examples/example_requires-static/moduledependencies.png[width=200,link=jigsaw-examples/example_requires-static/moduledependencies-withlegend.png]
+
+| xref:jigsaw-examples/example_requires_exports/README.adoc[requires_exports]
+| How does requires and exports look like?
+
+Relates to all other examples in this section.
+| image:jigsaw-examples/example_requires_exports/moduledependencies.png[width=200,link=jigsaw-examples/example_requires_exports/moduledependencies-withlegend.png]
+
+| xref:jigsaw-examples/example_requires_exports-to/README.adoc[requires_exports-to]
+| How does requires and qualified exports look like?
+
+Relates to all other examples in this section.
+| image:jigsaw-examples/example_requires_exports-to/moduledependencies.png[width=200,link=jigsaw-examples/example_requires_exports-to/moduledependencies-withlegend.png]
+
+| xref:jigsaw-examples/example_reflection/README.adoc[reflection]
+| How do reflection calls look like?
+
+Relates to all other examples in this section.
+| image:jigsaw-examples/example_reflection/moduledependencies.png[width=200,link=jigsaw-examples/example_reflection/moduledependencies-withlegend.png]
 
 3+| *Examples on dynamic binding with uses/provides*
-| xref:jigsaw-examples/example_uses-provides/README.adoc[example_uses-provides] | How does uses-provides look like? | all other examples in this section
-| xref:jigsaw-examples/example_uses-provides_uses-in-client/README.adoc[example_uses-provides_uses-in-client] | How does uses-provides look like, when uses is separated from the interface? | all other examples in this section
+| xref:jigsaw-examples/example_uses-provides/README.adoc[uses-provides]
+| How does uses-provides look like?
+
+Relates to all other examples in this section.
+| image:jigsaw-examples/example_uses-provides/moduledependencies.png[width=200,link=jigsaw-examples/example_uses-provides/moduledependencies-withlegend.png]
+
+| xref:jigsaw-examples/example_uses-provides_uses-in-client/README.adoc[uses-provides_uses-in-client]
+| How does uses-provides look like, when uses is separated from the interface?
+
+Relates to all other examples in this section.
+| image:jigsaw-examples/example_uses-provides_uses-in-client/moduledependencies.png[width=200,link=jigsaw-examples/example_uses-provides_uses-in-client/moduledependencies-withlegend.png]
 
 3+| *Examples on accessibility and (non) exported packages*
-| xref:jigsaw-examples/example_derived_private-package-protected/README.adoc[example_derived_private-package-protected] | What happens, when classes / packages in a module are exported, but their sub/super classes are not? | all other examples in this section
-| xref:jigsaw-examples/example_exceptions/README.adoc[example_exceptions] | What happens, when exceptions are thrown to classes outside the module but their package is not exported? | all other examples in this section
-| xref:jigsaw-examples/example_interface-callback/README.adoc[example_interface-callback] | What happens, when outside the module a callback implementation is called which package is not exported? | all other examples in this section
+
+| xref:jigsaw-examples/example_derived_private-package-protected/README.adoc[derived_private-package-protected]
+| What happens, when classes / packages in a module are exported, but their sub/super classes are not?
+
+Relates to all other examples in this section.
+| image:jigsaw-examples/example_derived_private-package-protected/moduledependencies.png[width=200,link=jigsaw-examples/example_derived_private-package-protected/moduledependencies-withlegend.png]
+
+| xref:jigsaw-examples/example_exceptions/README.adoc[exceptions]
+| What happens, when exceptions are thrown to classes outside the module but their package is not exported?
+
+Relates to all other examples in this section.
+| image:jigsaw-examples/example_exceptions/moduledependencies.png[width=200,link=jigsaw-examples/example_exceptions/moduledependencies-withlegend.png]
+
+| xref:jigsaw-examples/example_interface-callback/README.adoc[interface-callback]
+| What happens, when outside the module a callback implementation is called which package is not exported?
+
+Relates to all other examples in this section.
+| image:jigsaw-examples/example_interface-callback/moduledependencies.png[width=200,link=jigsaw-examples/example_interface-callback/moduledependencies-withlegend.png]
 
 3+| *Examples on specificing add options*
-| xref:jigsaw-examples/example_addExports_manifest/README.adoc[example_addExports_manifest] | How can we use --add-exports in a manifest file for the Java launcher? | all other examples in this section
-| xref:jigsaw-examples/example_addReads_addExports/README.adoc[example_addReads_addExports] | How can we use --add-reads and --add-exports for Javac compiler and Java launcher | all other examples in this section
-| xref:jigsaw-examples/example_addReads_addExports_reflection/README.adoc[example_addReads_addExports_reflection] | How can we use --add-reads and --add-exports for reflection calls? | all other examples in this section
+
+| xref:jigsaw-examples/example_addExports_manifest/README.adoc[addExports_manifest]
+| How can we use --add-exports in a manifest file for the Java launcher?
+
+Relates to all other examples in this section.
+| image:jigsaw-examples/example_addExports_manifest/moduledependencies.png[width=200,link=jigsaw-examples/example_addExports_manifest/moduledependencies-withlegend.png]
+
+| xref:jigsaw-examples/example_addReads_addExports/README.adoc[addReads_addExports]
+| How can we use --add-reads and --add-exports for Javac compiler and Java launcher
+
+Relates to all other examples in this section.
+| image:jigsaw-examples/example_addReads_addExports/moduledependencies.png[width=200,link=jigsaw-examples/example_addReads_addExports/moduledependencies-withlegend.png]
+
+| xref:jigsaw-examples/example_addReads_addExports_reflection/README.adoc[addReads_addExports_reflection]
+| How can we use --add-reads and --add-exports for reflection calls?
+
+Relates to all other examples in this section.
+| image:jigsaw-examples/example_addReads_addExports_reflection/moduledependencies.png[width=200,link=jigsaw-examples/example_addReads_addExports_reflection/moduledependencies-withlegend.png]
 
 3+| *Examples on automatic modules*
-| xref:jigsaw-examples/example_automatic-module-logging/README.adoc[example_automatic-module-logging] | How to automatic modules (for logging) look like? | xref:jigsaw-examples/example_splitpackage_automatic-modules/README.adoc[example_splitpackage_automatic-modules]
+
+| xref:jigsaw-examples/example_automatic-module-logging/README.adoc[automatic-module-logging]
+| How to automatic modules (for logging) look like?
+
+Related example: xref:jigsaw-examples/example_splitpackage_automatic-modules/README.adoc[splitpackage_automatic-modules]
+| image:jigsaw-examples/example_automatic-module-logging/moduledependencies.png[width=200,link=jigsaw-examples/example_automatic-module-logging/moduledependencies-withlegend.png]
 
 3+| *Examples on restricting the access to resources in other modules*
-| xref:jigsaw-examples/example_resources/README.adoc[example_resources] | Which resources in modules are accessible, which are not? |
+
+| xref:jigsaw-examples/example_resources/README.adoc[resources]
+| Which resources in modules are accessible, which are not?
+| image:jigsaw-examples/example_resources/moduledependencies.png[width=200,link=jigsaw-examples/example_resources/moduledependencies-withlegend.png]
 
 3+| *Examples on the split package problem*
-| xref:jigsaw-examples/example_splitpackage/README.adoc[example_splitpackage] | What happens when one has a split package problem at compile / at runtime? | all other examples in this section
-| xref:jigsaw-examples/example_splitpackage_automatic-modules/README.adoc[example_splitpackage_automatic-modules] | What happens when one Automatic Module automatically reads all other Automatic Modules on the module path and hence creates an unwanted split package problem? | xref:jigsaw-examples/example_automatic-module-logging/README.adoc[example_automatic-module-logging], all other examples in this section
+
+| xref:jigsaw-examples/example_splitpackage/README.adoc[splitpackage]
+| What happens when one has a split package problem at compile / at runtime?
+
+Relates to all other examples in this section.
+| image:jigsaw-examples/example_splitpackage/moduledependencies.png[width=200,link=jigsaw-examples/example_splitpackage/moduledependencies-withlegend.png]
+
+| xref:jigsaw-examples/example_splitpackage_automatic-modules/README.adoc[splitpackage_automatic-modules]
+| What happens when one Automatic Module automatically reads all other Automatic Modules on the module path and hence creates an unwanted split package problem?
+
+Related examples: xref:jigsaw-examples/example_automatic-module-logging/README.adoc[automatic-module-logging] and all other examples in this section.
+| image:jigsaw-examples/example_splitpackage_automatic-modules/moduledependencies.png[width=200,link=jigsaw-examples/example_splitpackage_automatic-modules/moduledependencies-withlegend.png]
 
 3+| *Examples on resolution of modules, layers and visibility of modules between layers*
-| xref:jigsaw-examples/example_jerrymouse/README.adoc[example_jerrymouse] | How can an "app server" JerryMouse (sic!) load and start modules, as a kind of module starter/container? | all other examples in this section
-| xref:jigsaw-examples/example_resolved-modules/README.adoc[example_resolved-modules] | Which modules are resolved? Usage of jlink | all other examples in this section
-| xref:jigsaw-examples/example_layer-hierarchy/README.adoc[example_layer-hierarchy] | How can one create a hiearchy of layers automatically and add modules (d naming conventions)? | all other examples in this section
-| xref:jigsaw-examples/example_layer-modules-all-in-boot-layer/README.adoc[example_layer-modules-all-in-boot-layer] | How does the boot layer look like containing a bunch of modules? | all other examples in this section
-| xref:jigsaw-examples/example_layer-modules-grouped-in-hierarchy/README.adoc[example_layer-modules-grouped-in-hierarchy] | How does a small hiearchy of layers look like when one explicitely distributes a bunch of modules to these layers? | all other examples in this section
-| xref:jigsaw-examples/example_layer-modules-module-resolution/README.adoc[example_layer-modules-module-resolution] | How are different versions of a module resolved depending on the setup of the layer? | all other examples in this section
+
+| xref:jigsaw-examples/example_jerrymouse/README.adoc[jerrymouse]
+| How can an "app server" JerryMouse (sic!) load and start modules, as a kind of module starter/container?
+
+Relates to all other examples in this section.
+|
+
+| xref:jigsaw-examples/example_resolved-modules/README.adoc[resolved-modules]
+| Which modules are resolved? Usage of jlink
+
+Relates to all other examples in this section.
+| image:jigsaw-examples/example_resolved-modules/moduledependencies.png[width=200,link=jigsaw-examples/example_resolved-modules/moduledependencies-withlegend.png]
+
+| xref:jigsaw-examples/example_layer-hierarchy/README.adoc[layer-hierarchy]
+| How can one create a hiearchy of layers automatically and add modules (d naming conventions)?
+
+Relates to all other examples in this section.
+|
+
+| xref:jigsaw-examples/example_layer-modules-all-in-boot-layer/README.adoc[layer-modules-all-in-boot-layer]
+| How does the boot layer look like containing a bunch of modules?
+
+Relates to all other examples in this section.
+| image:jigsaw-examples/example_layer-modules-all-in-boot-layer/moduledependencies.png[width=200,link=jigsaw-examples/example_layer-modules-all-in-boot-layer/moduledependencies-withlegend.png]
+
+| xref:jigsaw-examples/example_layer-modules-grouped-in-hierarchy/README.adoc[layer-modules-grouped-in-hierarchy]
+| How does a small hiearchy of layers look like when one explicitely distributes a bunch of modules to these layers?
+
+Relates to all other examples in this section.
+| image:jigsaw-examples/example_layer-modules-grouped-in-hierarchy/moduledependencies.png[width=200,link=jigsaw-examples/example_layer-modules-grouped-in-hierarchy/moduledependencies.png]
+
+| xref:jigsaw-examples/example_layer-modules-module-resolution/README.adoc[layer-modules-module-resolution]
+| How are different versions of a module resolved depending on the setup of the layer?
+
+Relates to all other examples in this section.
+|
 
 3+| *Examples on testing*
-| xref:jigsaw-examples/example_test/README.adoc[example_test] | How can one achieve blackbox and whitebox testing? | all other examples in this section
-| xref:jigsaw-examples/example_maven-test-blackbox/README.adoc[example_maven-test-blackbox] | How can one achieve blackbox testing with Maven? | all other examples in this section
-| xref:jigsaw-examples/example_maven-test-whitebox/README.adoc[example_maven-test-whitebox] | How can one achieve whitebox testing with Maven? | all other examples in this section
-| xref:jigsaw-examples/example_patch/README.adoc[example_patch] | How can we patch a module at compile / runtime? | all other examples in this section
+
+| xref:jigsaw-examples/example_test/README.adoc[test]
+| How can one achieve blackbox and whitebox testing?
+
+Relates to all other examples in this section.
+| image:jigsaw-examples/example_test/moduledependencies.png[width=200,link=jigsaw-examples/example_test/moduledependencies-withlegend.png]
+
+| xref:jigsaw-examples/example_maven-test-blackbox/README.adoc[maven-test-blackbox]
+| How can one achieve blackbox testing with Maven?
+
+Relates to all other examples in this section.
+|
+
+| xref:jigsaw-examples/example_maven-test-whitebox/README.adoc[maven-test-whitebox]
+| How can one achieve whitebox testing with Maven?
+
+Relates to all other examples in this section.
+|
+
+| xref:jigsaw-examples/example_patch/README.adoc[patch]
+| How can we patch a module at compile / runtime?
+
+Relates to all other examples in this section.
+| image:jigsaw-examples/example_patch/moduledependencies.png[width=200,link=jigsaw-examples/example_patch/moduledependencies-withlegend.png]
 
 3+| *Examples on Main classes*
-| xref:jigsaw-examples/example_hiddenmain/README.adoc[example_hiddenmain] | Is it possible that one can call a Main class which is in a non-exported package? |
+
+| xref:jigsaw-examples/example_hiddenmain/README.adoc[hiddenmain]
+| Is it possible that one can call a Main class which is in a non-exported package?
+| image:jigsaw-examples/example_hiddenmain/moduledependencies.png[width=200,link=jigsaw-examples/example_hiddenmain/moduledependencies-withlegend.png]
 
 3+| *Examples on access from and to the classpath (i.e. the unnamed module)*
-| xref:jigsaw-examples/example_unnamed-module_access-from-automatic-module/README.adoc[example_unnamed-module_access-from-automatic-module] | Can a Automatic Module access the classpath (i.e. the unnamed module)? | all other examples in this section
-| xref:jigsaw-examples/example_unnamed-module_access-from-explicit-module/README.adoc[example_unnamed-module_access-from-explicit-module] | Can a Explicit Module access the classpath (i.e. the unnamed module)? | all other examples in this section
-| xref:jigsaw-examples/example_unnamed-module_access-from-explicit-module-reflection/README.adoc[example_unnamed-module_access-from-explicit-module-reflection] | Can a Explicit Module access the classpath (i.e. the unnamed module) via reflection? | all other examples in this section
-| xref:jigsaw-examples/example_unnamed-module-reflection-illegal-access/README.adoc[example_unnamed-module-reflection-illegal-access] | Can the classpath (i.e. the unnamed module) access concealed packages in the JDK and what happens when the JDK "kill switch" is activated? | all other examples in this section
-| xref:jigsaw-examples/example_unnamed-module_accessing-module-path/README.adoc[example_unnamed-module_accessing-module-path] | Can the classpath (i.e. the unnamed module) access modules on the module path? | all other examples in this section
+| xref:jigsaw-examples/example_unnamed-module_access-from-automatic-module/README.adoc[unnamed-module_access-from-automatic-module]
+| Can a Automatic Module access the classpath (i.e. the unnamed module)?
+
+Relates to all other examples in this section.
+|
+
+| xref:jigsaw-examples/example_unnamed-module_access-from-explicit-module/README.adoc[unnamed-module_access-from-explicit-module]
+| Can a Explicit Module access the classpath (i.e. the unnamed module)?
+
+Relates to all other examples in this section.
+| image:jigsaw-examples/example_unnamed-module_access-from-explicit-module/moduledependencies.png[width=200,link=jigsaw-examples/example_unnamed-module_access-from-explicit-module/moduledependencies-withlegend.png]
+
+| xref:jigsaw-examples/example_unnamed-module_access-from-explicit-module-reflection/README.adoc[unnamed-module_access-from-explicit-module-reflection]
+| Can a Explicit Module access the classpath (i.e. the unnamed module) via reflection?
+
+Relates to all other examples in this section.
+| image:jigsaw-examples/example_unnamed-module_access-from-explicit-module-reflection/moduledependencies.png[width=200,link=jigsaw-examples/example_unnamed-module_access-from-explicit-module-reflection/moduledependencies-withlegend.png]
+
+| xref:jigsaw-examples/example_unnamed-module-reflection-illegal-access/README.adoc[unnamed-module-reflection-illegal-access]
+| Can the classpath (i.e. the unnamed module) access concealed packages in the JDK and what happens when the JDK "kill switch" is activated?
+
+Relates to all other examples in this section.
+| image:jigsaw-examples/example_unnamed-module-reflection-illegal-access/moduledependencies.png[width=200,link=jigsaw-examples/example_unnamed-module-reflection-illegal-access/moduledependencies-withlegend.png]
+
+| xref:jigsaw-examples/example_unnamed-module_accessing-module-path/README.adoc[unnamed-module_accessing-module-path]
+| Can the classpath (i.e. the unnamed module) access modules on the module path?
+
+Relates to all other examples in this section.
+| image:jigsaw-examples/example_unnamed-module_accessing-module-path/moduledependencies.png[width=200,link=jigsaw-examples/example_unnamed-module_accessing-module-path/moduledependencies-withlegend.png]
 
 3+| *Examples on build systems*
-| xref:jigsaw-examples/example_gradle-project/README.adoc[example_gradle-project] | How can one use Gradle 9.1.0 for building a modularized project? Includes Gradle Wrapper. Requires JDK 17+. | all other examples in this section
-| xref:jigsaw-examples/example_maven-project/README.adoc[example_maven-project] | How can one use Maven 3.9.11 for building a modularized project? Includes Maven Wrapper. | all other examples in this section
+
+| xref:jigsaw-examples/example_gradle-project/README.adoc[gradle-project]
+| How can one use Gradle 9.1.0 for building a modularized project? Includes Gradle Wrapper. Requires JDK 17+.
+
+Relates to all other examples in this section.
+| image:jigsaw-examples/example_gradle-project/moduledependencies.png[width=200,link=jigsaw-examples/example_gradle-project/moduledependencies-withlegend.png]
+
+| xref:jigsaw-examples/example_maven-project/README.adoc[maven-project]
+| How can one use Maven 3.9.11 for building a modularized project? Includes Maven Wrapper.
+
+Relates to all other examples in this section.
+|
 
 3+| *Examples on porting applications from Java8 to Java9*
-| xref:jigsaw-examples/example_spring-hibernate/README.adoc[example_spring-hibernate] | How does the migration of a Spring Boot application with a bunch of Maven plugins look like and where do we have to tweak / change in comparison to Java 8? |
-| xref:jigsaw-examples/example_compile-target-jdk8/README.adoc[example_compile-target-jdk8] | What happens when one compiles with a modern JDK while targeting Java release 8 for backwards compatibility? |
+
+| xref:jigsaw-examples/example_spring-hibernate/README.adoc[spring-hibernate]
+| How does the migration of a Spring Boot application with a bunch of Maven plugins look like and where do we have to tweak / change in comparison to Java 8?
+|
+
+| xref:jigsaw-examples/example_compile-target-jdk8/README.adoc[compile-target-jdk8]
+| What happens when one compiles with a modern JDK while targeting Java release 8 for backwards compatibility? |
 
 3+| *Examples on non-Jigsaw topics*
-| xref:jigsaw-examples/example_version/README.adoc[example_version] | How does the new Java 9 version string (cf JEP 223) look like? |
+
+| xref:jigsaw-examples/example_version/README.adoc[version]
+| How does the new Java 9 version string (cf JEP 223) look like?
+|
+
 |===
 
 == Overview on Tools and Libs
