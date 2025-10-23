@@ -44,4 +44,3 @@ An explicit `--add-opens` is hence needed.
 *Note that the kill switch **only works for classes which had been available before Java9**, i.e. were part of Java8. See also explanation https://docs.oracle.com/javase/9/tools/java.htm#JSWOR624[here].*
 
 See all 20 different variants of how to use the `--illegal-access=...` command line option or the `--add-opens` option in the run script `run.sh`.
-Note that these 20 variants have not been copied redundantly to Eclipse launch files.
