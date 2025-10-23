@@ -1,0 +1,3 @@
+from pkgboncp.BFromClasspath (in cpb)
+from pkgb.B (in modb)
+from pkgb.BFromModule (in modb)

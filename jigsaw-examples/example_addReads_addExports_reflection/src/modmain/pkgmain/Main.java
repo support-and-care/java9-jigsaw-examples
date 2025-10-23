@@ -18,6 +18,11 @@ import pkgb.BExportHelper;
  * The Eclipse launch files takes the compiled code from there and can be run in Eclipse.
  */
 public class Main {
+    @Override
+    public String toString() {
+        return getClass().getName();
+    }
+
     public static void main(String[] args) throws Exception {
         Main mymain = new Main();
         Module modmain = Main.class.getModule();

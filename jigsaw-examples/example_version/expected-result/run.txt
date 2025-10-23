@@ -1,0 +1,7 @@
+Runtime.version() says, we are using Java version 11.0.27, build version 6
+System properties say, we are using Java version as follows:
+  java.version = 11.0.27
+  java.runtime.version = 11.0.27+6
+  java.vm.version = 11.0.27+6
+  java.specification.version = 11
+  java.vm.specification.version = 11
