@@ -69,3 +69,18 @@ myecho() {
     grep -E --color=always "Error|error|Exception|exception|Warn|warn|$"
 }
 
+# normalize output for cross-platform compatibility
+# - strips carriage returns (Windows line endings)
+# - converts backslashes to forward slashes (Windows paths)
+# - removes Windows-specific modules from module lists
+normalize() {
+    tr -d '\r' |
+  tr '\\' '/' |
+  sed -e '/[[:space:]]*module jdk\.accessibility[[:space:]]*/d' \
+    -e '/[[:space:]]*module jdk\.crypto\.mscapi[[:space:]]*/d' \
+    -e 's/jdk\.accessibility, //g' \
+    -e 's/, jdk\.accessibility//g' \
+    -e 's/jdk\.crypto\.mscapi, //g' \
+    -e 's/, jdk\.crypto\.mscapi//g'
+}
+

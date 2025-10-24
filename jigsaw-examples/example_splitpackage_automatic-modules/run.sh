@@ -17,4 +17,4 @@ echo
 #   we do not see an error, all is fine
 "${JAVA_HOME}/bin/java" ${JAVA_OPTIONS} \
     --module-path mlib${PATH_SEPARATOR}amlib1 \
-    --module modmain/pkgmain.Main .  2>&1 | tr -d '\r' | tee run-result/run.txt | myecho
+    --module modmain/pkgmain.Main .  2>&1 | normalize | tee run-result/run.txt | myecho

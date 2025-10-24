@@ -20,7 +20,7 @@ echo "Running Java module and capturing output..."
 "${JAVA_HOME}/bin/java" ${JAVA_OPTIONS} --module-path mlib \
      --add-modules modb \
      --add-exports modb/pkgb=modmain \
-     --module modmain/pkgmain.Main 2>&1 | tr -d '\r' > expected-result/run.txt
+     --module modmain/pkgmain.Main 2>&1 | normalize > expected-result/run.txt
 
 echo "✅ Expected result saved to expected-result/run.txt"
 echo
