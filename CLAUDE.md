@@ -419,7 +419,6 @@ The examples can be classified along multiple dimensions to help you quickly fin
 - `example_spring-hibernate` - Migrating Spring Boot application
 - `example_compile-target-jdk8` - Multi-version compilation strategies
 - `example_version` - Java 9+ version string handling (JEP 223)
-- `example_agent` - Java agents in modular environment
 
 ## Repository Structure
 
