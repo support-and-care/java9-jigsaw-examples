@@ -10,3 +10,5 @@ mkdir -p mods
 mkdir -p patches
 mkdir -p mlib
 mkdir -p patchlib
+
+rm -rf run-result

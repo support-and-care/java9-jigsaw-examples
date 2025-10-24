@@ -11,4 +11,9 @@ public class A1 {
     public C getMyC() {
         return new C();
     }
+
+    @Override
+    public String toString() {
+        return getClass().getName();
+    }
 }
