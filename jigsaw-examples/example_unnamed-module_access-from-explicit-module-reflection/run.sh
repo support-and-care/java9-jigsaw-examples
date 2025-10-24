@@ -14,4 +14,4 @@ echo
       --module-path mlib \
       --class-path cplib/cpb.jar \
       --module modmain/pkgmain.Main \
-      2>&1 | tr -d '\r' | tee run-result/run.txt | myecho
+      2>&1 | normalize | tee run-result/run.txt | myecho

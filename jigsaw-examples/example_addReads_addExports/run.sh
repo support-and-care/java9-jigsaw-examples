@@ -18,4 +18,4 @@ mkdir -p run-result
      --add-reads   modb=modc            \
      --add-exports modb/pkgb=modmain    \
      --add-exports modc/pkgc=modb       \
-     --module modmain/pkgmain.Main 2>&1 | tr -d '\r' | tee run-result/run.txt | myecho
+     --module modmain/pkgmain.Main 2>&1 | normalize | tee run-result/run.txt | myecho
