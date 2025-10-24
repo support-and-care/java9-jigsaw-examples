@@ -1,4 +1,4 @@
-Infos for Layer and Module which contain pkgmain.Main, id=DETERMINISTIC_ID_01
+Infos for Layer and Module which contain pkgmain.Main, id=ID_Main_24
 Layer (java.lang.ModuleLayer), boot layer
 Layer's parents: none, as this is the boot layer
 Layer's list of modules:
@@ -8,33 +8,33 @@ java.base, java.compiler, java.datatransfer, java.desktop, java.logging, java.ma
 
 Create a new 'foo layer #1' as a child of the current layer...
 Reflective call to pkgfoo.Foo in modfoo in 'foo layer #1'...
-Infos for Layer and Module which contain pkgfoo.Foo, id=DETERMINISTIC_ID_02, using automatic module version V1
+Infos for Layer and Module which contain pkgfoo.Foo, id=ID_Foo_11, using automatic module version V1
 Layer (java.lang.ModuleLayer), not boot layer
 Layer's parents: Parent is boot layer
 Layer's list of modules:
 modauto1, modfoo
 Layer's configuration with its list of resolved modules:
 modauto1, modfoo
-pkgfoo.Foo, id=DETERMINISTIC_ID_02, using automatic module version V1
+pkgfoo.Foo, id=ID_Foo_11, using automatic module version V1
 
 Create a new 'bar layer #1' as a child of the current layer...
 Reflective call to pkgbar.Bar in modbar in 'bar layer #1'...
-Infos for Layer and Module which contain pkgbar.Bar, id=DETERMINISTIC_ID_03, using automatic module version V2
+Infos for Layer and Module which contain pkgbar.Bar, id=ID_Bar_11, using automatic module version V2
 Layer (java.lang.ModuleLayer), not boot layer
 Layer's parents: Parent is boot layer
 Layer's list of modules:
 modauto2, modbar
 Layer's configuration with its list of resolved modules:
 modauto2, modbar
-pkgbar.Bar, id=DETERMINISTIC_ID_03, using automatic module version V2
+pkgbar.Bar, id=ID_Bar_11, using automatic module version V2
 
 Create a new 'bar layer #2' as a child of the current layer...
 Reflective call to pkgbar.Bar in modbar in 'bar layer #2'...
-Infos for Layer and Module which contain pkgbar.Bar, id=DETERMINISTIC_ID_04, using automatic module version V2
+Infos for Layer and Module which contain pkgbar.Bar, id=ID_Bar_11, using automatic module version V2
 Layer (java.lang.ModuleLayer), not boot layer
 Layer's parents: Parent is boot layer
 Layer's list of modules:
 modauto2, modbar
 Layer's configuration with its list of resolved modules:
 modauto2, modbar
-pkgbar.Bar, id=DETERMINISTIC_ID_04, using automatic module version V2
+pkgbar.Bar, id=ID_Bar_11, using automatic module version V2

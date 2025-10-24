@@ -1,14 +1,29 @@
 package pkgcommon;
 
-import java.util.UUID;
+import java.lang.StackWalker.StackFrame;
+import java.util.Optional;
 
 public class IdGen {
-	private static int counter = 0;
-
 	public static String createID() {
-		// Use deterministic ID for reproducible test results
-		// Format: "DETERMINISTIC_ID_" + counter
-		counter++;
-		return String.format("DETERMINISTIC_ID_%02d", counter);
+		// Use call site (filename:line) for deterministic ID generation
+		// This ensures the ID is based on where createID() is called from
+		Optional<StackFrame> caller = StackWalker.getInstance()
+			.walk(frames -> frames
+				.skip(1) // Skip the createID() method itself
+				.findFirst()
+			);
+
+		if (caller.isPresent()) {
+			StackFrame frame = caller.get();
+			String fileName = frame.getFileName();
+			int lineNumber = frame.getLineNumber();
+			// Format: "ID_FileName_Line"
+			return String.format("ID_%s_%d",
+				fileName.replace(".java", ""),
+				lineNumber);
+		}
+
+		// Fallback (should never happen)
+		return "ID_UNKNOWN";
 	}
 }

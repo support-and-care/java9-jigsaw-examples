@@ -11,7 +11,7 @@ Layer (ModuleLayer), not boot layer
 Layer's parents: Parent is boot layer
 Layer's configuration including read dependencies:
 [31mmodfoo@1.0 (Configuration)[0m -> [java.base@11.0.28 (Configuration), modcommon@1.0 (Configuration), modversion1@1.0 (Configuration)], [31mmodversion1@1.0 (Configuration)[0m -> [java.base@11.0.28 (Configuration)]
-pkgfoo.Foo, id=DETERMINISTIC_ID_02, using automatic module version V1
+pkgfoo.Foo, id=ID_Foo_11, using automatic module version V1
 
 Create a new 'bar layer #1' as a child of the current layer...
 Reflective call to pkgbar.Bar in modbar in 'bar layer #1'...
@@ -20,7 +20,7 @@ Layer (ModuleLayer), not boot layer
 Layer's parents: Parent is boot layer
 Layer's configuration including read dependencies:
 [31mmodbar@1.0 (Configuration)[0m -> [java.base@11.0.28 (Configuration), modcommon@1.0 (Configuration), modversion2@1.0 (Configuration)], [31mmodversion2@1.0 (Configuration)[0m -> [java.base@11.0.28 (Configuration)]
-pkgbar.Bar, id=DETERMINISTIC_ID_03, using automatic module version V2
+pkgbar.Bar, id=ID_Bar_11, using automatic module version V2
 
 Create a new 'bar layer #2' as a child of the current layer...
 Reflective call to pkgbar.Bar in modbar in 'bar layer #2'...
@@ -29,4 +29,4 @@ Layer (ModuleLayer), not boot layer
 Layer's parents: Parent is boot layer
 Layer's configuration including read dependencies:
 [31mmodbar@1.0[0m (Configuration) -> [[34mjava.base@11.0.28[0m (Configuration), [34mmodcommon@2.0[0m (Configuration), [34mmodversion2@1.0[0m (Configuration)], [31mmodcommon@2.0[0m (Configuration) -> [[34mjava.base@11.0.28[0m (Configuration)], [31mmodversion2@1.0[0m (Configuration) -> [[34mjava.base@11.0.28[0m (Configuration)]
-pkgbar.Bar, id=DETERMINISTIC_ID_01, using automatic module version V2
+pkgbar.Bar, id=ID_Bar_11, using automatic module version V2
