@@ -17,7 +17,7 @@ mkdir -p expected-result
 
 # Run the Java code and capture output
 echo "Running Java module and capturing output..."
-"${JAVA_HOME}/bin/java" ${JAVA_OPTIONS} --module-path mlib --module modmain/pkgmain.Main 2>&1 | tr -d '\r' > expected-result/run.txt
+"${JAVA_HOME}/bin/java" ${JAVA_OPTIONS} --module-path mlib --module modmain/pkgmain.Main 2>&1 | normalize > expected-result/run.txt
 
 echo "✅ Expected result saved to expected-result/run.txt"
 echo

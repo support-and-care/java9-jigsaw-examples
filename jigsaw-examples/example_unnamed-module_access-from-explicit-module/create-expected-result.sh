@@ -21,7 +21,7 @@ echo "Running Java module and capturing output..."
       --module-path mlib \
       --class-path cplib/cpb.jar \
       --module modmain/pkgmain.Main \
-      2>&1 | tr -d '\r' > expected-result/run.txt
+      2>&1 | normalize > expected-result/run.txt
 
 echo "✅ Expected result saved to expected-result/run.txt"
 echo

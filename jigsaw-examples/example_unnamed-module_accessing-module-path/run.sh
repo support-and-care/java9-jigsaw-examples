@@ -13,4 +13,4 @@ mkdir -p run-result
         --module-path mlib \
         --class-path cplib/cpmain.jar${PATH_SEPARATOR}cplib/cpb.jar \
         --add-modules modb pkgcpmain.Main \
-        2>&1 | tr -d '\r' | tee run-result/run.txt | myecho
+        2>&1 | normalize | tee run-result/run.txt | myecho

@@ -15,4 +15,4 @@ mkdir -p run-result
 "${JAVA_HOME}/bin/java" ${JAVA_OPTIONS} --module-path mlib \
      --add-modules modb \
      --add-exports modb/pkgb=modmain \
-     --module modmain/pkgmain.Main 2>&1 | tr -d '\r' | tee run-result/run.txt | myecho
+     --module modmain/pkgmain.Main 2>&1 | normalize | tee run-result/run.txt | myecho

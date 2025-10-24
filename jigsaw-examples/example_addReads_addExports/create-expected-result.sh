@@ -23,7 +23,7 @@ echo "Running Java module and capturing output..."
      --add-reads   modb=modc            \
      --add-exports modb/pkgb=modmain    \
      --add-exports modc/pkgc=modb       \
-     --module modmain/pkgmain.Main 2>&1 | tr -d '\r' > expected-result/run.txt
+     --module modmain/pkgmain.Main 2>&1 | normalize > expected-result/run.txt
 
 echo "✅ Expected result saved to expected-result/run.txt"
 echo
