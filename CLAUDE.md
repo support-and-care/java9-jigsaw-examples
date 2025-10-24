@@ -6,6 +6,42 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 This is a comprehensive example suite demonstrating Java 9+ Jigsaw module system (Project Jigsaw/JSR 376/JEP 261). The repository contains 40+ independent examples, each illustrating specific aspects of the Java Platform Module System (JPMS).
 
+## Java Version Management
+
+**IMPORTANT: Java version is managed via `.envrc`**
+
+The correct Java version and environment for this project is configured in `.envrc` (located at the repository root, one level up from `jigsaw-examples/`).
+
+**When running Java commands or scripts:**
+
+Always source `.envrc` in a subshell before executing Java commands or example scripts:
+
+```bash
+(source ../../.envrc && java -version)
+```
+
+**Example for running a Java module:**
+```bash
+(source ../../.envrc && java --module-path mlib --module modmain/pkgmain.Main)
+```
+
+**Example for running example scripts:**
+```bash
+(source ../../.envrc && ./all.sh)
+```
+
+**From the jigsaw-examples directory:**
+```bash
+(source ../.envrc && ./allclean.sh)
+```
+
+**Why this approach:**
+- The `.envrc` file configures the correct Java version and all necessary environment variables
+- Sourcing in a subshell ensures proper isolation without affecting the global environment
+- All existing example scripts already source `../env.sh` internally, which works when `.envrc` is sourced first
+
+**Note:** You may see a harmless warning (`command not found: source_up`) which can be ignored - it's a direnv function not available in plain bash.
+
 ## Git Commit Message Conventions
 
 **All commits in this repository must include a project reference:**
