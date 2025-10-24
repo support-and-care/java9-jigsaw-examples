@@ -2,10 +2,14 @@
 
 set -eu -o pipefail
 
-./run-blackboxtest.sh
+source ../env.sh
 
-echo " "
-./run-whiteboxtest.sh
+mkdir -p run-result
 
-echo " "
-./run-whiteboxtest_with-optionsfile.sh
+./run-blackboxtest.sh 2>&1 | normalize | sed 's/\x1b\[[0-9;]*[mKGH]//g' | grep -v "^Time: " | tee run-result/run.txt
+
+echo " " | tee -a run-result/run.txt
+./run-whiteboxtest.sh 2>&1 | normalize | sed 's/\x1b\[[0-9;]*[mKGH]//g' | grep -v "^Time: " | tee -a run-result/run.txt
+
+echo " " | tee -a run-result/run.txt
+./run-whiteboxtest_with-optionsfile.sh 2>&1 | normalize | sed 's/\x1b\[[0-9;]*[mKGH]//g' | grep -v "^Time: " | tee -a run-result/run.txt

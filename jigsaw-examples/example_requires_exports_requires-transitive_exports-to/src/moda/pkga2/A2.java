@@ -6,4 +6,9 @@ public class A2 {
     public String doIt() {
         return "from A2 (plus: " + new InternalA().doIt() + ")";
     }
+
+    @Override
+    public String toString() {
+        return getClass().getName();
+    }
 }

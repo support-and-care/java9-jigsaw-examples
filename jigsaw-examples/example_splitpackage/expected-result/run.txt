@@ -1,0 +1,5 @@
+Error: Does not run, as it does not even compile!
+
+Main: pkgmainbar.Main
+Error occurred during initialization of boot layer
+java.lang.LayerInstantiationException: Package pkgbar in two different modules
