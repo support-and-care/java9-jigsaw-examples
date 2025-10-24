@@ -1,4 +1,4 @@
-Infos for Layer and Module which contain pkgmain.Main, id=DETERMINISTIC_ID_01
+Infos for Layer and Module which contain pkgmain.Main, id=ID_Main_18
 Layer (java.lang.ModuleLayer), boot layer
 Layer's parents: none, as this is the boot layer
 Layer's list of modules:
@@ -7,21 +7,21 @@ Layer's configuration with its list of resolved modules:
 java.base, java.compiler, java.datatransfer, java.desktop, java.logging, java.management, java.management.rmi, java.naming, java.prefs, java.rmi, java.security.jgss, java.security.sasl, java.smartcardio, java.xml, java.xml.crypto, jdk.charsets, jdk.compiler, jdk.crypto.cryptoki, jdk.crypto.ec, jdk.internal.opt, jdk.jartool, jdk.javadoc, jdk.jdeps, jdk.jfr, jdk.jlink, jdk.localedata, jdk.management, jdk.management.jfr, jdk.naming.dns, jdk.naming.rmi, jdk.security.auth, jdk.security.jgss, jdk.unsupported.desktop, jdk.zipfs, modauto1, modbar, modcommon, modfoo, modmain
 
 Reflective call to pkgfoo.Foo in modfoo in current boot layer...
-Infos for Layer and Module which contain pkgfoo.Foo, id=DETERMINISTIC_ID_02, using automatic module version V1
+Infos for Layer and Module which contain pkgfoo.Foo, id=ID_Foo_11, using automatic module version V1
 Layer (java.lang.ModuleLayer), boot layer
 Layer's parents: none, as this is the boot layer
 Layer's list of modules:
 java.base, java.compiler, java.datatransfer, java.desktop, java.logging, java.management, java.management.rmi, java.naming, java.prefs, java.rmi, java.security.jgss, java.security.sasl, java.smartcardio, java.xml, java.xml.crypto, jdk.charsets, jdk.compiler, jdk.crypto.cryptoki, jdk.crypto.ec, jdk.internal.opt, jdk.jartool, jdk.javadoc, jdk.jdeps, jdk.jfr, jdk.jlink, jdk.localedata, jdk.management, jdk.management.jfr, jdk.naming.dns, jdk.naming.rmi, jdk.security.auth, jdk.security.jgss, jdk.unsupported.desktop, jdk.zipfs, modauto1, modbar, modcommon, modfoo, modmain
 Layer's configuration with its list of resolved modules:
 java.base, java.compiler, java.datatransfer, java.desktop, java.logging, java.management, java.management.rmi, java.naming, java.prefs, java.rmi, java.security.jgss, java.security.sasl, java.smartcardio, java.xml, java.xml.crypto, jdk.charsets, jdk.compiler, jdk.crypto.cryptoki, jdk.crypto.ec, jdk.internal.opt, jdk.jartool, jdk.javadoc, jdk.jdeps, jdk.jfr, jdk.jlink, jdk.localedata, jdk.management, jdk.management.jfr, jdk.naming.dns, jdk.naming.rmi, jdk.security.auth, jdk.security.jgss, jdk.unsupported.desktop, jdk.zipfs, modauto1, modbar, modcommon, modfoo, modmain
-pkgfoo.Foo, id=DETERMINISTIC_ID_02, using automatic module version V1
+pkgfoo.Foo, id=ID_Foo_11, using automatic module version V1
 
 Reflective call to pkgbar.Bar in modbar in current boot layer...
-Infos for Layer and Module which contain pkgbar.Bar, id=DETERMINISTIC_ID_03, using automatic module version V1
+Infos for Layer and Module which contain pkgbar.Bar, id=ID_Bar_11, using automatic module version V1
 Layer (java.lang.ModuleLayer), boot layer
 Layer's parents: none, as this is the boot layer
 Layer's list of modules:
 java.base, java.compiler, java.datatransfer, java.desktop, java.logging, java.management, java.management.rmi, java.naming, java.prefs, java.rmi, java.security.jgss, java.security.sasl, java.smartcardio, java.xml, java.xml.crypto, jdk.charsets, jdk.compiler, jdk.crypto.cryptoki, jdk.crypto.ec, jdk.internal.opt, jdk.jartool, jdk.javadoc, jdk.jdeps, jdk.jfr, jdk.jlink, jdk.localedata, jdk.management, jdk.management.jfr, jdk.naming.dns, jdk.naming.rmi, jdk.security.auth, jdk.security.jgss, jdk.unsupported.desktop, jdk.zipfs, modauto1, modbar, modcommon, modfoo, modmain
 Layer's configuration with its list of resolved modules:
 java.base, java.compiler, java.datatransfer, java.desktop, java.logging, java.management, java.management.rmi, java.naming, java.prefs, java.rmi, java.security.jgss, java.security.sasl, java.smartcardio, java.xml, java.xml.crypto, jdk.charsets, jdk.compiler, jdk.crypto.cryptoki, jdk.crypto.ec, jdk.internal.opt, jdk.jartool, jdk.javadoc, jdk.jdeps, jdk.jfr, jdk.jlink, jdk.localedata, jdk.management, jdk.management.jfr, jdk.naming.dns, jdk.naming.rmi, jdk.security.auth, jdk.security.jgss, jdk.unsupported.desktop, jdk.zipfs, modauto1, modbar, modcommon, modfoo, modmain
-pkgbar.Bar, id=DETERMINISTIC_ID_03, using automatic module version V1
+pkgbar.Bar, id=ID_Bar_11, using automatic module version V1
