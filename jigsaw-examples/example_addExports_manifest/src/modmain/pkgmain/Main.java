@@ -16,7 +16,7 @@ public class Main {
     public static void main(String[] args) {
     	// Compiler and also Runtime option needed: --add-exports java.base/jdk.internal.misc=modmain
     	SharedSecrets secrets = new SharedSecrets();
-        System.out.println("Do you want to know a secret: " + secrets);
+        System.out.println("Do you want to know a secret: " + secrets.getClass().getName());
 
     	// Compiler and also Runtime option needed: --add-exports moda/pkgainternal=modmain
         System.out.println(new pkgainternal.A().doIt());

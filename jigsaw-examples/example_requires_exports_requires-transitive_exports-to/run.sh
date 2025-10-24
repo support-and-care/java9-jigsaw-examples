@@ -1,5 +1,12 @@
 #!/usr/bin/env bash
-./run-main.sh
 
-echo " "
-./run-mainbehindfacade.sh
+set -eu -o pipefail
+
+source ../env.sh
+
+mkdir -p run-result
+
+./run-main.sh 2>&1 | normalize | tee run-result/run.txt
+
+echo " " | tee -a run-result/run.txt
+./run-mainbehindfacade.sh 2>&1 | normalize | tee -a run-result/run.txt
