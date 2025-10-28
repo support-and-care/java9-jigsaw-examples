@@ -8,14 +8,15 @@ import java.lang.reflect.Constructor;
 public class MainCallingJavaDesktop {
 	public static void main(String[] args) throws Exception {
 		try {
-			Class<?> clazz = Class.forName("com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel"); // from module java.desktop
+			Class<?> clazz = Class.forName("sun.awt.OSInfo"); // from module java.desktop
 			Constructor<?> con = clazz.getDeclaredConstructor();
 			con.setAccessible(true);
 			Object o = con.newInstance();
-			System.out.println(o.toString());
+			System.out.println(o.getClass().getName());
 		} 
 		catch (Throwable t) {
-			t.printStackTrace(System.out);
+            System.out.println("Caught exception: " + t.getClass());
+            System.exit(1);
 		}
 	}
 }

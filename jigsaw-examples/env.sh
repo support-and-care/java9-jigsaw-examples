@@ -81,6 +81,9 @@ normalize() {
     -e 's/jdk\.accessibility, //g' \
     -e 's/, jdk\.accessibility//g' \
     -e 's/jdk\.crypto\.mscapi, //g' \
-    -e 's/, jdk\.crypto\.mscapi//g'
+    -e 's/, jdk\.crypto\.mscapi//g' \
+    -e 's/^WARNING:.*$/WARNING - content dropped due to output normalization/g' \
+    -e "s,${PWD},<PROJECT_ROOT>,g" \
+    -e "s,${JAVA_HOME},<JAVA_HOME>,g"
 }
 
