@@ -15,7 +15,7 @@ touch "${result_dir}/run.txt"
 for dir in mlib amlib1 amlib2 amlib3 amlib4
 do
     pushd "${dir}" > /dev/null 2>&1
-    for JAR in *.jar
+    for JAR in $(ls *.jar | LC_ALL=C LANG=C LC_CTYP=C sort)
     do
         echo "JAR-file: ${JAR} in ${dir}"
         
