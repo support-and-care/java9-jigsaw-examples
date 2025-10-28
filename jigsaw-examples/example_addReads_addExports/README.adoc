@@ -1,5 +1,11 @@
-= Java 9 Jigsaw modules example suite
-include::../../.asciidoctorconfig[]
+:icons: font
+ifdef::env-github[]
+:tip-caption: :bulb:
+:note-caption: :information_source:
+:important-caption: :heavy_exclamation_mark:
+:caution-caption: :fire:
+:warning-caption: :warning:
+endif::[]
 == Example example_addReads_addExports
 
 Part of the full xref:../../README.adoc[Java 9 Jigsaw modules example] suite.

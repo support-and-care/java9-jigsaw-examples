@@ -1,6 +1,4 @@
-= Java 9 Jigsaw modules example suite
-include::../../.asciidoctorconfig[]
-== Example example_test
+:icons: font== Example example_test
 
 Part of the full xref:../../README.adoc[Java 9 Jigsaw modules example] suite.
 
