@@ -29,9 +29,9 @@ This example is about compatibility of code compiled for jdk 8 / 9 and running i
 
 === Example shows ...
 
-* Code compiled with target jdk 8 runs with jdk 8.
-* code compiled for target jdk 9 does NOT run in jdk8: The class version has changed.
+* Code compiled with target JDK 8 runs with JDK 8.
+* Code compiled for target JDK > 8 does NOT run in JDK 8: The class version has changed.
 
-To run this example, set a corect jdk 8 in run-jar9-on-jdk8.sh and run-jdk8.sh.
+To run this example, set a correct JDK 8 as environment variable JAVA8_HOME.
 
 Note: No JavaDoc generation for this example.

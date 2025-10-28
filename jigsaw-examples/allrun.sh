@@ -1,15 +1,15 @@
 #!/usr/bin/env bash
+
+set -eu -o pipefail
+
 run() {
     MODDIR=${dir%*/}
     pushd "${MODDIR}" > /dev/null 2>&1 || exit
     # if any run*.sh script exists
-    if  ls run*.sh > /dev/null 2>&1 ; then
+    if  [ -x run.sh ] ; then
         echo "###################################################################################################################################"
-        for runscript in run*.sh 
-        do
-            echo "Running ${MODDIR}: ${runscript}"
-            "./${runscript}"
-        done
+        echo "Running ${MODDIR}: run.sh"
+        ./run.sh
         echo
     fi
     popd >/dev/null 2>&1 || exit
