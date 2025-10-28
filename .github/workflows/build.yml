@@ -40,21 +40,28 @@ jobs:
       shell: bash
       run: cd jigsaw-examples && shellcheck -ax all*.sh
 
-    - name: Set up JDK 8
-      uses: actions/setup-java@v4
+    - name: Set up JDK 8 (non macOS)
+      uses: actions/setup-java@v5
       if: runner.os != 'macOS'
       with:
         distribution: 'temurin'
         java-version: '8'
 
+    - name: Set up JDK 8 (macOS)
+      uses: actions/setup-java@v5
+      if: runner.os == 'macOS'
+      with:
+        distribution: 'zulu'
+        java-version: '8'
+
     - name: Set up JDK 11
-      uses: actions/setup-java@v4
+      uses: actions/setup-java@v5
       with:
         distribution: 'temurin'
         java-version: '11'
 
     - name: Set up JDK 17
-      uses: actions/setup-java@v4
+      uses: actions/setup-java@v5
       with:
         distribution: 'temurin'
         java-version: '17'
@@ -66,8 +73,7 @@ jobs:
         if test "$(uname)" = "Darwin"; then
           JAVA11_HOME="$(ls -d $RUNNER_TOOL_CACHE/Java_Temurin-Hotspot_jdk/11*/${arch}/Contents/Home)"
           JAVA17_HOME="$(ls -d $RUNNER_TOOL_CACHE/Java_Temurin-Hotspot_jdk/17*/${arch}/Contents/Home)"
-          echo "Using Java 11 instead of Java 8 on macOS (and do not execute tests which require a genuine Java 8)"
-          JAVA8_HOME=$JAVA11_HOME
+          JAVA8_HOME="$(ls -d $RUNNER_TOOL_CACHE/Java_Zulu_jdk/8*/${arch})"
         else
           JAVA11_HOME="$(ls -d $RUNNER_TOOL_CACHE/Java_Temurin-Hotspot_jdk/11*/${arch})"
           JAVA17_HOME="$(ls -d $RUNNER_TOOL_CACHE/Java_Temurin-Hotspot_jdk/17*/${arch})"
@@ -172,6 +178,13 @@ jobs:
       run: |
         echo "Environment:"
         env | sort
+        echo "=== Listing contents of RUNNER_TOOL_CACHE ==="
+        if test "$(uname)" == "Windows_NT"; then
+          ls -l "$RUNNER_TOOL_CACHE" "$RUNNER_TOOL_CACHE\\*" "$RUNNER_TOOL_CACHE\\Java*\\*"
+        else
+          ls -l "$RUNNER_TOOL_CACHE" "$RUNNER_TOOL_CACHE/*" "$RUNNER_TOOL_CACHE/Java*/*"
+        fi
+        echo
 
     - name: Upload run results on failure
       if: failure()
