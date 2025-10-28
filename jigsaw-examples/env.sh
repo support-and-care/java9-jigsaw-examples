@@ -74,16 +74,35 @@ myecho() {
 # - converts backslashes to forward slashes (Windows paths)
 # - removes Windows-specific modules from module lists
 normalize() {
-    tr -d '\r' |
-  tr '\\' '/' |
-  sed -e '/[[:space:]]*module jdk\.accessibility[[:space:]]*/d' \
-    -e '/[[:space:]]*module jdk\.crypto\.mscapi[[:space:]]*/d' \
-    -e 's/jdk\.accessibility, //g' \
-    -e 's/, jdk\.accessibility//g' \
-    -e 's/jdk\.crypto\.mscapi, //g' \
-    -e 's/, jdk\.crypto\.mscapi//g' \
-    -e 's/^WARNING:.*$/WARNING - content dropped due to output normalization/g' \
-    -e "s,${PWD},<PROJECT_ROOT>,g" \
-    -e "s,${JAVA_HOME},<JAVA_HOME>,g"
+  # shellcheck disable=SC1003
+  tr -d '\r' |
+    tr '\\' '/' |
+    sed -e '/[[:space:]]*module jdk\.accessibility[[:space:]]*/d' \
+      -e '/[[:space:]]*module jdk\.crypto\.mscapi[[:space:]]*/d' \
+      -e 's/jdk\.accessibility, //g' \
+      -e 's/, jdk\.accessibility//g' \
+      -e 's/jdk\.crypto\.mscapi, //g' \
+      -e 's/, jdk\.crypto\.mscapi//g' \
+      -e 's/^WARNING:.*$/WARNING - content dropped due to output normalization/g'
+}
+
+normalize_for_jlink() {
+  # Handle Windows-style paths (convert X: to /x/)
+  case "$(uname | tr '[:lower:]' '[:upper:]')" in
+    CYGWIN* | MINGW* | MSYS*)
+      echo "${*}" | sed -r 's,^/([A-Za-z]),/\U\1\:,'
+    ;;
+    *)
+      echo "${*}"
+    ;;
+  esac
+}
+normalized_jlink_pwd=$(normalize_for_jlink "${PWD}")
+normalized_jlink_java_home=$(normalize_for_jlink "${JAVA_HOME}")
+
+normalize_jlink() {
+  sed \
+    -e "s,${normalized_jlink_pwd},<PROJECT_ROOT>,g" \
+    -e "s,${normalized_jlink_java_home},<JAVA_HOME>,g"
 }
 
