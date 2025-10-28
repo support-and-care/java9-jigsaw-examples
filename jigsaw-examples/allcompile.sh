@@ -14,10 +14,7 @@ compile() {
     popd >/dev/null 2>&1 || exit
 }
 
-source ./env.sh
-"$JAVA_HOME/bin/java" --version
-
-for dir in example_*/; 
+for dir in example_*/;
 do
     compile
 done
