@@ -10,7 +10,10 @@ rm -rf "${result_dir}"
 mkdir -p "${result_dir}"
 touch "${result_dir}/run.txt"
 
-"${JAVA_HOME}/bin/java" --version
+# Show Java version for user information
+echo "Using Java version:"
+"${JAVA_HOME}/bin/java" -version
+echo
 
 for dir in mlib amlib1 amlib2 amlib3 amlib4
 do

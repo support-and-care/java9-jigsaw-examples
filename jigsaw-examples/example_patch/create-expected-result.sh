@@ -12,12 +12,8 @@ echo "Using Java version:"
 "${JAVA_HOME}/bin/java" -version
 echo
 
-# Create expected-result directory if it doesn't exist
-mkdir -p expected-result
-
-# Run the Java code and capture output
-echo "Running Java module and capturing output..."
-"${JAVA_HOME}/bin/java" ${JAVA_OPTIONS} --module-path mlib --module modmain/pkgmain.Main  2>&1 | normalize > expected-result/run.txt
+echo "Running example and capturing output..."
+./run.sh expected-result
 
 echo "✅ Expected result saved to expected-result/run.txt"
 echo
