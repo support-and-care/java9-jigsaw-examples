@@ -14,14 +14,6 @@ set -eu -o pipefail
 # Path to JDK17, only needed in example_gradle-project
 [ -z "${JAVA17_HOME:-}" ] && export JAVA17_HOME=TODO/path/to/java8-jdk/goes/here
 
-# Check whether JAVA8 is a "real" Java 8
-if test -x "${JAVA8_HOME}/bin/java" && "${JAVA8_HOME}/bin/java" -version 2>&1 | grep -q 'version "1.8' 2>/dev/null; then
-  USE_JAVA8=true
-else
-  USE_JAVA8=false
-fi
-export USE_JAVA8
-
 # Path to Eclipse 4.7.3a Oxygen.3a (but 4.7.1a Oxygen.1a should still work)
 [ -z "${ECLIPSE_HOME:-}" ] && export ECLIPSE_HOME=TODO/path/to/eclipse4.7.3a/goes/here
 
@@ -36,8 +28,8 @@ export USE_JAVA8
 
 # Set PATH_SEPARATOR: ';' on Windows (even when in bash), ':' on Un*x
 case "$(uname | tr '[:lower:]' '[:upper:]')" in
-  CYGWIN* | MINGW* | MSYS*) PATH_SEPARATOR=";" ;;
-  *) PATH_SEPARATOR=":" ;;
+CYGWIN* | MINGW* | MSYS*) PATH_SEPARATOR=";" ;;
+*) PATH_SEPARATOR=":" ;;
 esac
 export PATH_SEPARATOR
 
@@ -66,7 +58,7 @@ export PATH="$JAVA_HOME/bin:$PATH"
 
 # helper echo to highlight errors on the terminal
 myecho() {
-    grep -E --color=always "Error|error|Exception|exception|Warn|warn|$"
+  grep -E --color=always "Error|error|Exception|exception|Warn|warn|$"
 }
 
 # normalize output for cross-platform compatibility
@@ -89,11 +81,11 @@ normalize() {
 normalize_for_jlink() {
   # Handle Windows-style paths (convert X: to /x/)
   case "$(uname | tr '[:lower:]' '[:upper:]')" in
-    CYGWIN* | MINGW* | MSYS*)
-      echo "${*}" | sed -r 's,^/([A-Za-z]),/\U\1\:,'
+  CYGWIN* | MINGW* | MSYS*)
+    echo "${*}" | sed -r 's,^/([A-Za-z]),/\U\1\:,'
     ;;
-    *)
-      echo "${*}"
+  *)
+    echo "${*}"
     ;;
   esac
 }
@@ -105,4 +97,3 @@ normalize_jlink() {
     -e "s,${normalized_jlink_pwd},<PROJECT_ROOT>,g" \
     -e "s,${normalized_jlink_java_home},<JAVA_HOME>,g"
 }
-
