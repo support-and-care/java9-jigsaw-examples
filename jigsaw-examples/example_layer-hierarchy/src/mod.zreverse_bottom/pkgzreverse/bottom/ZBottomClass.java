@@ -5,8 +5,15 @@ import java.lang.Module;
 import java.util.stream.Collectors;
 
 import pkglayer.LayerHierarchy;
+import pkgzreversebottominternal.IdGen;
 
 public class ZBottomClass {
+    private String id;
+
+    public ZBottomClass() {
+        id = IdGen.createID();
+    }
+
     public String doIt() {
         ModuleLayer myLayer = this.getClass().getModule().getLayer();
         String layerName  = LayerHierarchy.getLayerName(myLayer);
@@ -26,6 +33,6 @@ public class ZBottomClass {
 
     @Override
     public String toString() {
-        return getClass().getName();
+        return this.getClass().getName() + ", id=" + id;
     }
 }

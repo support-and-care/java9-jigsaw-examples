@@ -1,4 +1,4 @@
-Main: pkgmain.Main, B: from B, C: from C
+Main: pkgmain.Main, id=ID_Main_19, B: from B, C: from C
 B: Get text from modb's properties: Hello World, from modb's resources.properties
 C: Get text from modc's properties: Hello World, from modc's resources.properties
 B: Get text from modc's properties: Hello World, from modc's c.properties (whose package is opened) - but retrieved via modb!

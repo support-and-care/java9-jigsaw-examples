@@ -5,8 +5,15 @@ import java.lang.Module;
 import java.util.stream.Collectors;
 
 import pkglayer.LayerHierarchy;
+import pkgybottominternal.IdGen;
 
 public class YBottomClass extends pkgy.middle.YMiddleClass {
+    private String id;
+
+    public YBottomClass() {
+        id = IdGen.createID();
+    }
+
     @Override
     public String doIt() {
         ModuleLayer myLayer = this.getClass().getModule().getLayer();
@@ -29,6 +36,6 @@ public class YBottomClass extends pkgy.middle.YMiddleClass {
 
     @Override
     public String toString() {
-        return getClass().getName();
+        return this.getClass().getName() + ", id=" + id;
     }
 }

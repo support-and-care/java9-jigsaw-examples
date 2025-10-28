@@ -5,8 +5,14 @@ import java.lang.Module;
 import java.util.stream.Collectors;
 
 import pkglayer.LayerHierarchy;
+import pkgytopinternal.IdGen;
 
 public class YTopClass {
+    private String id;
+
+    public YTopClass() {
+        id = IdGen.createID();
+    }
 
     public String doIt() {
         ModuleLayer myLayer = this.getClass().getModule().getLayer();
@@ -27,6 +33,6 @@ public class YTopClass {
 
     @Override
     public String toString() {
-        return getClass().getName();
+        return this.getClass().getName() + ", id=" + id;
     }
 }

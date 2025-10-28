@@ -1,9 +1,9 @@
-1. Main: pkgmain.Main, B: from B.doIt, direct call
-2. Main: pkgmain.Main, B: from B.doIt, call via reflection
-3. Main: pkgmain.Main, B: from B.doItPrivate, call via reflection
-4. Main: pkgmain.Main, B: from B.doItPrivateStatic, static, call via reflection
-5. Main: pkgmain.Main, B1: from B.doIt, direct call
-6. Main: pkgmain.Main, B1: from B.doIt, call via reflection
-9. Main: pkgmain.Main, InternalB: from InternalB.doIt, call via reflection
-10. Main: pkgmain.Main, InternalB: from InternalB.doItPrivate, call via reflection
-11. Main: pkgmain.Main, InternalB: from InternalB.doItPrivateStatic, static, call via reflection
+1. Main: pkgmain.Main, id=ID_Main_22, B: from B.doIt, direct call
+2. Main: pkgmain.Main, id=ID_Main_22, B: from B.doIt, call via reflection
+3. Main: pkgmain.Main, id=ID_Main_22, B: from B.doItPrivate, call via reflection
+4. Main: pkgmain.Main, id=ID_Main_22, B: from B.doItPrivateStatic, static, call via reflection
+5. Main: pkgmain.Main, id=ID_Main_22, B1: from B.doIt, direct call
+6. Main: pkgmain.Main, id=ID_Main_22, B1: from B.doIt, call via reflection
+9. Main: pkgmain.Main, id=ID_Main_22, InternalB: from InternalB.doIt, call via reflection
+10. Main: pkgmain.Main, id=ID_Main_22, InternalB: from InternalB.doItPrivate, call via reflection
+11. Main: pkgmain.Main, id=ID_Main_22, InternalB: from InternalB.doItPrivateStatic, static, call via reflection
