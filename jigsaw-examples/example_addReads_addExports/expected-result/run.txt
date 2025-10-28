@@ -1,1 +1,1 @@
-Main: pkgmain.Main, B: from B, C: pkgc.C
+Main: pkgmain.Main, id=ID_Main_23, B: from B, C: pkgc.C, id=ID_B_21
