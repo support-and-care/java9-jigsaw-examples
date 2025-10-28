@@ -1,1 +1,5 @@
 I am modb, doing something with pkg.Helper
+I am modb, doing something with pkg.Helper
+I am doing more because I am PATCHED!
+I am modb, doing something with pkg.Helper
+I am doing more because I am PATCHED!

@@ -1,10 +1,31 @@
 #!/usr/bin/env bash
+
 set -eu -o pipefail
 
 # Arrays to track results
 VERIFIED=()
 FAILED=()
 SKIPPED=()
+
+verify() {
+  local args=("$@")
+  MODDIR=${dir%*/}
+  pushd "${MODDIR}" > /dev/null 2>&1 || exit
+  if [ -f ./verify.sh ]
+  then
+    echo "###################################################################################################################################"
+    echo "Verifying ${MODDIR}"
+    if ./verify.sh "${args[@]}"; then
+      VERIFIED+=("${MODDIR}")
+    else
+      FAILED+=("${MODDIR}")
+    fi
+    echo " "
+  else
+    SKIPPED+=("${MODDIR}")
+  fi
+  popd >/dev/null 2>&1 || exit
+}
 
 # Collect all arguments starting with --
 args=()
@@ -14,27 +35,6 @@ for arg in "$@"; do
         shift
     fi
 done
-
-verify() {
-    local args=("$@")
-    MODDIR=${dir%*/}
-    pushd "${MODDIR}" > /dev/null 2>&1 || exit
-    if [ -f ./verify.sh ]
-    then
-        echo "###################################################################################################################################"
-        echo "Verifying ${MODDIR}"
-        if ./verify.sh "${args[@]}"
-        then
-            VERIFIED+=("${MODDIR}")
-        else
-            FAILED+=("${MODDIR}")
-        fi
-        echo " "
-    else
-        SKIPPED+=("${MODDIR}")
-    fi
-    popd >/dev/null 2>&1 || exit
-}
 
 if [ "$#" -gt 0 ]; then
     examples_dirs=()
