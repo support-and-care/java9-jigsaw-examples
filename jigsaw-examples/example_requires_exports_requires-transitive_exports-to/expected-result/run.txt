@@ -1,9 +1,9 @@
 A1: from A1, from B
-from A1: getMyC()=pkgc.C
-from A1: getMyC()=pkgc.C
+from A1: getMyC()=pkgc.C, id=ID_A1_19
+from A1: getMyC()=pkgc.C, id=ID_A1_19
 A2: from A2 (plus: from InternalA)
 A3: from A3
  
 A1: from A1, from B
-from A1: getMyC()=pkgc.C
-from A1: getMyC()=pkgc.C
+from A1: getMyC()=pkgc.C, id=ID_A1_19
+from A1: getMyC()=pkgc.C, id=ID_A1_19

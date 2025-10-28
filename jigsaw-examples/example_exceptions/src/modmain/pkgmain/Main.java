@@ -3,8 +3,15 @@ package pkgmain;
 import pkgb.B;
 import pkgb.MyException;
 import pkgb.MyRuntimeException;
+import pkgmaininternal.IdGen;
 
 public class Main {
+    private String id;
+
+    public Main() {
+        id = IdGen.createID();
+    }
+
     public static void main(String[] args) {
         Main mymain = new Main();		
         B myb = new B();
@@ -80,6 +87,6 @@ public class Main {
 
     @Override
     public String toString() {
-        return getClass().getName();
+        return this.getClass().getName() + ", id=" + id;
     }
 }
