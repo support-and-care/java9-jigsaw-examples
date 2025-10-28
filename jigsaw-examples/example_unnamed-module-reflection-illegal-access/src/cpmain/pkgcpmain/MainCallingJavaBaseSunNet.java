@@ -5,10 +5,10 @@ import java.lang.reflect.Constructor;
 /**
  * This class is on the classpath, i.e. in the unnamed module.
  */
-public class MainCallingJavaBaseJDKInternal {
+public class MainCallingJavaBaseSunNet {
     public static void main(String[] args) throws Exception {
     	try {
-	        Class<?> clazz = Class.forName("jdk.internal.math.DoubleConsts");		// from module java.base, a package from jdk.internal.*
+	        Class<?> clazz = Class.forName("sun.net.PortConfig");				// from module java.base, but other package than jdk.internal.*
 	        Constructor<?> con = clazz.getDeclaredConstructor();
 	        con.setAccessible(true);
 	        Object o = con.newInstance();
@@ -17,6 +17,6 @@ public class MainCallingJavaBaseJDKInternal {
     	catch (Throwable t) {
             System.out.println("Caught exception: " + t.getClass());
             System.exit(1);
-        }
+    	}
     }
 }

@@ -12,7 +12,11 @@ Now we have these boot layer modules:
 [java.base, moda, modb]
 Now we have these boot layer modules: 
 [java.base, java.logging, moda, modb]
-java.base file:///Users/ascheman/.sdkman/candidates/java/11.0.28-tem/jmods/java.base.jmod
-moda file:///Users/ascheman/wrk/maven/samples/java9-jigsaw-examples/feature/separate-compile-and-package/jigsaw-examples/example_resolved-modules/mlib/moda.jar
+java.base file://<JAVA_HOME>/jmods/java.base.jmod
+moda file://<PROJECT_ROOT>/mlib/moda.jar
+modb file://<PROJECT_ROOT>/mlib/modb.jar
+
+Providers:
+  java.base provides java.nio.file.spi.FileSystemProvider used by java.base
 Now we have these boot layer modules: 
 [java.base, moda, modb]

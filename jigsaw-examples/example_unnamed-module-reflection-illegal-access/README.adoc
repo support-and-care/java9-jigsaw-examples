@@ -40,9 +40,9 @@ Four classes on the classpath, i.e. in the unnamed module, access other classes 
 
 * `cpmain/pkgcpmain.MainCallingJavaBaseJDKInternal.java` does reflective access to a class from module `java.base`, package `jdk.internal` (a package which is new in Java9).
 An explicit `--add-opens` is hence needed.
-* `cpmain/pkgcpmain.MainCallingJavaBaseSunIO.java`       does reflective access to a class from module `java.base`, package `sun.io` (a package which has existed before, in Java8).
+* `cpmain/pkgcpmain.MainCallingJavaBaseSunNet.java`       does reflective access to a class from module `java.base`, package `sun.net` (a package which has existed before, in Java8).
 The kill-switch `--illegal-access=permit` will hence work.
-* `cpmain/pkgcpmain.MainCallingJavaDesktop.java`         does reflective access to a class from module `java.desktop`, package `com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel` (a package which has existed before, in Java8).
+* `cpmain/pkgcpmain.MainCallingJavaDesktop.java`         does reflective access to a class from module `java.desktop`, package `sun.awt` (a package which has existed before, in Java8).
 The kill-switch `--illegal-access=permit` will hence work.
 * `cpmain/pkgcpmain.MainCallingJavaBaseModB.java`        does reflective access to a class from module `modb` (a package which has not existed before Java9).
 An explicit `--add-opens` is hence needed.
