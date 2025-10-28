@@ -1,0 +1,13 @@
+Main class pkgmain.Main from module java.whatever@0.1
+Main class pkgmain.Main from module jdk.whatever@0.1
+Main class pkgmain.Main from module mod.client@0.1
+Main class pkgmain.Main from module mod_client@0.1
+Main class pkgmain.Main from module modjava@0.1
+Main class pkgmain.Main from module modmain@0.1
+Main class pkgmain.Main from module automatic.whatever
+Main class pkgmain.Main from module automatic.whateverX@47.11
+Error occurred during initialization of boot layer
+java.lang.module.FindException: Unable to derive module descriptor for ./automatic-whateverX48.12.jar
+Caused by: java.lang.IllegalArgumentException: automatic.whateverX48.12: Invalid module name: '12' is not a Java identifier
+Cannot execute Module automatic.whateverX48
+Main class pkgmain.Main from module automatic.whateverX49@13
