@@ -1,0 +1,152 @@
+java.lang.reflect.InaccessibleObjectException: Unable to make private jdk.internal.math.DoubleConsts() accessible: module java.base does not "opens jdk.internal.math" to unnamed module @6bf256fa
+	at java.base/java.lang.reflect.AccessibleObject.checkCanSetAccessible(AccessibleObject.java:340)
+	at java.base/java.lang.reflect.AccessibleObject.checkCanSetAccessible(AccessibleObject.java:280)
+	at java.base/java.lang.reflect.Constructor.checkCanSetAccessible(Constructor.java:189)
+	at java.base/java.lang.reflect.Constructor.setAccessible(Constructor.java:182)
+	at pkgcpmain.MainCallingJavaBaseJDKInternal.main(MainCallingJavaBaseJDKInternal.java:13)
+java.lang.reflect.InaccessibleObjectException: Unable to make private jdk.internal.math.DoubleConsts() accessible: module java.base does not "opens jdk.internal.math" to unnamed module @6bf256fa
+	at java.base/java.lang.reflect.AccessibleObject.checkCanSetAccessible(AccessibleObject.java:340)
+	at java.base/java.lang.reflect.AccessibleObject.checkCanSetAccessible(AccessibleObject.java:280)
+	at java.base/java.lang.reflect.Constructor.checkCanSetAccessible(Constructor.java:189)
+	at java.base/java.lang.reflect.Constructor.setAccessible(Constructor.java:182)
+	at pkgcpmain.MainCallingJavaBaseJDKInternal.main(MainCallingJavaBaseJDKInternal.java:13)
+java.lang.reflect.InaccessibleObjectException: Unable to make private jdk.internal.math.DoubleConsts() accessible: module java.base does not "opens jdk.internal.math" to unnamed module @6bf256fa
+	at java.base/java.lang.reflect.AccessibleObject.checkCanSetAccessible(AccessibleObject.java:340)
+	at java.base/java.lang.reflect.AccessibleObject.checkCanSetAccessible(AccessibleObject.java:280)
+	at java.base/java.lang.reflect.Constructor.checkCanSetAccessible(Constructor.java:189)
+	at java.base/java.lang.reflect.Constructor.setAccessible(Constructor.java:182)
+	at pkgcpmain.MainCallingJavaBaseJDKInternal.main(MainCallingJavaBaseJDKInternal.java:13)
+java.lang.reflect.InaccessibleObjectException: Unable to make private jdk.internal.math.DoubleConsts() accessible: module java.base does not "opens jdk.internal.math" to unnamed module @60f82f98
+	at java.base/java.lang.reflect.AccessibleObject.checkCanSetAccessible(AccessibleObject.java:340)
+	at java.base/java.lang.reflect.AccessibleObject.checkCanSetAccessible(AccessibleObject.java:280)
+	at java.base/java.lang.reflect.Constructor.checkCanSetAccessible(Constructor.java:189)
+	at java.base/java.lang.reflect.Constructor.setAccessible(Constructor.java:182)
+	at pkgcpmain.MainCallingJavaBaseJDKInternal.main(MainCallingJavaBaseJDKInternal.java:13)
+jdk.internal.math.DoubleConsts@380fb434
+java.lang.ClassNotFoundException: sun.io.Win32ErrorMode
+	at java.base/jdk.internal.loader.BuiltinClassLoader.loadClass(BuiltinClassLoader.java:581)
+	at java.base/jdk.internal.loader.ClassLoaders$AppClassLoader.loadClass(ClassLoaders.java:178)
+	at java.base/java.lang.ClassLoader.loadClass(ClassLoader.java:527)
+	at java.base/java.lang.Class.forName0(Native Method)
+	at java.base/java.lang.Class.forName(Class.java:315)
+	at pkgcpmain.MainCallingJavaBaseSunIO.main(MainCallingJavaBaseSunIO.java:11)
+java.lang.ClassNotFoundException: sun.io.Win32ErrorMode
+	at java.base/jdk.internal.loader.BuiltinClassLoader.loadClass(BuiltinClassLoader.java:581)
+	at java.base/jdk.internal.loader.ClassLoaders$AppClassLoader.loadClass(ClassLoaders.java:178)
+	at java.base/java.lang.ClassLoader.loadClass(ClassLoader.java:527)
+	at java.base/java.lang.Class.forName0(Native Method)
+	at java.base/java.lang.Class.forName(Class.java:315)
+	at pkgcpmain.MainCallingJavaBaseSunIO.main(MainCallingJavaBaseSunIO.java:11)
+java.lang.ClassNotFoundException: sun.io.Win32ErrorMode
+	at java.base/jdk.internal.loader.BuiltinClassLoader.loadClass(BuiltinClassLoader.java:581)
+	at java.base/jdk.internal.loader.ClassLoaders$AppClassLoader.loadClass(ClassLoaders.java:178)
+	at java.base/java.lang.ClassLoader.loadClass(ClassLoader.java:527)
+	at java.base/java.lang.Class.forName0(Native Method)
+	at java.base/java.lang.Class.forName(Class.java:315)
+	at pkgcpmain.MainCallingJavaBaseSunIO.main(MainCallingJavaBaseSunIO.java:11)
+java.lang.ClassNotFoundException: sun.io.Win32ErrorMode
+	at java.base/jdk.internal.loader.BuiltinClassLoader.loadClass(BuiltinClassLoader.java:581)
+	at java.base/jdk.internal.loader.ClassLoaders$AppClassLoader.loadClass(ClassLoaders.java:178)
+	at java.base/java.lang.ClassLoader.loadClass(ClassLoader.java:527)
+	at java.base/java.lang.Class.forName0(Native Method)
+	at java.base/java.lang.Class.forName(Class.java:315)
+	at pkgcpmain.MainCallingJavaBaseSunIO.main(MainCallingJavaBaseSunIO.java:11)
+WARNING: package sun.io not in java.base
+java.lang.ClassNotFoundException: sun.io.Win32ErrorMode
+	at java.base/jdk.internal.loader.BuiltinClassLoader.loadClass(BuiltinClassLoader.java:581)
+	at java.base/jdk.internal.loader.ClassLoaders$AppClassLoader.loadClass(ClassLoaders.java:178)
+	at java.base/java.lang.ClassLoader.loadClass(ClassLoader.java:527)
+	at java.base/java.lang.Class.forName0(Native Method)
+	at java.base/java.lang.Class.forName(Class.java:315)
+	at pkgcpmain.MainCallingJavaBaseSunIO.main(MainCallingJavaBaseSunIO.java:11)
+java.lang.ClassNotFoundException: com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel
+	at java.base/jdk.internal.loader.BuiltinClassLoader.loadClass(BuiltinClassLoader.java:581)
+	at java.base/jdk.internal.loader.ClassLoaders$AppClassLoader.loadClass(ClassLoaders.java:178)
+	at java.base/java.lang.ClassLoader.loadClass(ClassLoader.java:527)
+	at java.base/java.lang.Class.forName0(Native Method)
+	at java.base/java.lang.Class.forName(Class.java:315)
+	at pkgcpmain.MainCallingJavaDesktop.main(MainCallingJavaDesktop.java:11)
+java.lang.ClassNotFoundException: com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel
+	at java.base/jdk.internal.loader.BuiltinClassLoader.loadClass(BuiltinClassLoader.java:581)
+	at java.base/jdk.internal.loader.ClassLoaders$AppClassLoader.loadClass(ClassLoaders.java:178)
+	at java.base/java.lang.ClassLoader.loadClass(ClassLoader.java:527)
+	at java.base/java.lang.Class.forName0(Native Method)
+	at java.base/java.lang.Class.forName(Class.java:315)
+	at pkgcpmain.MainCallingJavaDesktop.main(MainCallingJavaDesktop.java:11)
+java.lang.ClassNotFoundException: com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel
+	at java.base/jdk.internal.loader.BuiltinClassLoader.loadClass(BuiltinClassLoader.java:581)
+	at java.base/jdk.internal.loader.ClassLoaders$AppClassLoader.loadClass(ClassLoaders.java:178)
+	at java.base/java.lang.ClassLoader.loadClass(ClassLoader.java:527)
+	at java.base/java.lang.Class.forName0(Native Method)
+	at java.base/java.lang.Class.forName(Class.java:315)
+	at pkgcpmain.MainCallingJavaDesktop.main(MainCallingJavaDesktop.java:11)
+java.lang.ClassNotFoundException: com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel
+	at java.base/jdk.internal.loader.BuiltinClassLoader.loadClass(BuiltinClassLoader.java:581)
+	at java.base/jdk.internal.loader.ClassLoaders$AppClassLoader.loadClass(ClassLoaders.java:178)
+	at java.base/java.lang.ClassLoader.loadClass(ClassLoader.java:527)
+	at java.base/java.lang.Class.forName0(Native Method)
+	at java.base/java.lang.Class.forName(Class.java:315)
+	at pkgcpmain.MainCallingJavaDesktop.main(MainCallingJavaDesktop.java:11)
+WARNING: package com.sun.java.swing.plaf.nimbus not in java.desktop
+java.lang.ClassNotFoundException: com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel
+	at java.base/jdk.internal.loader.BuiltinClassLoader.loadClass(BuiltinClassLoader.java:581)
+	at java.base/jdk.internal.loader.ClassLoaders$AppClassLoader.loadClass(ClassLoaders.java:178)
+	at java.base/java.lang.ClassLoader.loadClass(ClassLoader.java:527)
+	at java.base/java.lang.Class.forName0(Native Method)
+	at java.base/java.lang.Class.forName(Class.java:315)
+	at pkgcpmain.MainCallingJavaDesktop.main(MainCallingJavaDesktop.java:11)
+pkgb.BFromModule@668bc3d5
+java.lang.reflect.InaccessibleObjectException: Unable to make public pkgbinternal.BFromModuleButInternal() accessible: module modb does not "exports pkgbinternal" to unnamed module @79b4d0f
+	at java.base/java.lang.reflect.AccessibleObject.checkCanSetAccessible(AccessibleObject.java:340)
+	at java.base/java.lang.reflect.AccessibleObject.checkCanSetAccessible(AccessibleObject.java:280)
+	at java.base/java.lang.reflect.Constructor.checkCanSetAccessible(Constructor.java:189)
+	at java.base/java.lang.reflect.Constructor.setAccessible(Constructor.java:182)
+	at pkgcpmain.MainCallingModB.main(MainCallingModB.java:24)
+java.lang.reflect.InaccessibleObjectException: Unable to make public pkgbexportedqualified.BFromModuleButExportedQualified() accessible: module modb does not "exports pkgbexportedqualified" to unnamed module @79b4d0f
+	at java.base/java.lang.reflect.AccessibleObject.checkCanSetAccessible(AccessibleObject.java:340)
+	at java.base/java.lang.reflect.AccessibleObject.checkCanSetAccessible(AccessibleObject.java:280)
+	at java.base/java.lang.reflect.Constructor.checkCanSetAccessible(Constructor.java:189)
+	at java.base/java.lang.reflect.Constructor.setAccessible(Constructor.java:182)
+	at pkgcpmain.MainCallingModB.main(MainCallingModB.java:35)
+pkgb.BFromModule@668bc3d5
+java.lang.reflect.InaccessibleObjectException: Unable to make public pkgbinternal.BFromModuleButInternal() accessible: module modb does not "exports pkgbinternal" to unnamed module @79b4d0f
+	at java.base/java.lang.reflect.AccessibleObject.checkCanSetAccessible(AccessibleObject.java:340)
+	at java.base/java.lang.reflect.AccessibleObject.checkCanSetAccessible(AccessibleObject.java:280)
+	at java.base/java.lang.reflect.Constructor.checkCanSetAccessible(Constructor.java:189)
+	at java.base/java.lang.reflect.Constructor.setAccessible(Constructor.java:182)
+	at pkgcpmain.MainCallingModB.main(MainCallingModB.java:24)
+java.lang.reflect.InaccessibleObjectException: Unable to make public pkgbexportedqualified.BFromModuleButExportedQualified() accessible: module modb does not "exports pkgbexportedqualified" to unnamed module @79b4d0f
+	at java.base/java.lang.reflect.AccessibleObject.checkCanSetAccessible(AccessibleObject.java:340)
+	at java.base/java.lang.reflect.AccessibleObject.checkCanSetAccessible(AccessibleObject.java:280)
+	at java.base/java.lang.reflect.Constructor.checkCanSetAccessible(Constructor.java:189)
+	at java.base/java.lang.reflect.Constructor.setAccessible(Constructor.java:182)
+	at pkgcpmain.MainCallingModB.main(MainCallingModB.java:35)
+pkgb.BFromModule@668bc3d5
+java.lang.reflect.InaccessibleObjectException: Unable to make public pkgbinternal.BFromModuleButInternal() accessible: module modb does not "exports pkgbinternal" to unnamed module @79b4d0f
+	at java.base/java.lang.reflect.AccessibleObject.checkCanSetAccessible(AccessibleObject.java:340)
+	at java.base/java.lang.reflect.AccessibleObject.checkCanSetAccessible(AccessibleObject.java:280)
+	at java.base/java.lang.reflect.Constructor.checkCanSetAccessible(Constructor.java:189)
+	at java.base/java.lang.reflect.Constructor.setAccessible(Constructor.java:182)
+	at pkgcpmain.MainCallingModB.main(MainCallingModB.java:24)
+java.lang.reflect.InaccessibleObjectException: Unable to make public pkgbexportedqualified.BFromModuleButExportedQualified() accessible: module modb does not "exports pkgbexportedqualified" to unnamed module @79b4d0f
+	at java.base/java.lang.reflect.AccessibleObject.checkCanSetAccessible(AccessibleObject.java:340)
+	at java.base/java.lang.reflect.AccessibleObject.checkCanSetAccessible(AccessibleObject.java:280)
+	at java.base/java.lang.reflect.Constructor.checkCanSetAccessible(Constructor.java:189)
+	at java.base/java.lang.reflect.Constructor.setAccessible(Constructor.java:182)
+	at pkgcpmain.MainCallingModB.main(MainCallingModB.java:35)
+pkgb.BFromModule@22f71333
+java.lang.reflect.InaccessibleObjectException: Unable to make public pkgbinternal.BFromModuleButInternal() accessible: module modb does not "exports pkgbinternal" to unnamed module @3d8c7aca
+	at java.base/java.lang.reflect.AccessibleObject.checkCanSetAccessible(AccessibleObject.java:340)
+	at java.base/java.lang.reflect.AccessibleObject.checkCanSetAccessible(AccessibleObject.java:280)
+	at java.base/java.lang.reflect.Constructor.checkCanSetAccessible(Constructor.java:189)
+	at java.base/java.lang.reflect.Constructor.setAccessible(Constructor.java:182)
+	at pkgcpmain.MainCallingModB.main(MainCallingModB.java:24)
+java.lang.reflect.InaccessibleObjectException: Unable to make public pkgbexportedqualified.BFromModuleButExportedQualified() accessible: module modb does not "exports pkgbexportedqualified" to unnamed module @3d8c7aca
+	at java.base/java.lang.reflect.AccessibleObject.checkCanSetAccessible(AccessibleObject.java:340)
+	at java.base/java.lang.reflect.AccessibleObject.checkCanSetAccessible(AccessibleObject.java:280)
+	at java.base/java.lang.reflect.Constructor.checkCanSetAccessible(Constructor.java:189)
+	at java.base/java.lang.reflect.Constructor.setAccessible(Constructor.java:182)
+	at pkgcpmain.MainCallingModB.main(MainCallingModB.java:35)
+pkgb.BFromModule@2ed94a8b
+pkgbinternal.BFromModuleButInternal@5f2050f6
+pkgbexportedqualified.BFromModuleButExportedQualified@4e04a765

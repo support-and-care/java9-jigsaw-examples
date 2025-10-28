@@ -18,3 +18,4 @@ mkdir -p amlib3
 mkdir -p amlib4
 
 rm -rf doc
+rm -rf run-result
