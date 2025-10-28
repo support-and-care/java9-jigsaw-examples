@@ -173,6 +173,14 @@ jobs:
         echo "Environment:"
         env | sort
 
+    - name: Upload run results on failure
+      if: failure()
+      uses: actions/upload-artifact@v4
+      with:
+        name: run-results-${{ matrix.os }}
+        path: jigsaw-examples/*/run-result
+        if-no-files-found: ignore
+
   docs:
     name: Generate and Deploy Documentation
     runs-on: ubuntu-latest
