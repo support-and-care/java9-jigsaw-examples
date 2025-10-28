@@ -2,18 +2,18 @@
 source ../env.sh
 
 # Check whether JAVA8 is a "real" Java 8
-is_java8() {
+is_real_java8() {
   java_home="${1:-}"
   if test -x "${java_home}/bin/java" && "${java_home}/bin/java" -version 2>&1 | grep -q 'version "1.8' 2>/dev/null; then
-    return 1
-  else
     return 0
+  else
+    return 1
   fi
 }
 
-if is_java8 "${JAVA8_HOME}"; then
-  echo "The JDK in '${JAVA8_HOME}' seems not to be a 'real' Java 8"
-  exit 1
+if ! is_real_java8 "${JAVA8_HOME}"; then
+  echo "The JDK in '${JAVA8_HOME}' seems not to be a 'real' Java 8 (skipping)"
+  exit 0
 fi
 
 echo
