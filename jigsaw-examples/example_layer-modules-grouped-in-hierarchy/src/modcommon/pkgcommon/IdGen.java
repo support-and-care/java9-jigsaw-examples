@@ -9,7 +9,7 @@ public class IdGen {
 		// This ensures the ID is based on where createID() is called from
 		Optional<StackFrame> caller = StackWalker.getInstance()
 			.walk(frames -> frames
-				.skip(1) // Skip the createID() method itself
+				.skip(2) // Skip the createID() method itself as well as the constructor that called it
 				.findFirst()
 			);
 
