@@ -6,14 +6,24 @@ VERIFIED=()
 FAILED=()
 SKIPPED=()
 
+# Collect all arguments starting with --
+args=()
+for arg in "$@"; do
+    if [[ "$arg" == --* ]]; then
+        args+=("$arg")
+        shift
+    fi
+done
+
 verify() {
+    local args=("$@")
     MODDIR=${dir%*/}
     pushd "${MODDIR}" > /dev/null 2>&1 || exit
     if [ -f ./verify.sh ]
     then
         echo "###################################################################################################################################"
         echo "Verifying ${MODDIR}"
-        if ./verify.sh "$@"
+        if ./verify.sh "${args[@]}"
         then
             VERIFIED+=("${MODDIR}")
         else
@@ -26,9 +36,20 @@ verify() {
     popd >/dev/null 2>&1 || exit
 }
 
-for dir in example_*/;
+if [ "$#" -gt 0 ]; then
+    examples_dirs=()
+    for arg in "$@"; do
+        examples_dirs+=("${arg}/")
+    done
+else
+    examples_dirs=(example_*/)
+fi
+
+echo "Verifying examples: ${examples_dirs[*]}"
+
+for dir in "${examples_dirs[@]}";
 do
-    verify "$@"
+    verify "${args[@]}"
 done
 
 # Print summary
