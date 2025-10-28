@@ -7,20 +7,27 @@ import java.lang.Module;
 import java.util.Optional;
 
 import pkgb.BExportHelper;
+import pkgmaininternal.IdGen;
 
 /**
  * This class cannot be compiled in Eclipse as compiler options --add-exports are needed.
  * See compile.sh for details.
- * 
+ *
  * But if compilation has taken place outside Eclipse with the script,
  * the modular JARs can be found in .../mlib
- * 
+ *
  * The Eclipse launch files takes the compiled code from there and can be run in Eclipse.
  */
 public class Main {
+    private String id;
+
+    public Main() {
+        id = IdGen.createID();
+    }
+
     @Override
     public String toString() {
-        return getClass().getName();
+        return this.getClass().getName() + ", id=" + id;
     }
 
     public static void main(String[] args) throws Exception {

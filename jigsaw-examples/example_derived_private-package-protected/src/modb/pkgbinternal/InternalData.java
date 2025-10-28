@@ -1,8 +1,15 @@
 package pkgbinternal;
 
 import pkgb.Data;
+import pkgbcommon.IdGen;
 
 public class InternalData extends Data {
+    private String id;
+
+    public InternalData() {
+        id = IdGen.createID();
+    }
+
     @Override
     public String getName() {
         return "is InternalData";
@@ -10,6 +17,6 @@ public class InternalData extends Data {
 
     @Override
     public String toString() {
-        return getClass().getName();
+        return this.getClass().getName() + ", id=" + id;
     }
 }
