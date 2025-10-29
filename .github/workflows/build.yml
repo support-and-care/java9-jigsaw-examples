@@ -165,3 +165,77 @@ jobs:
       run: |
         echo "Environment:"
         env | sort
+
+  docs:
+    name: Generate and Deploy Documentation
+    runs-on: ubuntu-latest
+    needs: build
+    if: success()
+
+    permissions:
+      contents: read
+      pull-requests: write
+      pages: write
+      id-token: write
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Set up JDK 17
+      uses: actions/setup-java@v4
+      with:
+        distribution: 'temurin'
+        java-version: '17'
+
+    - name: Generate documentation
+      run: ./mvnw verify
+
+    - name: Create index.html from README.html
+      run: cp target/generated-docs/README.html target/generated-docs/index.html
+
+    - name: Upload documentation artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: generated-docs
+        path: target/generated-docs
+        retention-days: 30
+
+    - name: Deploy to Netlify (Preview)
+      if: github.event_name == 'pull_request'
+      uses: nwtgck/actions-netlify@v3
+      with:
+        publish-dir: './target/generated-docs'
+        production-deploy: false
+        github-token: ${{ secrets.GITHUB_TOKEN }}
+        deploy-message: "Deploy from GitHub Actions - PR #${{ github.event.pull_request.number }}"
+        enable-pull-request-comment: true
+        enable-commit-comment: false
+        overwrites-pull-request-comment: true
+      env:
+        NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+        NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
+
+    - name: Deploy to Netlify (Branch Preview)
+      if: github.event_name == 'push' && github.ref != 'refs/heads/main'
+      uses: nwtgck/actions-netlify@v3
+      with:
+        publish-dir: './target/generated-docs'
+        production-deploy: false
+        github-token: ${{ secrets.GITHUB_TOKEN }}
+        deploy-message: "Deploy from GitHub Actions - branch ${{ github.ref_name }}"
+        alias: ${{ github.ref_name }}
+      env:
+        NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+        NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
+
+    - name: Upload to GitHub Pages
+      if: github.event_name == 'push'
+      uses: actions/upload-pages-artifact@v3
+      with:
+        path: ./target/generated-docs
+
+    - name: Deploy to GitHub Pages
+      if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+      uses: actions/deploy-pages@v4
+      id: deployment

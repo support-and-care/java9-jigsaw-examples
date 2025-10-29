@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
+                             http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>org.jigsaw.examples</groupId>
+    <artifactId>jigsaw-examples-docs</artifactId>
+    <version>1.0.0</version>
+    <packaging>pom</packaging>
+
+    <name>Java 9+ Jigsaw Examples Documentation</name>
+    <description>Generates HTML documentation from AsciiDoc README files</description>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <maven.compiler.source>11</maven.compiler.source>
+        <maven.compiler.target>11</maven.compiler.target>
+        <asciidoctor.maven.plugin.version>3.2.0</asciidoctor.maven.plugin.version>
+    </properties>
+
+    <build>
+        <plugins>
+            <!-- AsciiDoctor Maven Plugin -->
+            <plugin>
+                <groupId>org.asciidoctor</groupId>
+                <artifactId>asciidoctor-maven-plugin</artifactId>
+                <version>${asciidoctor.maven.plugin.version}</version>
+                <configuration>
+                    <!-- Process AsciiDoc files from the project base directory -->
+                    <sourceDirectory>${project.basedir}</sourceDirectory>
+                    <outputDirectory>${project.build.directory}/generated-docs</outputDirectory>
+
+                    <!-- Preserve directory structure in output -->
+                    <preserveDirectories>true</preserveDirectories>
+
+                    <!-- HTML5 backend -->
+                    <backend>html5</backend>
+
+                    <!-- Document attributes -->
+                    <attributes>
+                        <sourcedir>${project.basedir}</sourcedir>
+                        <source-highlighter>highlight.js</source-highlighter>
+                        <icons>font</icons>
+                        <sectanchors>true</sectanchors>
+                        <idprefix/>
+                        <idseparator>-</idseparator>
+                        <docinfo1>true</docinfo1>
+                        <embedAssets>false</embedAssets>
+                        <imagesdir>.</imagesdir>
+                    </attributes>
+                    <resources>
+                        <resource>
+                            <directory>${project.basedir}/jigsaw-examples</directory>
+                            <targetPath>jigsaw-examples</targetPath>
+                            <includes>
+                                <include>**/*.java</include>
+                                <include>**/*.png</include>
+                                <include>**/*.jpg</include>
+                                <include>**/*.jpeg</include>
+                                <include>**/*.gif</include>
+                                <include>**/*.svg</include>
+                            </includes>
+                        </resource>
+                    </resources>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>convert-all-readmes</id>
+                        <phase>generate-resources</phase>
+                        <goals>
+                            <goal>process-asciidoc</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+</project>
