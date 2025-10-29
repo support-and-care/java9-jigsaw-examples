@@ -17,5 +17,8 @@
 # User-specific environment configuration
 .envrc
 
-# Generated HTML (from AsciiDoc)
+# Generated HTML and site output (from AsciiDoc)
 *.html
+
+# Maven artifacts
+target/
