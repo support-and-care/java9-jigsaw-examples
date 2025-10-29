@@ -236,6 +236,6 @@ jobs:
         path: ./target/generated-docs
 
     - name: Deploy to GitHub Pages
-      if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+      if: github.event_name == 'push'
       uses: actions/deploy-pages@v4
       id: deployment
