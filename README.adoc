@@ -22,7 +22,7 @@ Please add discussions, requirements, bugfixes, etc. to the fork instead of the 
 This is a example suite for Java 9 jigsaw modules.
 Many aspects of the new Java 9 Jigsaw modules as defined in https://openjdk.java.net/projects/jigsaw/[Project Jigsaw] by https://www.jcp.org/en/jsr/detail?id=376[JSR 376] and https://openjdk.java.net/jeps/261[JEP 261].
 
-All the examples have been successfully tested with Windows (64bit), Linux and MacOSX - running Java 11 LTS and Java 17 LTS.
+All the examples have been successfully tested with Windows (64bit), Linux and MacOSX - running the <<recommended-jdk,recommended JDK version>>.
 Originally developed for Java 9 (which introduced JPMS), the examples are continuously updated for current Java versions.
 
 *Build Tool Wrappers:* All Maven and Gradle examples now include build tool wrappers, so manual installation of Maven or Gradle is no longer required:
@@ -52,15 +52,25 @@ Note that this overrides any other settings, e.g., by `mvn_settings.xml`.
 === Minimal Requirements
 
 . If running on Windows, install a bash, like for example https://babun.github.io/[Babun] or https://gitforwindows.org/[git bash]
-. Install Java JDK:
-** *Recommended*: Java 17 LTS or later (works with all examples)
-** *Minimum*: Java 11 LTS
-** *For xref:jigsaw-examples/example_gradle-project/README.adoc[Gradle example]*: Java 17 or later (required by Gradle 9.x)
-** *For xref:jigsaw-examples/example_compile-target-jdk8/README.adoc[cross-compilation example]*: Java 8
+. Install Java JDKs:
+** See <<recommended-jdk>> for the recommended version for full CI (automated testing) compatibility
+** For xref:jigsaw-examples/example_gradle-project/README.adoc[Gradle example]: Java 17 or later (required by Gradle 9.x)
+** For xref:jigsaw-examples/example_compile-target-jdk8/README.adoc[cross-compilation example]: Java 8
 
+[[recommended-jdk]]
 [NOTE]
+.Recommended JDK
 ====
-JDK 17 (or newer) is recommended for all examples.
+The following JDK version is *strongly recommended* for full compatibility with CI and automated testing:
+
+[source,yaml]
+----
+include::.github/workflows/build.yml[tag=java-version-minimal]
+----
+
+Some examples produce JDK version-specific output and are validated using golden master testing (comparing expected vs. actual output).
+To ensure the `verify.sh` scripts pass, you must use the same JDK version as the CI pipeline.
+Newer JDKs may be used for local development, but full test execution including `verify.sh` requires the version shown above.
 Java 8 is only needed for the cross-compilation example where you want to explicitly test that code still works with JDK 8.
 ====
 
@@ -79,6 +89,7 @@ Copy and customize the environment template:
 ----
 cp .envrc-template .envrc
 # Edit .envrc and set your JDK and tool paths
+# See <<recommended-jdk>> for the recommended version
 ----
 
 Then either:
@@ -86,9 +97,19 @@ Then either:
 * *Option 1:* Source it manually before running examples: `source .envrc`
 * *Option 2:* Use https://direnv.net/[direnv] to automatically load environment when entering this directory
 
+[NOTE]
+.SDKMAN Users
+====
+This repository includes a `.sdkmanrc` file that automatically configures the <<recommended-jdk,recommended JDK version>> when you have https://sdkman.io/[SDKMAN] with `sdkman_auto_env=true` enabled.
+This ensures full compatibility with CI and golden master testing (verify.sh scripts).
+However, be aware that SDKMAN's automatic version switching may interfere with `JAVA_HOME` settings in `.envrc` or `env.sh`.
+If you experience version conflicts, either disable `sdkman_auto_env` or ensure your `.envrc`/`env.sh` matches the <<recommended-jdk,recommended version>>.
+====
+
 === Traditional Setup (Deprecated)
 
 . Edit file `env.sh` to configure `JAVA_HOME`, `JAVA_HOME_JDK8`, `GRAPHVIZ_HOME`, and `DEPVIS_HOME` (see TODO markers in the file)
+** See <<recommended-jdk>> for the recommended `JAVA_HOME` value
 . Also edit file `env.sh` to configure the path separator.
 If run on Windows, use \; (a blackslash quoting a ;).
 If you run all stuff on *nix, use a colon : .
@@ -100,7 +121,7 @@ If you run all stuff on *nix, use a colon : .
 
 === Additional information
 
-All examples have been tested with Java 11 and Java 17 on Windows, Linux, and macOS.
+All examples have been tested with the <<recommended-jdk,recommended JDK version>> on Windows, Linux, and macOS.
 The examples were originally developed with Java 9 (which introduced JPMS) and have been continuously updated to work with current LTS versions.
 
 *Using Build Tool Wrappers:*
@@ -417,7 +438,7 @@ The examples have been used and tested with these tools and libraries (on Window
 |===
 | Tool | Version | Used for | Remark | Link
 
-| JDK | 11 LTS or 17 LTS | all examples at compile and runtime | Recommended: JDK 17 LTS | https://adoptium.net/ or https://sdkman.io/
+| JDK | See <<recommended-jdk>> | all examples at compile and runtime | Required for golden master testing (verify.sh) | https://adoptium.net/ or https://sdkman.io/
 | JDK | 17 LTS or later | xref:jigsaw-examples/example_gradle-project/README.adoc[Gradle example] | Required by Gradle 9.x | https://adoptium.net/ or https://sdkman.io/
 | JDK | 8 LTS | only needed for xref:jigsaw-examples/example_compile-target-jdk8/README.adoc[cross-compilation example] | For cross-compilation testing | https://adoptium.net/temurin/releases/?version=8
 | Maven Wrapper | 3.9.11 | Maven examples | *Included in all Maven examples* - no manual installation required | https://maven.apache.org/wrapper/
@@ -437,6 +458,16 @@ Older or newer versions might also work but we did not try.
 ====
 
 == Changelog
+
+=== SDKMAN Support and JDK Version Alignment (October 2025)
+
+* Added `.sdkmanrc` for developers using https://sdkman.io/[SDKMAN]
+** Automatically configures the <<recommended-jdk,recommended JDK version>> when `sdkman_auto_env=true` is enabled
+** May interfere with `JAVA_HOME` settings in `.envrc` or `env.sh` - see setup documentation
+* Updated GitHub Actions workflow to use specific JDK version (tagged as `java-version-minimal`)
+* Documented <<recommended-jdk,recommended JDK version>> for full compatibility with CI and golden master testing
+** Some examples produce JDK version-specific output validated by `verify.sh` scripts
+** Newer JDKs may be used for local development but full test execution requires the recommended version
 
 === Migration to Build Tool Wrappers (October 2025)
 
@@ -458,7 +489,7 @@ Older or newer versions might also work but we did not try.
 ** Manual installation of Maven and Gradle no longer required
 ** `MAVEN_HOME` and `GRADLE_HOME` removed from `env.sh` (no longer needed due to wrapper usage)
 ** Use `./mvnw` (Maven) or `./gradlew` (Gradle) instead of system-installed tools
-* All builds tested and verified on macOS with JDK 11 (Maven) and JDK 17 (Gradle)
+* All builds tested and verified on macOS with the <<recommended-jdk,recommended JDK version>> (Maven) and JDK 17 (Gradle)
 
 === Example for layer module resolution
 

@@ -9,11 +9,16 @@
 #
 # Note: This file contains the minimal environment variables needed to run the examples.
 # For more configuration options, see jigsaw-examples/env.sh
+#
+# SDKMAN Users: If you use SDKMAN with sdkman_auto_env=true, the .sdkmanrc file
+# will automatically configure JDK 11.0.28. This may interfere with JAVA_HOME
+# settings below. Either disable sdkman_auto_env or ensure paths match.
 
 # Path to JDK 17 or later (required for example_gradle-project with Gradle 9.x)
 export JAVA17_HOME=/path/to/jdk17
 
 # Path to JDK 9, 10, or 11 (required for most examples, JDK 17 is also fine)
+# Strongly recommended: JDK 11.0.28 (Temurin) - cf. README
 export JAVA_HOME=/path/to/java9-or-10-or-11-jdk
 
 # Path to JDK 8 (only needed for example_compile-target-jdk8)

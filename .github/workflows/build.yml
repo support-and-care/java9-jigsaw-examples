@@ -58,7 +58,9 @@ jobs:
       uses: actions/setup-java@v5
       with:
         distribution: 'temurin'
-        java-version: '11'
+        # tag::java-version-minimal[]
+        java-version: '11.0.28'
+        # end::java-version-minimal[]
 
     - name: Set up JDK 17
       uses: actions/setup-java@v5

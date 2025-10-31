@@ -6,6 +6,8 @@ set -eu -o pipefail
 # configure paths here
 
 # Path to JDK9 or JDK10 (9.0.1, 9.0.4 and 10_18.3_10+46 have been tested)
+# Recommended: JDK 11.0.28 (Temurin) - same as CI/CD pipeline
+# SDKMAN Users: .sdkmanrc at repository root configures JDK 11.0.28 automatically
 [ -z "${JAVA_HOME:-}" ] && export JAVA_HOME=TODO/path/to/java9-or-10-jdk/goes/here
 
 # Path to JDK8, only needed in example_compile-target-jdk8 (and special profile in example_spring-hibernate)
