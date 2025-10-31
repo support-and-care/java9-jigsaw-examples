@@ -72,6 +72,41 @@ Co-Authored-By: Claude <noreply@anthropic.com>
 Introduced in the course of support-and-care/maven-support-and-care#137
 ```
 
+## GitHub Issues and Documentation Conventions
+
+### GitHub Labels
+
+**IMPORTANT: Only use existing labels when creating issues.**
+
+Available labels in this repository:
+- `enhancement` - New feature or request
+- `bug` - Something isn't working
+- `documentation` - Improvements or additions to documentation
+- `question` - Further information is requested
+- `help wanted` - Extra attention is needed
+- `good first issue` - Good for newcomers
+- `duplicate` - This issue or pull request already exists
+- `invalid` - This doesn't seem right
+- `wontfix` - This will not be worked on
+
+To check available labels: `gh label list`
+
+### Documentation Format
+
+**All project documentation uses AsciiDoc format (.adoc), not Markdown.**
+
+**Documentation files:**
+- `README.adoc` - Main repository documentation
+- `example_*/readme.adoc` - Per-example documentation
+- `.claude/transformations/*.md` - Only transformation guides use Markdown
+
+**Exception:** `CLAUDE.md` is the only Markdown file in the project root (by design, for Claude Code compatibility).
+
+**When creating or updating documentation:**
+- Use `.adoc` extension for all user-facing documentation
+- Follow AsciiDoc syntax (see `~/.claude/rules/asciidoc-conventions.md` for details)
+- Only use Markdown for internal transformation guides
+
 ## Transformation Workflow
 
 When performing large-scale transformations or refactorings across the repository, follow this structured approach to ensure consistency and capture reusable patterns:
