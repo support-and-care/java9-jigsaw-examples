@@ -42,6 +42,49 @@ Always source `.envrc` in a subshell before executing Java commands or example s
 
 **Note:** You may see a harmless warning (`command not found: source_up`) which can be ignored - it's a direnv function not available in plain bash.
 
+## Recommended JDK Version Pattern
+
+**IMPORTANT: Single source of truth for JDK version recommendations**
+
+The recommended JDK version is defined in exactly THREE places that must be kept in sync:
+
+1. **`.github/workflows/build.yml`** - CI/CD pipeline JDK version (tagged with `java-version-minimal`)
+2. **`.sdkmanrc`** - SDKMAN automatic environment configuration
+3. **`README.adoc`** - The `[[recommended-jdk]]` admonition includes the version from build.yml via AsciiDoc include
+
+**Pattern for updating the recommended JDK version:**
+
+When upgrading to a new JDK version (e.g., from JDK 11 to JDK 17, 21, or 25):
+
+1. **Update `.github/workflows/build.yml`:**
+   ```yaml
+   # tag::java-version-minimal[]
+   java-version: 'NEW.VERSION.NUMBER'
+   # end::java-version-minimal[]
+   ```
+
+2. **Update `.sdkmanrc`:**
+   ```
+   java=NEW.VERSION.NUMBER-DISTRIBUTION
+   ```
+   (e.g., `java=17.0.10-tem` for Temurin JDK 17.0.10)
+
+3. **README.adoc automatically updates** - No changes needed!
+   The `[[recommended-jdk]]` admonition includes the version from build.yml using:
+   ```asciidoc
+   include::.github/workflows/build.yml[tag=java-version-minimal]
+   ```
+
+**Why this pattern:**
+
+- **Single source of truth**: The actual version number lives only in build.yml and .sdkmanrc
+- **Automatic propagation**: README.adoc includes the version via AsciiDoc tag, so it updates automatically
+- **Cross-references**: All mentions of "recommended JDK" in README.adoc use `<<recommended-jdk>>` cross-references
+- **Future-proof**: Upgrading to JDK 17, 21, or 25 requires only 2 file edits, not dozens
+
+**Important**: Never hardcode specific JDK versions like "11.0.28" or "17.0.10" in README.adoc.
+Always reference the `[[recommended-jdk]]` admonition using `<<recommended-jdk>>` cross-references.
+
 ## Git Commit Message Conventions
 
 **All commits in this repository must include a project reference:**
