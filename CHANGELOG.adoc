@@ -1,0 +1,224 @@
+= Java 9 Jigsaw modules - Changelog
+include::.asciidoctorconfig[]
+ifdef::env-github[]
+:tip-caption: :bulb:
+:note-caption: :information_source:
+:important-caption: :heavy_exclamation_mark:
+:caution-caption: :fire:
+:warning-caption: :warning:
+endif::[]
+
+This changelog documents significant changes and migrations in the xref:README.adoc[Java 9 Jigsaw examples] repository.
+
+== October 2025 Refactoring and Modernization
+
+This major refactoring modernized the repository with comprehensive documentation migration to AsciiDoc, automated testing infrastructure via golden master tests, and improved development environment setup.
+The changes ensure better maintainability, consistent cross-platform behavior, and streamlined onboarding for new contributors.
+
+=== Golden Master Testing Framework
+
+* Implemented golden master (characterization) testing framework for automated output verification
+* Added `expected-result/run.txt` files capturing expected output for 35+ examples
+* Created `verify.sh` scripts to compare actual vs. expected output during test runs
+* Enhanced examples to generate deterministic, platform-independent output:
+** Normalized file paths across Windows, macOS, and Linux
+** Made object ID generation deterministic based on constructor caller
+** Sorted JAR execution order for consistent output
+** Removed environment-specific information (timestamps, absolute paths)
+* Fixed Windows CRLF handling in test files
+* Integrated golden master verification into GitHub Actions CI pipeline
+* Documented testing approach in main README with cross-references from all examples
+
+=== Documentation Migration to AsciiDoc
+
+* Converted all documentation from Markdown to AsciiDoc format:
+** Main `README.adoc` with enhanced formatting and cross-references
+** 40+ example `README.adoc` files with consistent structure
+** Created separate `CHANGELOG.adoc` for version history
+* Established AsciiDoc infrastructure:
+** Added `.asciidoctorconfig` for common configuration
+** Configured Maven AsciiDoctor plugin for HTML generation
+** Set up automatic deployment to GitHub Pages and Netlify
+** Added GitHub-compatible icons for admonitions
+* Enhanced documentation quality:
+** Converted all example references to AsciiDoc cross-references (`xref:`)
+** Added module dependency diagrams to example overview table
+** Converted all HTTP links to HTTPS
+** Translated remaining German content to English
+** Established consistent authorship attribution
+
+=== Build Tool and Environment Modernization
+
+* Added Maven Wrapper 3.9.11 to all Maven examples:
+** xref:jigsaw-examples/example_maven-project/README.adoc[example_maven-project] (created parent POM for multi-module support)
+** xref:jigsaw-examples/example_maven-test-blackbox/README.adoc[example_maven-test-blackbox]
+** xref:jigsaw-examples/example_maven-test-whitebox/README.adoc[example_maven-test-whitebox]
+** xref:jigsaw-examples/example_spring-hibernate/README.adoc[example_spring-hibernate]
+* Updated Gradle Wrapper to 9.1.0 in xref:jigsaw-examples/example_gradle-project/README.adoc[example_gradle-project]:
+** *Breaking change*: Gradle 9.x requires *JDK 17 or later* (previously JDK 11)
+** Updated build scripts for Gradle 9.x compatibility:
+*** Replaced deprecated `jcenter()` with `mavenCentral()`
+*** Updated `sourceSets.test.java.outputDir` to `sourceSets.test.java.classesDirectory`
+*** Migrated `mainClassName` property to `application { mainClass }` block
+* Environment simplification:
+** Manual installation of Maven and Gradle no longer required
+** `MAVEN_HOME` and `GRADLE_HOME` removed from `env.sh` (no longer needed due to wrapper usage)
+** Use `./mvnw` (Maven) or `./gradlew` (Gradle) instead of system-installed tools
+** Introduced `.envrc` support for https://direnv.net/[direnv] users
+** Enhanced `env.sh` to only set variables when not already configured
+** Fixed Windows path conversion in `.envrc` creation for GitHub Actions
+* All builds tested and verified on macOS with the xref:README.adoc#recommended-jdk[recommended JDK version] (Maven) and JDK 17 (Gradle)
+
+=== SDKMAN Support and JDK Version Alignment
+
+* Added `.sdkmanrc` for developers using https://sdkman.io/[SDKMAN]
+** Automatically configures the xref:README.adoc#recommended-jdk[recommended JDK version] when `sdkman_auto_env=true` is enabled
+** May interfere with `JAVA_HOME` settings in `.envrc` or `env.sh` - see setup documentation
+* Established single source of truth for recommended JDK version:
+** Updated GitHub Actions workflow to use specific JDK version (tagged as `java-version-minimal`)
+** Created `[[recommended-jdk]]` anchor in README with AsciiDoc include from workflow file
+** All JDK version references use cross-references to this anchor
+** Documented xref:README.adoc#recommended-jdk[recommended JDK version] for full compatibility with CI and golden master testing
+* Aligned JDK version across development environments:
+** Some examples produce JDK version-specific output validated by `verify.sh` scripts
+** Newer JDKs may be used for local development but full test execution requires the recommended version
+** Upgraded reference JDK from 11.0.27 to 11.0.28
+
+=== Eclipse IDE Support
+
+Removed deprecated Eclipse IDE support
+
+* Deleted Eclipse project files and launch configurations
+* Removed Eclipse-specific setup documentation
+* Focused on command-line and modern IDE-agnostic workflows
+
+=== GitHub Actions and CI Improvements
+
+* Upgraded `actions/setup-java` to v5 for better reliability
+* Enhanced CI workflow to use `setup-java` outputs for JDK path configuration
+* Fixed Windows path conversion in `.envrc` creation for cross-platform compatibility
+* Configured artifact upload to always run (not just on failure) for documentation generation
+* Added artifact download step in docs job to include run-result files in generated documentation
+* Improved shellcheck integration for script validation across all platforms
+
+== Example for layer module resolution
+
+* Example demonstrating the resolution of modules across layers added
+
+== Migration to JDK 11
+
+* Migrated examples to Java 11.
+* Tested with Eclipse Temurin-11.0.27+6 (build 11.0.27+6)
+* Currently xref:jigsaw-examples/example_spring-hibernate/README.adoc[example_spring-hibernate] is not working.
+
+== Migration to Eclipse 4.7.3a Oxygen.3a
+
+* Eclipse 4.7.3a Oxygen.3a as of April 2018 has been tested, all start*.sh scripts have hence be renamed.
+Eclipse 4.7.1a Oxygen.1a should still work (despite the script name).
+Note that from 4.7.3a on, Eclipse is supposed to work with JDK10.
+
+[IMPORTANT]
+====
+Note that Eclipse 4.7.1a Oxygen.1a still works fine with all examples.
+====
+
+== Migration to Eclipse 4.7.3 Oxygen.3
+
+* Eclipse 4.7.3 Oxygen.3 as of March 2018 has been tested, all start*.sh scripts have hence be renamed.
+Eclipse 4.7.1a Oxygen.1a should still work (despite the script name).
+Note that Eclipse only works with JDK9: Though Eclipse can be started with JDK10, one then sees compile errors when compiling the examples in Eclipse.
+
+[IMPORTANT]
+====
+Note that Eclipse 4.7.1a Oxygen.1a still works fine with all examples.
+====
+
+== Migration to final JDK 10 (Release)
+
+* Migrated examples to Java 10 2018-03-20, Java(TM) SE Runtime Environment 18.3 (build 10+46)
+
+[WARNING]
+====
+All works fine except the xref:jigsaw-examples/example_spring-hibernate/README.adoc[example_spring-hibernate] because of a compile problem.
+See xref:jigsaw-examples/example_spring-hibernate/README.adoc[readme] for details.
+Needs probably Maven/Plugin updates, to be done soon.
+====
+
+[IMPORTANT]
+====
+Note that JDK 9 (like 9.0.4) still works fine with all examples.
+====
+
+== Migration to JDK 10+43 (OpenJDK) (Release)
+
+* Gradle needed an update to 4.6 as the JDK 10 class format could not be read with Gradle 4.2.1 (see also https://github.com/gradle/gradle/issues/3770[here]).
+* Gradle scripts in xref:jigsaw-examples/example_gradle-project/README.adoc[example_gradle-project] now also include a `--info --stacktrace` for more info and error output
+
+== Migration to JDK 9.0.4 (Release)
+
+No changes necessary
+
+== Cleanup
+
+All kinds of scripts, code, environment settings etc. were checked and lots of cleanup was done.
+Nothing critical but looks "fresher" now.
+Some changes:
+
+* Maven 3.7.0 compiler plugin used now in all maven projects
+* Refactoring of the maven test examples: New name is now xref:jigsaw-examples/example_maven-test-blackbox/README.adoc[example_maven-test-blackbox] and xref:jigsaw-examples/example_maven-test-whitebox/README.adoc[example_maven-test-whitebox]
+* Maven settings template file checked to all maven projects
+* Gradle build without the daemon
+* Gradle environment variable GRADLE_USER_HOME introduced, as $HOME is not handled correctly on cygwin systems
+* Refactoring of the example which shows that automatic modules can access the classpath, now in xref:jigsaw-examples/example_unnamed-module_access-from-automatic-module/README.adoc[example_unnamed-module_access-from-automatic-module]
+* All scripts' calls to java, javac, jar etc. now redirected STDERR to STDOUT to make sure that both standard and error output are printed in order (otherwise some exception output is printed very early and now below the call as expected)
+* Cleanup of Eclipse dependencies and Build paths whereever possible (not easy when e.g. a mixture of explicit modules and/or automatic modules and/or classpath code has to be built in Eclipse)
+* Cleanup of Eclipse launch files (and also renamed them not to have any whitespace in their .launch file name)
+* All kind of cleanup like better comments, a bit more separating whitespaces or separating lines in the output
+* Deleted `example_requires-transitive_exports` (obsolete as all of its contents is covered by xref:jigsaw-examples/example_requires_exports_requires-transitive_exports-to/README.adoc[example_requires_exports_requires-transitive_exports-to] already)
+
+== Migration to JDK 9.0.1 (Release)
+
+No changes necessary
+
+== Upgrade to DepVis 0.3
+
+Now with print and visualization output like printing uses and provides, printing concealed packages, showing opens and opens-to etc.
+See https://github.com/accso/java9-jigsaw-depvis[DepVis Readme] for details
+
+== New and enhanced examples
+
+* xref:jigsaw-examples/example_unnamed-module-reflection-illegal-access/README.adoc[example_unnamed-module-reflection-illegal-access] is new, shows the usage of the "kill switch"
+* xref:jigsaw-examples/example_requires-static/README.adoc[example_requires-static] is new, shows the usage of the "requires static"
+
+== Enhanced examples
+
+* xref:jigsaw-examples/example_resources/README.adoc[example_resources] is fixed, now works as expected
+* Various other cleanups, refactorings, corrections all over the place
+* xref:jigsaw-examples/example_jerrymouse/README.adoc[example_jerrymouse] limits its apps to a whitelist and only uses them, if they work
+* All examples which can be used as an app in xref:jigsaw-examples/example_jerrymouse/README.adoc[example_jerrymouse]: Its `modmain` is now an "open module" (instead of "opens pkgmain")
+
+== Migration to JDK 9 b181 (Release)
+
+* --patch-module replaces -Xmodule for javac
+* Upgrade maven-compiler-plugin to 3.6.2
+* Adapted to new automatic module name algorithm
+
+== Migration to JDK 9 b162
+
+* changes in API (java.lang.reflect.Module is now java.lang.Module, java.lang.reflect.Layer is now java.lang.ModuleLayer)
+
+== Migration to JDK 9 b156
+
+* changes in API (Configuration.resolve instead of Configuration.resolveRequires)
+* no more java.compact1 profile available (was used in xref:jigsaw-examples/example_resolved-modules/README.adoc[example_resolved-modules])
+* all javac calls now use -Xlint
+* note that compiler and launcher now show various warnings (not sure if this is because of b156 or because of "javac -Xlint")
+
+== Migration to JDK 9 b148
+
+* no changes necessary, everything seems still to work as in b144
+
+== Migration to JDK 9 b144
+
+* "opens" instead of "exports dynamic" and "weak modules"
+* "requires transitive" instead of "requires public"
