@@ -42,3 +42,22 @@ Note that is a class exists both on the classpath and in a module on the module 
 Hence code in a module 'covers' code on the classpath!
 
 The script run.sh starts both the main class `cpmain`.
+
+=== Output
+
+This example uses xref:../../README.adoc#golden-master-testing[golden master testing] to ensure output consistency.
+The expected output is compared with actual output using `verify.sh`.
+
+==== Expected Output
+
+[source]
+----
+include::expected-result/run.txt[]
+----
+
+==== Actual Output
+
+[source]
+----
+include::run-result/run.txt[]
+----

@@ -35,3 +35,22 @@ image::moduledependencies.png[Example's Module Dependency Graph]
 
 * Usage of `requires static` and `requires static transitive` for optional dependencies for modules, needed at compile time but don't want to force its presence at runtime.
 So we mark such a dependency as being optional with the `static` modifier.
+
+=== Output
+
+This example uses xref:../../README.adoc#golden-master-testing[golden master testing] to ensure output consistency.
+The expected output is compared with actual output using `verify.sh`.
+
+==== Expected Output
+
+[source]
+----
+include::expected-result/run.txt[]
+----
+
+==== Actual Output
+
+[source]
+----
+include::run-result/run.txt[]
+----

@@ -6,10 +6,17 @@ import java.lang.reflect.Method;
 
 import pkgb.B;
 import pkgb1.B1;
+import pkgmaininternal.IdGen;
 
 public class Main {
+    private String id;
+
+    public Main() {
+        id = IdGen.createID();
+    }
+
     public static void main(String[] args) throws NoSuchMethodException, SecurityException,
-    IllegalAccessException, IllegalArgumentException, 
+    IllegalAccessException, IllegalArgumentException,
     InvocationTargetException, ClassNotFoundException, InstantiationException
     {
         Main mymain = new Main();		
@@ -86,5 +93,10 @@ public class Main {
         m = myinternalB.getClass().getDeclaredMethod("doItPrivateStatic", String.class);
         m.setAccessible(true);
         System.out.println("11. Main: " + mymain.toString() + ", InternalB: " + m.invoke(myinternalB, "call via reflection"));
+    }
+
+    @Override
+    public String toString() {
+        return this.getClass().getName() + ", id=" + id;
     }
 }

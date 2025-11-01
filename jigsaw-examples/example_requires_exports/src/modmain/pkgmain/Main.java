@@ -1,10 +1,17 @@
 package pkgmain;
 
 import pkgb.B;
+import pkgmaininternal.IdGen;
 
 public class Main {
+    private String id;
+
+    public Main() {
+        id = IdGen.createID();
+    }
+
     public static void main(String[] args) {
-        Main mymain = new Main();		
+        Main mymain = new Main();
         B myb = new B();
 
         // Compiles, even though type C not visible here - note that modc is not required from modmain (and modb1/2 do not "required transitive" modc)
@@ -13,7 +20,12 @@ public class Main {
         System.out.println("Main: " + mymain.toString() + ", B: " + myb.doIt() + ", C: " + myc.toString());
 
         // Does not compile, as type C not visible here
-        // C myc1 = myb.getMyC(); 
+        // C myc1 = myb.getMyC();
         // System.out.println("Main: " + mymain.toString() + ", B: " + myb.doIt() + ", C: " + myc1.doIt());
+    }
+
+    @Override
+    public String toString() {
+        return this.getClass().getName() + ", id=" + id;
     }
 }

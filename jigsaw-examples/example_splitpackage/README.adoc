@@ -50,3 +50,22 @@ In one classloader, two or more modules must not be loaded, which have/export th
 === TODOs
 
 * [ ] Does case 2 work, if the classloader for modsplitbar1 and modsplitbar2 is different (i.e., what about layers)?
+
+=== Output
+
+This example uses xref:../../README.adoc#golden-master-testing[golden master testing] to ensure output consistency.
+The expected output is compared with actual output using `verify.sh`.
+
+==== Expected Output
+
+[source]
+----
+include::expected-result/run.txt[]
+----
+
+==== Actual Output
+
+[source]
+----
+include::run-result/run.txt[]
+----

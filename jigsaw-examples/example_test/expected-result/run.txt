@@ -1,0 +1,20 @@
+JUnit version 4.12
+.Running blackbox test class pkgblacktest.BlackBoxTest.doBlackboxTest(): Testing modfib's exported class pkgfib.Fibonacci
+
+
+OK (1 test)
+
+ 
+JUnit version 4.12
+.Running whitebox test class pkgfib.WhiteBoxTest.doWhiteboxTest(): Testing modfib's internal class pkgfib.internal.MathHelper
+
+
+OK (1 test)
+
+ 
+JUnit version 4.12
+.Running whitebox test class pkgfib.WhiteBoxTest.doWhiteboxTest(): Testing modfib's internal class pkgfib.internal.MathHelper
+
+
+OK (1 test)
+

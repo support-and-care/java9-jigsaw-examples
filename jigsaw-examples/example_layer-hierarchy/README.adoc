@@ -64,3 +64,22 @@ Each of the tree nodes has a name, a level and keeps the reference to a Jigsaw l
 ** Modules (`mod.u*`, `mod.x*`, `mod.y*`, `mod.z*`) are added to the layers (see section "Modules ..." above).
 . The example shows also how modules in different layers can interact with each other via derivation and delegation (see section "Modules ...").
 . Finally, the examples shows how one can call any other class in any other module in the layer hierarchy via reflection (see `mod.main/pkgmain.ModuleCaller`, in the Jigsaw boot layer).
+
+=== Output
+
+This example uses xref:../../README.adoc#golden-master-testing[golden master testing] to ensure output consistency.
+The expected output is compared with actual output using `verify.sh`.
+
+==== Expected Output
+
+[source]
+----
+include::expected-result/run.txt[]
+----
+
+==== Actual Output
+
+[source]
+----
+include::run-result/run.txt[]
+----

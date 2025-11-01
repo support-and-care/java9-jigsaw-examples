@@ -1,10 +1,15 @@
 #!/usr/bin/env bash
-cat readme.md
 
-./run-blackboxtest.sh
+set -eu -o pipefail
 
-echo " "
-./run-whiteboxtest.sh
+source ../env.sh
 
-echo " "
-./run-whiteboxtest_with-optionsfile.sh
+mkdir -p run-result
+
+./run-blackboxtest.sh 2>&1 | normalize | sed 's/\x1b\[[0-9;]*[mKGH]//g' | grep -v "^Time: " | tee run-result/run.txt
+
+echo " " | tee -a run-result/run.txt
+./run-whiteboxtest.sh 2>&1 | normalize | sed 's/\x1b\[[0-9;]*[mKGH]//g' | grep -v "^Time: " | tee -a run-result/run.txt
+
+echo " " | tee -a run-result/run.txt
+./run-whiteboxtest_with-optionsfile.sh 2>&1 | normalize | sed 's/\x1b\[[0-9;]*[mKGH]//g' | grep -v "^Time: " | tee -a run-result/run.txt

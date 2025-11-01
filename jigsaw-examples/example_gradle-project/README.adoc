@@ -48,3 +48,8 @@ image::moduledependencies-with-facade.png[Example's Module Dependency Graph]
 * https://dzone.com/articles/state-of-gradle-java-9-support?edition=334728
 * https://guides.gradle.org/building-java-9-modules/
 * https://github.com/gradle-guides/building-java-9-modules.git (Note that this is still using Gradle 4.2, you need to change `gradle-wrapper.properties` to download `gradle-4.2.1-bin.zip`)
+
+=== Output and Testing
+
+This example does not use xref:../../README.adoc#golden-master-testing[golden master testing] because Gradle output includes timestamps, download progress messages, absolute file paths, and version information that varies between runs.
+See the xref:../../README.adoc#golden-master-testing[golden master testing section] in the main README for more information.

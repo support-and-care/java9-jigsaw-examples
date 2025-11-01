@@ -1,0 +1,3 @@
+Simple test to find out if code compiled with a JDK >8 runs with JDK8. If you see this output, the call worked!
+Simple test to find out if code compiled with a JDK >8 runs with JDK8. If you see this output, the call worked!
+Exception in thread "main" java.lang.UnsupportedClassVersionError

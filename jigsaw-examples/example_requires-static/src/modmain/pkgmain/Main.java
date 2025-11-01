@@ -1,8 +1,15 @@
 package pkgmain;
 
 import pkgb.B;
+import pkgmaininternal.IdGen;
 
 public class Main {
+    private String id;
+
+    public Main() {
+        id = IdGen.createID();
+    }
+
     public static void main(String[] args) {
         Main mymain = new Main();		
         B myb = new B();
@@ -15,5 +22,10 @@ public class Main {
         // C myc = myb.getMyC(); 
 
         System.out.println("Main: " + mymain.toString() + ", B: " + myb.doIt() + ", C: " + myc.toString());
+    }
+
+    @Override
+    public String toString() {
+        return this.getClass().getName() + ", id=" + id;
     }
 }

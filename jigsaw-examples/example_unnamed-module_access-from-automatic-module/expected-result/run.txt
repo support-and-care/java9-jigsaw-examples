@@ -1,0 +1,3 @@
+
+Calling A.doIt(): From A, which is on the classpath
+Calling A.doItPrivate() via reflection: From A, private method

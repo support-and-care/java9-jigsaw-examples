@@ -15,7 +15,8 @@ public class MainCallingModB {
 	        System.out.println(o.toString());
     	}
     	catch (Throwable t) {
-    		t.printStackTrace(System.out);
+            System.out.println("Caught exception: " + t.getClass());
+            System.exit(1);
     	}
 
     	try {
@@ -26,7 +27,8 @@ public class MainCallingModB {
 	        System.out.println(o.toString());
     	}
     	catch (Throwable t) {
-    		t.printStackTrace(System.out);
+            System.out.println("Caught exception: " + t.getClass());
+            System.exit(1);
     	}
 
     	try {
@@ -37,7 +39,8 @@ public class MainCallingModB {
 	        System.out.println(o.toString());
     	}
     	catch (Throwable t) {
-    		t.printStackTrace(System.out);
+            System.out.println("Caught exception: " + t.getClass());
+            System.exit(1);
     	}
     }
 }

@@ -1,0 +1,3 @@
+Main: from pkgboncp.BFromClasspath (in cpb)
+ClassNotFoundException: pkgb.BFromClasspath can't be found, as it is hidden by pkgb in modb!
+Main: from pkgb.B (in modb)

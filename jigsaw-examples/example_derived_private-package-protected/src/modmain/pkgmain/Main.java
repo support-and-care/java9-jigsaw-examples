@@ -1,8 +1,15 @@
 package pkgmain;
 
 import pkgb.*;
+import pkgmaininternal.IdGen;
 
 public class Main {
+    private String id;
+
+    public Main() {
+        id = IdGen.createID();
+    }
+
     public static void main(String[] args) {
         Main mymain = new Main();		
         B myb = new B();
@@ -41,8 +48,13 @@ public class Main {
 //                myDataFactory.createInternalData2().toString());
 
 // does not compile. error: getName() in InternalData is defined in an inaccessible class or interface
-//        System.out.println("Main: " + mymain.toString() + ", Factory.createInternalData2().getName(): " + 
+//        System.out.println("Main: " + mymain.toString() + ", Factory.createInternalData2().getName(): " +
 //                myDataFactory.createInternalData2().getName());
+    }
+
+    @Override
+    public String toString() {
+        return this.getClass().getName() + ", id=" + id;
     }
 }
 

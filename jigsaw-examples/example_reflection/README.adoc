@@ -37,3 +37,22 @@ In our example we've had a difference between the (exported) package `pkgb` with
 
 In modmain, we call methods of both classes statically (only B) and dynamically via reflection (`B` and `InternalB`), with variants of methods (public, private, private static methods) are all called via reflection.
 In the `module-info` of `modb` there is no more distinction possible, both exports are `exports private`.
+
+=== Output
+
+This example uses xref:../../README.adoc#golden-master-testing[golden master testing] to ensure output consistency.
+The expected output is compared with actual output using `verify.sh`.
+
+==== Expected Output
+
+[source]
+----
+include::expected-result/run.txt[]
+----
+
+==== Actual Output
+
+[source]
+----
+include::run-result/run.txt[]
+----

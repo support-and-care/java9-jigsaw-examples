@@ -66,3 +66,22 @@ Note that using automatic modules in either bar-layer #1 or #2 will lead to fail
 An automatic module will try to add reads dependencies to all modules in the bar-layer and in the parent boot layer.
 In doing this, it tries to read from both modcommon in boot as well as modcommon in bar!
 This leads to a module resolution error.
+
+=== Output
+
+This example uses xref:../../README.adoc#golden-master-testing[golden master testing] to ensure output consistency.
+The expected output is compared with actual output using `verify.sh`.
+
+==== Expected Output
+
+[source]
+----
+include::expected-result/run.txt[]
+----
+
+==== Actual Output
+
+[source]
+----
+include::run-result/run.txt[]
+----

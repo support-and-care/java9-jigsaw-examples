@@ -1,19 +1,40 @@
 package pkgz.middle;
 
 import java.lang.ModuleLayer;
+import java.lang.Module;
+import java.util.stream.Collectors;
 
 import pkglayer.LayerHierarchy;
+import pkgzmiddleinternal.IdGen;
 
 public class ZMiddleClass {
+    private String id;
+
+    public ZMiddleClass() {
+        id = IdGen.createID();
+    }
+
     public String doIt() {
         ModuleLayer myLayer = this.getClass().getModule().getLayer();
         String layerName  = LayerHierarchy.getLayerName(myLayer);
         String layerLevel = LayerHierarchy.getLayerLevel(myLayer);
 
         return "\t" + this.toString() + " [ " + ZMiddleClass.class
-            + ", module " + this.getClass().getModule().getName() 
-            + ", layer '" + layerName + "' on level '" + layerLevel + "' (" + myLayer + ") ]"
+            + ", module " + this.getClass().getModule().getName()
+            + ", layer '" + layerName + "' on level '" + layerLevel + "' (" + sortedModuleListAsString(myLayer) + ") ]"
 
             + "\n\tplus " + new pkgz.top.ZTopClass().doIt();
+    }
+
+    private static String sortedModuleListAsString(ModuleLayer moduleLayer) {
+        return moduleLayer.modules().stream()
+                .map(Module::getName)
+                .sorted()
+                .collect(Collectors.joining(", "));
+    }
+
+    @Override
+    public String toString() {
+        return this.getClass().getName() + ", id=" + id;
     }
 }

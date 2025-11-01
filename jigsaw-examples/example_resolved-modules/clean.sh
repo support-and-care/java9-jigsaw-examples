@@ -10,3 +10,4 @@ mkdir -p mlib
 mkdir -p jimage
 
 rm -rf doc
+rm -rf run-result

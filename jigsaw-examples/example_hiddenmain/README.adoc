@@ -36,3 +36,22 @@ image::moduledependencies.png[Example's Module Dependency Graph]
 * Run starts two examples: One starts the main methode in an exported package, second calls a main method in a non-exported package
 
 Both calls are possible.
+
+=== Output
+
+This example uses xref:../../README.adoc#golden-master-testing[golden master testing] to ensure output consistency.
+The expected output is compared with actual output using `verify.sh`.
+
+==== Expected Output
+
+[source]
+----
+include::expected-result/run.txt[]
+----
+
+==== Actual Output
+
+[source]
+----
+include::run-result/run.txt[]
+----

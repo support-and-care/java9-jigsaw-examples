@@ -12,10 +12,11 @@ public class MainCallingJavaBaseJDKInternal {
 	        Constructor<?> con = clazz.getDeclaredConstructor();
 	        con.setAccessible(true);
 	        Object o = con.newInstance();
-	        System.out.println(o.toString());
+	        System.out.println(o.getClass().getName());
     	}
     	catch (Throwable t) {
-    		t.printStackTrace(System.out);
-    	}
+            System.out.println("Caught exception: " + t.getClass());
+            System.exit(1);
+        }
     }
 }

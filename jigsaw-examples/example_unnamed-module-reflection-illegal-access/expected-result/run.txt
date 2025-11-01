@@ -1,0 +1,54 @@
+Caught exception: class java.lang.reflect.InaccessibleObjectException
+Caught exception: class java.lang.reflect.InaccessibleObjectException
+Caught exception: class java.lang.reflect.InaccessibleObjectException
+Caught exception: class java.lang.reflect.InaccessibleObjectException
+jdk.internal.math.DoubleConsts
+WARNING - content dropped due to output normalization
+WARNING - content dropped due to output normalization
+WARNING - content dropped due to output normalization
+WARNING - content dropped due to output normalization
+WARNING - content dropped due to output normalization
+sun.net.PortConfig
+WARNING - content dropped due to output normalization
+WARNING - content dropped due to output normalization
+WARNING - content dropped due to output normalization
+WARNING - content dropped due to output normalization
+WARNING - content dropped due to output normalization
+sun.net.PortConfig
+WARNING - content dropped due to output normalization
+sun.net.PortConfig
+Caught exception: class java.lang.reflect.InaccessibleObjectException
+sun.net.PortConfig
+WARNING - content dropped due to output normalization
+WARNING - content dropped due to output normalization
+WARNING - content dropped due to output normalization
+WARNING - content dropped due to output normalization
+WARNING - content dropped due to output normalization
+sun.awt.OSInfo
+WARNING - content dropped due to output normalization
+WARNING - content dropped due to output normalization
+WARNING - content dropped due to output normalization
+WARNING - content dropped due to output normalization
+WARNING - content dropped due to output normalization
+sun.awt.OSInfo
+WARNING - content dropped due to output normalization
+sun.awt.OSInfo
+Caught exception: class java.lang.reflect.InaccessibleObjectException
+WARNING - content dropped due to output normalization
+WARNING - content dropped due to output normalization
+WARNING - content dropped due to output normalization
+WARNING - content dropped due to output normalization
+WARNING - content dropped due to output normalization
+WARNING - content dropped due to output normalization
+sun.awt.OSInfo
+pkgb.BFromModule, id=ID_MainCallingModB_14
+Caught exception: class java.lang.reflect.InaccessibleObjectException
+pkgb.BFromModule, id=ID_MainCallingModB_14
+Caught exception: class java.lang.reflect.InaccessibleObjectException
+pkgb.BFromModule, id=ID_MainCallingModB_14
+Caught exception: class java.lang.reflect.InaccessibleObjectException
+pkgb.BFromModule, id=ID_MainCallingModB_14
+Caught exception: class java.lang.reflect.InaccessibleObjectException
+pkgb.BFromModule, id=ID_MainCallingModB_14
+pkgbinternal.BFromModuleButInternal, id=ID_MainCallingModB_26
+pkgbexportedqualified.BFromModuleButExportedQualified, id=ID_MainCallingModB_38

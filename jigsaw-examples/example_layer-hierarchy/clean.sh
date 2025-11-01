@@ -1,10 +1,9 @@
 #!/usr/bin/env bash
 source ../env.sh
-
 rm -rf mods/*
 rm -rf mlib/*.jar
-
 mkdir -p mods
 mkdir -p mlib
-
 rm -rf doc
+rm -rf run-result
+

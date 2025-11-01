@@ -1,0 +1,5 @@
+<TIMESTAMP> pkgmain.Main main
+INFO: This is Main - logging.
+[main] INFO pkgmain.Main - This is Main - logging.
+Error occurred during initialization of boot layer
+java.lang.module.ResolutionException: ...

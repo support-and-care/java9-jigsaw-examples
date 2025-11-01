@@ -49,3 +49,8 @@ The file provided here is just a copy of the original file from Maven 3.5.2 dist
 * Note that the maven-compiler-plugin (version 3.6.2) currently has a bug ("syntax error") when there are comments in the `module-info.java`
 * The current surefire-plugin does not yet support modules.
 It runs tests in classpath mode.
+
+=== Output and Testing
+
+This example does not use xref:../../README.adoc#golden-master-testing[golden master testing] because Maven output includes timestamps, absolute file paths, and version information that varies between runs.
+See the xref:../../README.adoc#golden-master-testing[golden master testing section] in the main README for more information.

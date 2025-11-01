@@ -45,3 +45,22 @@ Because automatic modules read all other modules, they also read automatically a
 With that, both `modauto1` and `modauto2` are added to the configuration and as both modules share the same package we this results in a split package problem.
 
 So even though noone (statically) requires `modauto2`, it is automatically required by `modauto1` at runtime and hence causes a runtime error, which might be a bit surprising.
+
+=== Output
+
+This example uses xref:../../README.adoc#golden-master-testing[golden master testing] to ensure output consistency.
+The expected output is compared with actual output using `verify.sh`.
+
+==== Expected Output
+
+[source]
+----
+include::expected-result/run.txt[]
+----
+
+==== Actual Output
+
+[source]
+----
+include::run-result/run.txt[]
+----

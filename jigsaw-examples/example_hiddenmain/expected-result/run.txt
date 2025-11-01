@@ -1,0 +1,2 @@
+You called pkgmain.Main.main()
+You called pkgmainhidden.HiddenMain.main()
