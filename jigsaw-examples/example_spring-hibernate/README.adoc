@@ -107,3 +107,8 @@ No software is ready, ever ;-) So here are some ideas left (any other feedback v
 * Nicolas Frankel's DZone articles
 ** https://dzone.com/articles/migrating-a-spring-boot-application-to-java-9-comp[Migrating a Spring Boot App to Java 9: Compatibility], and
 ** https://dzone.com/articles/migrating-a-spring-boot-app-to-java-9-modules[Migrating a Spring Boot App to Java 9 (Part 2): Modules]
+
+=== Output and Testing
+
+This example does not use xref:../../README.adoc#golden-master-testing[golden master testing] because Spring Boot output includes timestamps, port numbers, absolute file paths, and environment-specific information that varies between runs.
+See the xref:../../README.adoc#golden-master-testing[golden master testing section] in the main README for more information.

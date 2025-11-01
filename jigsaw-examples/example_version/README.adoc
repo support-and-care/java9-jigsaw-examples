@@ -44,3 +44,22 @@ System properties say, we are using Java version as follows:
 The output will vary depending on your installed Java version.
 This example demonstrates the version string format introduced in JEP 223 (Java 9).
 ====
+
+=== Output
+
+This example uses xref:../../README.adoc#golden-master-testing[golden master testing] to ensure output consistency.
+The expected output is compared with actual output using `verify.sh`.
+
+==== Expected Output
+
+[source]
+----
+include::expected-result/run.txt[]
+----
+
+==== Actual Output
+
+[source]
+----
+include::run-result/run.txt[]
+----

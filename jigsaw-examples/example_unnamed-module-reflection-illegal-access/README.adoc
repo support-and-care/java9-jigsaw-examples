@@ -50,3 +50,22 @@ An explicit `--add-opens` is hence needed.
 *Note that the kill switch **only works for classes which had been available before Java9**, i.e. were part of Java8. See also explanation https://docs.oracle.com/javase/9/tools/java.htm#JSWOR624[here].*
 
 See all 20 different variants of how to use the `--illegal-access=...` command line option or the `--add-opens` option in the run script `run.sh`.
+
+=== Output
+
+This example uses xref:../../README.adoc#golden-master-testing[golden master testing] to ensure output consistency.
+The expected output is compared with actual output using `verify.sh`.
+
+==== Expected Output
+
+[source]
+----
+include::expected-result/run.txt[]
+----
+
+==== Actual Output
+
+[source]
+----
+include::run-result/run.txt[]
+----

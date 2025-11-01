@@ -36,3 +36,22 @@ image::moduledependencies.png[Example's Module Dependency Graph]
 * Module modcallee defines a callback interface ICallback, which is returned when calling Callee.doIt().
 * Module modcallbackhandler does implement the interface ICallback
 * Module modmain brings Callee and implementation together: Callee can call the implementation of ICallback
+
+=== Output
+
+This example uses xref:../../README.adoc#golden-master-testing[golden master testing] to ensure output consistency.
+The expected output is compared with actual output using `verify.sh`.
+
+==== Expected Output
+
+[source]
+----
+include::expected-result/run.txt[]
+----
+
+==== Actual Output
+
+[source]
+----
+include::run-result/run.txt[]
+----

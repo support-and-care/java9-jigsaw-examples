@@ -45,3 +45,22 @@ Adding cannot be done in modmain/Main directly, as the reflection method is call
 Note that for successful compilation, modmain/Main needs access to the exported BHelper.
 Therefore the option --add-exports is needed.
 Same thing during runtime.
+
+=== Output
+
+This example uses xref:../../README.adoc#golden-master-testing[golden master testing] to ensure output consistency.
+The expected output is compared with actual output using `verify.sh`.
+
+==== Expected Output
+
+[source]
+----
+include::expected-result/run.txt[]
+----
+
+==== Actual Output
+
+[source]
+----
+include::run-result/run.txt[]
+----

@@ -188,8 +188,8 @@ jobs:
         fi
         echo
 
-    - name: Upload run results on failure
-      if: failure()
+    - name: Upload run results
+      if: always()
       uses: actions/upload-artifact@v4
       with:
         name: run-results-${{ matrix.os }}
@@ -200,7 +200,7 @@ jobs:
     name: Generate and Deploy Documentation
     runs-on: ubuntu-latest
     needs: build
-    if: success()
+    if: "!cancelled()"
 
     permissions:
       contents: read
@@ -217,6 +217,12 @@ jobs:
       with:
         distribution: 'temurin'
         java-version: '17'
+
+    - name: Download Linux run results for documentation
+      uses: actions/download-artifact@v4
+      with:
+        name: run-results-ubuntu-latest
+        path: jigsaw-examples
 
     - name: Generate documentation
       run: ./mvnw verify

@@ -37,3 +37,22 @@ see https://openjdk.java.net/projects/jigsaw/spec/issues/#ModuleAnnotations[Modu
 * modmain looks up modules modb and mod.annotations and prints their annotations available at runtime
 * modb is deprecated via annotation in its module-info.java.
 * mod.annotations defines three annotations with ElementType module, one available at runtime, two only available at compile time
+
+=== Output
+
+This example uses xref:../../README.adoc#golden-master-testing[golden master testing] to ensure output consistency.
+The expected output is compared with actual output using `verify.sh`.
+
+==== Expected Output
+
+[source]
+----
+include::expected-result/run.txt[]
+----
+
+==== Actual Output
+
+[source]
+----
+include::run-result/run.txt[]
+----
