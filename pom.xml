@@ -50,6 +50,18 @@
                         <embedAssets>false</embedAssets>
                         <imagesdir>.</imagesdir>
                     </attributes>
+
+                    <!-- Ensure each file finds local resources -->
+                    <relativeBaseDir>true</relativeBaseDir>
+
+                    <!-- Fail the build on warnings and errors (e.g., missing includes) -->
+                    <logHandler>
+                        <failFast>false</failFast>
+                        <failIf>
+                            <severity>WARN</severity>
+                        </failIf>
+                    </logHandler>
+
                     <resources>
                         <resource>
                             <directory>${project.basedir}/jigsaw-examples</directory>

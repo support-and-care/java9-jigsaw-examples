@@ -119,6 +119,24 @@ If you run all stuff on *nix, use a colon : .
 * *Either* call one of the scripts on the top level, i.e., one of `allclean.sh`, `allcompile.sh`, `allcreatevis.sh` and `allrun.sh` (or `all.sh` for all in one step).
 * *Alternatively*, cd to one of the examples and call one of the scripts there (again `all.sh` for all in one step).
 
+[[golden-master-testing]]
+=== Golden Master Testing
+
+Most examples in this repository use golden master testing (also known as characterization testing or approval testing) to ensure output consistency.
+This technique captures the expected output of a program and compares it against actual output during subsequent runs.
+
+*How it works in this repository:*
+
+* Each example with golden master testing has an `expected-result/run.txt` file containing the captured expected output
+* When you run `./verify.sh` in an example directory, it executes the example and compares the actual output (saved to `run-result/run.txt`) with the expected output
+* The test passes if both outputs match exactly
+
+*Why some examples don't have golden master testing:*
+
+Examples that use build tools (Maven, Gradle) or frameworks (Spring Boot) typically produce output that varies between runs.
+This includes timestamps, absolute file paths, download progress messages, port numbers, and environment-specific information.
+For these examples, manual verification or integration tests are more appropriate.
+
 === Additional information
 
 All examples have been tested with the <<recommended-jdk,recommended JDK version>> on Windows, Linux, and macOS.

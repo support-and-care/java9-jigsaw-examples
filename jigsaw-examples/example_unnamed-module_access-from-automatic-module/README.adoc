@@ -37,3 +37,22 @@ This means that all packages from the unnamed module are implicitly exported and
 The script run.sh starts the main class from `modmain.auto`.
 
 Note: No JavaDoc generation for this example.
+
+=== Output
+
+This example uses xref:../../README.adoc#golden-master-testing[golden master testing] to ensure output consistency.
+The expected output is compared with actual output using `verify.sh`.
+
+==== Expected Output
+
+[source]
+----
+include::expected-result/run.txt[]
+----
+
+==== Actual Output
+
+[source]
+----
+include::run-result/run.txt[]
+----

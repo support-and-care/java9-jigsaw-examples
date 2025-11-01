@@ -45,3 +45,22 @@ All takes place in the boot layer, as the output of `modcommon/pkgcommon.LayerPr
 So all modules `modmain`, `modcommon`, `modfoo`, `modbar` are in the same layer, in the standard boot layer.
 
 As `modmain` does not require `modfoo` and `modbar`, we have to specify `--add-modules modbar,modfoo` in the run script `run.sh`.
+
+=== Output
+
+This example uses xref:../../README.adoc#golden-master-testing[golden master testing] to ensure output consistency.
+The expected output is compared with actual output using `verify.sh`.
+
+==== Expected Output
+
+[source]
+----
+include::expected-result/run.txt[]
+----
+
+==== Actual Output
+
+[source]
+----
+include::run-result/run.txt[]
+----

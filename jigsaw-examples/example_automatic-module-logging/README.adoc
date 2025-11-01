@@ -47,3 +47,22 @@ The example also shows:
 * during compile time, only the interfaces are needed
 * the mapping of names in automatic modules: The part behind the last "-" is interpreted as version and cut off.
 Each remaining "-" is substituted by a ".".
+
+=== Output
+
+This example uses xref:../../README.adoc#golden-master-testing[golden master testing] to ensure output consistency.
+The expected output is compared with actual output using `verify.sh`.
+
+==== Expected Output
+
+[source]
+----
+include::expected-result/run.txt[]
+----
+
+==== Actual Output
+
+[source]
+----
+include::run-result/run.txt[]
+----

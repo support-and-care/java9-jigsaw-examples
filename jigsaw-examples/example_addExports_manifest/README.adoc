@@ -43,3 +43,22 @@ For this to work
 * modmain has to be in the unnamed module
 
 see: https://mail.openjdk.java.net/pipermail/jpms-spec-experts/2016-September/000391.html
+
+=== Output
+
+This example uses xref:../../README.adoc#golden-master-testing[golden master testing] to ensure output consistency.
+The expected output is compared with actual output using `verify.sh`.
+
+==== Expected Output
+
+[source]
+----
+include::expected-result/run.txt[]
+----
+
+==== Actual Output
+
+[source]
+----
+include::run-result/run.txt[]
+----
