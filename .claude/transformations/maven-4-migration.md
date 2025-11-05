@@ -31,10 +31,11 @@ example_foo/
 ├── m4/                           # Maven 4 migration subdirectory
 │   ├── pom.xml                   # Maven 4 specific POM (standalone, minimal)
 │   ├── src/
-│   │   ├── main/
-│   │   │   └── java -> ../../../src  # Symlink to original sources
-│   │   └── test/
-│   │       └── java -> ../../../test # Symlink (if tests exist)
+│   │   └── java/                 # Maven 4 Module Source Hierarchy
+│   │       ├── moda/
+│   │       │   └── main -> ../../../../src/moda  # Symlink to module source
+│   │       └── modb/
+│   │           └── main -> ../../../../src/modb  # Symlink to module source
 │   ├── compile.sh                # Maven compile wrapper
 │   ├── run.sh                    # Maven run wrapper
 │   ├── verify.sh                 # Maven verify wrapper (golden master integration)
@@ -47,17 +48,37 @@ example_foo/
 
 **Always use relative paths for portability across systems.**
 
-### Standard Links
+We use the **Module Source Hierarchy** approach, which explicitly declares each module in the directory structure and POM configuration.
 
-For most examples with sources in `src/`:
+### Standard Links (Module Source Hierarchy)
+
+For examples with multiple modules in `src/`:
 
 ```bash
 cd example_foo/m4
-mkdir -p src/main
-ln -s ../../../src src/main/java
+
+# Create structure for first module (e.g., modmain)
+mkdir -p src/java/modmain
+ln -s ../../../../src/modmain src/java/modmain/main
+
+# Create structure for second module (e.g., modb)
+mkdir -p src/java/modb
+ln -s ../../../../src/modb src/java/modb/main
 ```
 
-This creates: `m4/src/main/java` → `../../../src`
+This creates:
+- `m4/src/java/modmain/main` → `../../../../src/modmain`
+- `m4/src/java/modb/main` → `../../../../src/modb`
+
+### Single Module Examples
+
+For examples with a single module:
+
+```bash
+cd example_foo/m4
+mkdir -p src/java/modmain
+ln -s ../../../../src/modmain src/java/modmain/main
+```
 
 ### Test Links
 
@@ -65,28 +86,31 @@ For examples with tests (rare, but exists):
 
 ```bash
 cd example_foo/m4
-mkdir -p src/test
-ln -s ../../../test src/test/java
+mkdir -p src/java/modmain
+ln -s ../../../../test/modmain src/java/modmain/test
 ```
 
-This creates: `m4/src/test/java` → `../../../test`
+This creates: `m4/src/java/modmain/test` → `../../../../test/modmain`
 
 ### Resources
 
-If examples have resources (check original example structure):
+If examples have module-specific resources:
 
 ```bash
 cd example_foo/m4
-mkdir -p src/main
-ln -s ../../../resources src/main/resources
+mkdir -p src/java/modmain/main
+ln -s ../../../../../resources/modmain src/java/modmain/main/resources
 ```
+
+**Note**: Resource structure depends on original example layout - inspect before creating links.
 
 ### Rationale
 
 - **Relative paths**: Ensures repository remains relocatable
 - **Single source of truth**: All source modifications happen in original `src/` location
 - **No duplication**: Reduces maintenance burden and prevents divergence
-- **Maven compatibility**: Provides Maven-standard directory structure via symlinks
+- **Explicit module declaration**: Maven 4 Module Source Hierarchy makes module structure clear
+- **Automatic JPMS arguments**: Compiler automatically adds necessary module compilation flags
 
 ## Maven Project Structure
 
@@ -99,9 +123,73 @@ Each `m4` subdirectory is a **standalone, minimal Maven project**:
 - No inter-example dependencies through Maven (use file-based module-path if needed)
 - Minimal configuration - only what's needed for that specific example
 
+### Maven 4 Source Directory Configuration
+
+**Reference**: [Maven Compiler Plugin Migration Guide - Declaration of Source Directories](https://github.com/Geomatys/maven-compiler-plugin/wiki/Migration#declaration-of-source-directories)
+
+Maven 4 introduces a new `<sources>` element that **replaces the default values**. This means you must explicitly declare all source directories.
+
+#### Module Source Hierarchy (Recommended)
+
+We use this approach for explicit module declaration and better JPMS integration:
+
+```xml
+<build>
+  <sources>
+    <source>
+      <module>modmain</module>
+      <directory>src/java/modmain/main</directory>
+    </source>
+    <source>
+      <module>modb</module>
+      <directory>src/java/modb/main</directory>
+    </source>
+    <!-- Add test sources if example has tests -->
+    <source>
+      <module>modmain</module>
+      <scope>test</scope>
+      <directory>src/java/modmain/test</directory>
+    </source>
+  </sources>
+</build>
+```
+
+**Benefits**:
+- **Explicit module declaration**: Each module is clearly identified in the POM
+- **Automatic JPMS compiler arguments**: Maven automatically adds necessary module compilation flags
+- **Better multi-module organization**: Clear separation of modules in directory structure
+- **Future-proof**: Aligns with Maven 4's module-aware design
+
+**For our migration**: We'll use the **Module Source Hierarchy** approach with symbolic links pointing from the Maven 4 structure to the original source locations.
+
+#### Package Hierarchy Approach (Alternative, Maven 3 Compatible)
+
+This approach maintains traditional directory structure:
+
+```xml
+<build>
+  <sources>
+    <source>
+      <directory>src/main/java</directory>
+    </source>
+    <source>
+      <scope>test</scope>
+      <directory>src/test/java</directory>
+    </source>
+  </sources>
+</build>
+```
+
+**Benefits**:
+- Compatible with Maven 3 conventions
+- Tests handled via `module-info-patch.maven` (optional)
+- Compiler automatically adds `--patch-module`, `--add-modules`, `--add-reads` for tests
+
+**Note**: We're not using this approach to take full advantage of Maven 4's module-aware features.
+
 ### POM Requirements
 
-Minimal POM should include:
+Minimal POM should include (using Module Source Hierarchy):
 
 ```xml
 <project>
@@ -116,6 +204,24 @@ Minimal POM should include:
   </properties>
 
   <build>
+    <sources>
+      <!-- Declare each module explicitly -->
+      <source>
+        <module>modmain</module>
+        <directory>src/java/modmain/main</directory>
+      </source>
+      <source>
+        <module>modb</module>
+        <directory>src/java/modb/main</directory>
+      </source>
+      <!-- Add test sources if example has tests -->
+      <source>
+        <module>modmain</module>
+        <scope>test</scope>
+        <directory>src/java/modmain/test</directory>
+      </source>
+    </sources>
+
     <plugins>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
@@ -127,7 +233,12 @@ Minimal POM should include:
 </project>
 ```
 
-**Note**: Adjust compiler release version, dependencies, and plugins as needed per example.
+**Note**:
+- Adjust compiler release version, dependencies, and plugins as needed per example
+- The `<sources>` element is **required** in Maven 4 and replaces default source directories
+- Each module must be explicitly declared with `<module>` and `<directory>`
+- Module names must match the module names in `module-info.java`
+- Test sources declaration can be omitted if example has no tests
 
 ## Script Integration
 
@@ -289,21 +400,33 @@ echo "✅ Javadoc generated in target/site/apidocs"
 3. **Create m4 Structure**:
    ```bash
    cd example_foo
-   mkdir -p m4/src/main
+   mkdir -p m4
    cd m4
    ```
 
-4. **Create Symbolic Links**:
+4. **Create Symbolic Links** (Module Source Hierarchy):
    ```bash
-   ln -s ../../../src src/main/java
-   # Add test links if needed
+   # For each module in the example, create structure and symlink
+   # Example with two modules: modmain and modb
+
+   mkdir -p src/java/modmain
+   ln -s ../../../../src/modmain src/java/modmain/main
+
+   mkdir -p src/java/modb
+   ln -s ../../../../src/modb src/java/modb/main
+
+   # Add test links if example has tests
+   ln -s ../../../../test/modmain src/java/modmain/test
    ```
 
 5. **Create pom.xml**:
-   - Start with minimal POM template
+   - Start with minimal POM template using Module Source Hierarchy
+   - Include `<sources>` element with explicit `<module>` declarations (required in Maven 4)
+   - Declare each module with matching `<module>` name and `<directory>` path
    - Add dependencies if needed
    - Configure compiler plugin for JPMS
    - Adjust release version per example requirements
+   - Include test sources declaration if example has tests
 
 6. **Create compile.sh**:
    - Follow hybrid approach (Maven compile + traditional jar)
@@ -349,13 +472,27 @@ echo "✅ Javadoc generated in target/site/apidocs"
 
 **Issue**: Maven expects module-info.java at specific location in source tree.
 
-**Solution**: Symbolic linking handles this - `m4/src/main/java` points to `../../../src`, which contains proper module structure.
+**Solution**: Module Source Hierarchy handles this explicitly - each module gets its own directory structure (e.g., `m4/src/java/modmain/main`) which symlinks to the original module source directory containing `module-info.java`.
 
 ### Challenge: Multi-Module Examples
 
 **Issue**: Examples with multiple modules need multiple module-info.java files.
 
-**Solution**: Maven supports multi-module compilation. Structure POM accordingly and ensure symlink points to parent directory containing all module directories.
+**Solution**: Module Source Hierarchy naturally supports this - each module is explicitly declared in both the directory structure and the POM's `<sources>` section:
+```xml
+<sources>
+  <source>
+    <module>modmain</module>
+    <directory>src/java/modmain/main</directory>
+  </source>
+  <source>
+    <module>modb</module>
+    <directory>src/java/modb/main</directory>
+  </source>
+</sources>
+```
+
+Each symlink points to the corresponding module's source directory in the original structure.
 
 ### Challenge: Automatic Modules
 
