@@ -34,9 +34,16 @@ export GRAPHVIZ_HOME=/path/to/graphviz
 # Optional
 export DEPVIS_HOME=/path/to/depvis
 
-# Path to Eclipse (optional, only if using Eclipse IDE)
+# Path to Maven 4 (required for m4/ migration subdirectories)
+# SDKMAN Users: Use 'sdk install maven 4.0.0-beta-5' then 'sdk home maven 4.0.0-beta-5'
+# Required for Maven 4 migration work
+# Note: M4_HOME is added to PATH in m4/compile.sh and m4/run.sh scripts, not globally
+export M4_HOME=/path/to/maven4
+
+# Path to Maven 3 (optional, for future m3/ migration comparisons)
+# SDKMAN Users: Use 'sdk install maven 3.9.11' then 'sdk home maven 3.9.11'
 # Optional
-export ECLIPSE_HOME=/path/to/eclipse
+export M3_HOME=/path/to/maven3
 
 # Add Java to PATH to ensure it is the first Java version found by any shell execution
 export PATH="$JAVA_HOME/bin:$PATH"

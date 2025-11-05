@@ -12,6 +12,38 @@ This guide documents the strategy for migrating Jigsaw examples to Maven 4, enab
 - Use symbolic links to reference sources from Maven-standard directory structure
 - Create minimal, standalone Maven projects for each migration
 - Integrate with existing golden master testing framework
+- Ensure Maven 4 is consistently used via `M4_HOME` environment variable
+- Keep m4 scripts as close as possible to original scripts for comparability
+- Target Java 11 bytecode while using JDK 17 to run Maven 4
+
+## Key Learnings from Test Migration
+
+Based on successful migration of `example_requires-static`:
+
+### Maven 4 Requirements
+
+1. **Model Version**: Must use `<modelVersion>4.1.0</modelVersion>` (not 4.0.0)
+2. **Compiler Plugin**: Must use `maven-compiler-plugin` version `4.0.0-beta-3` (not 3.x)
+3. **Maven Runtime**: Maven 4 requires Java 17+ to run
+4. **Compilation Target**: Use `<maven.compiler.release>11</maven.compiler.release>` to produce Java 11 bytecode
+5. **POM Namespace**: Use `http://maven.apache.org/POM/4.1.0` schema
+
+### Script Design Principles
+
+1. **Stay Close to Original**: m4 scripts should mirror original script structure for easy comparison
+2. **Complete Separation**: Build artifacts go to `m4/mlib` (not `../mlib`) for complete isolation
+3. **M4_HOME Only in compile.sh**: Only needed where Maven is invoked, not in run.sh
+4. **Shellcheck Compliance**: All scripts must pass shellcheck (with documented exceptions)
+5. **Golden Master Integration**: verify.sh should match original verify.sh pattern
+
+### JDK Version Strategy
+
+- **Maven Execution**: Use JDK 17 (from JAVA17_HOME) to run Maven 4
+- **Compilation**: Maven uses JDK 17 compiler with `--release 11` flag
+- **Runtime**: Use JDK 11 (from JAVA_HOME) to run the application
+- **Verification**: Check bytecode with `javap -v`: major version 55 = Java 11
+
+This approach is simpler than Maven Toolchains and produces correct Java 11 compatible bytecode.
 
 ## Directory Structure
 
@@ -36,9 +68,14 @@ example_foo/
 │   │       │   └── main -> ../../../../src/moda  # Symlink to module source
 │   │       └── modb/
 │   │           └── main -> ../../../../src/modb  # Symlink to module source
-│   ├── compile.sh                # Maven compile wrapper
-│   ├── run.sh                    # Maven run wrapper
-│   ├── verify.sh                 # Maven verify wrapper (golden master integration)
+│   ├── mlib/                     # Module JARs (separate from ../mlib)
+│   ├── run-result/               # Runtime output (for verification)
+│   ├── target/                   # Maven build output
+│   ├── .gitignore                # Ignore build artifacts (target/, mlib/, run-result/)
+│   ├── clean.sh                  # Clean m4 artifacts
+│   ├── compile.sh                # Maven compile + jar packaging
+│   ├── run.sh                    # Execution (uses m4/mlib)
+│   ├── verify.sh                 # Golden master verification
 │   └── javadoc.sh               # Maven javadoc wrapper (optional)
 ├── m3/                           # (Future) Maven 3 alternative approach
 └── gradle-alt/                   # (Future) Alternative Gradle approach
@@ -192,8 +229,13 @@ This approach maintains traditional directory structure:
 Minimal POM should include (using Module Source Hierarchy):
 
 ```xml
-<project>
-  <modelVersion>4.0.0</modelVersion>
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.1.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.1.0
+                             http://maven.apache.org/xsd/maven-4.1.0.xsd">
+  <modelVersion>4.1.0</modelVersion>
+
   <groupId>com.example.jigsaw</groupId>
   <artifactId>example-foo-m4</artifactId>
   <version>1.0-SNAPSHOT</version>
@@ -226,7 +268,7 @@ Minimal POM should include (using Module Source Hierarchy):
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
-        <version>3.13.0</version>
+        <version>4.0.0-beta-3</version>
       </plugin>
     </plugins>
   </build>
@@ -234,7 +276,9 @@ Minimal POM should include (using Module Source Hierarchy):
 ```
 
 **Note**:
-- Adjust compiler release version, dependencies, and plugins as needed per example
+- **MUST use `<modelVersion>4.1.0</modelVersion>`** (not 4.0.0) with Maven 4
+- **MUST use `maven-compiler-plugin` version `4.0.0-beta-3`** (not 3.x) for Maven 4 support
+- Use `maven.compiler.release=11` to target Java 11 bytecode (while running Maven with JDK 17)
 - The `<sources>` element is **required** in Maven 4 and replaces default source directories
 - Each module must be explicitly declared with `<module>` and `<directory>`
 - Module names must match the module names in `module-info.java`
@@ -259,35 +303,58 @@ See main `CLAUDE.md` for full shell scripting conventions (quoting, TMPDIR, etc.
 
 **Phase 1: Hybrid Approach (Initial Migration)**
 
-Use Maven for compilation, but traditional `jar` command for packaging:
+Use Maven 4 for compilation, but traditional `jar` command for packaging:
 
 ```bash
 #!/usr/bin/env bash
 set -eu -o pipefail
 
-echo "=== Maven 4 Compile (Hybrid) ==="
-echo
-echo "Step 0: Show Maven version"
-mvn --version
+# shellcheck source=../../env.sh
+source ../../env.sh
 
+# Ensure we're using Maven 4
+if [ -z "${M4_HOME:-}" ]; then
+  echo "ERROR: M4_HOME is not set. Please configure it in .envrc or env.sh"
+  exit 1
+fi
+
+# Maven 4 requires Java 17+ to run
+# Note: pom.xml has <maven.compiler.release>11</maven.compiler.release> which ensures
+# Java 11 compatible bytecode even when using JDK 17 compiler with --release 11
+if [ -n "${JAVA17_HOME:-}" ]; then
+  export JAVA_HOME="${JAVA17_HOME}"
+fi
+
+# Add Maven 4 to PATH
+export PATH="${M4_HOME}/bin:${PATH}"
+
+mkdir -p mlib
+
+echo "mvn --version"
+mvn --version
 echo
-echo "Step 1: Compile with Maven"
+
+echo "mvn clean compile"
+echo "(Maven runs with JDK 17, compiles for Java 11 via maven.compiler.release)"
 mvn clean compile
 
-echo
-echo "Step 2: Package with jar command (traditional)"
-# Inspect original compile.sh to find jar commands
-# Adapt to use Maven's target/classes output
-jar --create --file=target/moda.jar -C target/classes/moda .
-jar --create --file=target/modb.jar -C target/classes/modb .
-
-echo
-echo "Step 3: Copy JARs to mlib (for compatibility with run.sh)"
-mkdir -p ../mlib
-cp target/*.jar ../mlib/
-
-echo "✅ Compilation complete"
+# Create JARs directly to mlib (similar to original compile.sh)
+pushd target/classes > /dev/null 2>&1
+for dir in */;
+do
+    MODDIR=${dir%*/}
+    echo "jar $JAR_OPTIONS --create --file=../../mlib/${MODDIR}.jar -C ${MODDIR} ."
+    # shellcheck disable=SC2086  # JAR_OPTIONS is intentionally unquoted for word splitting
+    "${JAVA_HOME}/bin/jar" $JAR_OPTIONS --create --file="../../mlib/${MODDIR}.jar" -C "${MODDIR}" . 2>&1
+done
+popd >/dev/null 2>&1
 ```
+
+**Note**:
+- Script uses JDK 17 to run Maven 4 (required)
+- Compiles for Java 11 target via `maven.compiler.release=11`
+- Creates JARs directly to `mlib/` (not `../mlib/`) for complete separation
+- Uses same JAR creation pattern as original compile.sh
 
 **Phase 2: Full Maven (Future)**
 
@@ -307,69 +374,116 @@ echo "✅ Build complete"
 
 ### run.sh - Execution Wrapper
 
-Execute the example using artifacts from Maven build:
+Execute the example using artifacts from Maven build (stays close to original run.sh):
 
 ```bash
 #!/usr/bin/env bash
 set -eu -o pipefail
 
-: "${TMPDIR:=/tmp}"
+# shellcheck source=../../env.sh
+source ../../env.sh
 
-echo "=== Maven 4 Run ==="
+# Show Java version for user information
+echo "Using Java version:"
+"${JAVA_HOME}/bin/java" -version
+echo
 
-# Adjust module-path to use Maven outputs
-java --module-path ../mlib \
-     --module modmain/pkgmain.Main
+# Create run-result directory if it doesn't exist
+mkdir -p run-result
 
-echo "✅ Execution complete"
+# Example: adjust module-path to use m4/mlib and preserve original runtime flags
+# shellcheck disable=SC2086  # JAVA_OPTIONS is intentionally unquoted for word splitting
+"${JAVA_HOME}/bin/java" ${JAVA_OPTIONS} --module-path mlib --module modmain/pkgmain.Main 2>&1 | normalize | tee run-result/run.txt | myecho
 ```
 
-**Important**: Inspect original `run.sh` to understand:
-- Module path configuration
-- Main module and class
-- Any special JVM flags (--add-exports, --add-reads, etc.)
+**Important**:
+- Copy structure from original `run.sh` to stay close to original
+- Use `mlib` (not `../mlib`) since artifacts are in m4/mlib
+- Preserve any special JVM flags from original (--add-exports, --add-reads, --add-modules, etc.)
+- No M4_HOME needed here - only Maven runtime uses it
+- Output to `run-result/run.txt` for golden master verification
 
 ### verify.sh - Golden Master Integration
 
-Integrate with existing golden master testing framework:
+Integrate with existing golden master testing framework (matches original pattern):
 
 ```bash
 #!/usr/bin/env bash
 set -eu -o pipefail
 
-: "${TMPDIR:=/tmp}"
-
 EXAMPLE_NAME="$(basename "$(dirname "$(pwd)")")"
-OUTPUT_FILE="${TMPDIR}/${EXAMPLE_NAME}-m4-output.txt"
+EXPECTED="../expected-result/run.txt"
+ACTUAL="run-result/run.txt"
 
-echo "=== Verifying Maven 4 build for ${EXAMPLE_NAME} ==="
+# Parse command line arguments
+ONLY_VERIFY=false
+if [ "${1:-}" = "--only" ]; then
+  ONLY_VERIFY=true
+fi
 
-# Step 1: Compile
+echo "=== Verifying ${EXAMPLE_NAME} (Maven 4) ==="
 echo
-echo "Step 1: Compile"
-./compile.sh
 
-# Step 2: Run and capture output
-echo
-echo "Step 2: Run and capture output"
-./run.sh > "${OUTPUT_FILE}" 2>&1
+# Check if expected result exists
+if [ ! -f "${EXPECTED}" ]; then
+  echo "❌ ERROR: Expected result not found at ${EXPECTED}"
+  echo "   Run ../create-expected-result.sh first to create the golden master"
+  exit 1
+fi
 
-# Step 3: Compare with golden master
-echo
-echo "Step 3: Compare with expected result"
-if diff -u ../expected-result.txt "${OUTPUT_FILE}"; then
-  echo "✅ Output matches expected result"
+# Perform full build unless --only is specified
+if [ "${ONLY_VERIFY}" = false ]; then
+  echo "Step 1: Compile"
+  ./compile.sh
+  echo
+
+  echo "Step 2: Run and capture output"
+  ./run.sh
+  echo
+else
+  echo "Skipping compile (--only mode)"
+  echo
+
+  # Check if actual result exists
+  if [ ! -f "${ACTUAL}" ]; then
+    echo "❌ ERROR: Actual result not found at ${ACTUAL}"
+    echo "   Run ./run.sh first to generate the actual output"
+    exit 1
+  fi
+fi
+
+# Compare the files
+echo "Step 3: Compare expected vs actual output"
+if diff -u "${EXPECTED}" "${ACTUAL}"; then
+  echo
+  echo "✅ SUCCESS: Output matches expected result"
   exit 0
 else
-  echo "❌ Output differs from expected result"
+  echo
+  echo "❌ FAILURE: Output differs from expected result"
+  echo "   Expected: ${EXPECTED}"
+  echo "   Actual:   ${ACTUAL}"
   exit 1
 fi
 ```
 
 **Notes**:
-- Reuses existing `expected-result.txt` from parent directory
-- Captures both stdout and stderr
-- Uses diff for comparison (same as existing verify.sh scripts)
+- Matches original verify.sh pattern (including --only flag support)
+- Compares `run-result/run.txt` with `../expected-result/run.txt`
+- No TMPDIR needed - output already in run-result/
+
+### clean.sh - Cleanup Script
+
+Clean all m4 build artifacts:
+
+```bash
+#!/usr/bin/env bash
+rm -rf target
+rm -rf mlib
+rm -rf run-result
+```
+
+**Note**: Simple cleanup matching original pattern - removes Maven output, JARs, and runtime results
 
 ### javadoc.sh - Documentation Wrapper (Optional)
 
@@ -419,7 +533,17 @@ echo "✅ Javadoc generated in target/site/apidocs"
    ln -s ../../../../test/modmain src/java/modmain/test
    ```
 
-5. **Create pom.xml**:
+5. **Create .gitignore**:
+   ```bash
+   # Create .gitignore to exclude build artifacts
+   cat > .gitignore << 'EOF'
+target/
+mlib/
+run-result/
+EOF
+   ```
+
+6. **Create pom.xml**:
    - Start with minimal POM template using Module Source Hierarchy
    - Include `<sources>` element with explicit `<module>` declarations (required in Maven 4)
    - Declare each module with matching `<module>` name and `<directory>` path

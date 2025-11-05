@@ -16,12 +16,21 @@ set -eu -o pipefail
 # Path to JDK17, only needed in example_gradle-project
 [ -z "${JAVA17_HOME:-}" ] && export JAVA17_HOME=TODO/path/to/java8-jdk/goes/here
 
-# Path to Eclipse 4.7.3a Oxygen.3a (but 4.7.1a Oxygen.1a should still work)
-[ -z "${ECLIPSE_HOME:-}" ] && export ECLIPSE_HOME=TODO/path/to/eclipse4.7.3a/goes/here
+# Path to Eclipse (legacy compatibility, not recommended for new work)
+[ -z "${ECLIPSE_HOME:-}" ] && export ECLIPSE_HOME=TODO/path/to/eclipse/goes/here
 
 # Note: MAVEN_HOME and GRADLE_HOME are no longer needed as all Maven and Gradle
 # examples now include wrappers (Maven Wrapper 3.9.11, Gradle Wrapper 9.1.0)
 # Use ./mvnw or ./gradlew instead
+
+# Path to Maven 4 (required for m4/ migration subdirectories)
+# SDKMAN Users: Use 'sdk install maven 4.0.0-beta-5' or similar
+# Note: M4_HOME/bin is added to PATH in m4/ scripts, not here
+[ -z "${M4_HOME:-}" ] && export M4_HOME=TODO/path/to/maven4/goes/here
+
+# Path to Maven 3 (optional, for future m3/ migration comparisons)
+# SDKMAN Users: Use 'sdk install maven 3.9.11' or similar
+[ -z "${M3_HOME:-}" ] && export M3_HOME=TODO/path/to/maven3/goes/here
 
 # Path to GraphViz >=2.38
 [ -z "${GRAPHVIZ_HOME:-}" ] && export GRAPHVIZ_HOME=TODO/path/to/graphviz2.38/goes/here
