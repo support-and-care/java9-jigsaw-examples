@@ -2,6 +2,9 @@
 
 set -eu -o pipefail
 
+# Parse optional <type> parameter (e.g., "m4", "m3")
+type="${1:-}"
+
 # Arrays to track results
 COMPILED=()
 FAILED=()
@@ -9,18 +12,31 @@ SKIPPED=()
 
 compile() {
   MODDIR=${dir%*/}
-  pushd "${MODDIR}" >/dev/null 2>&1 || exit
+  if [ -n "${type}" ]; then
+    # Type-specific: example_xyz/m4/
+    COMPILE_DIR="${MODDIR}/${type}"
+  else
+    # Default: example_xyz/
+    COMPILE_DIR="${MODDIR}"
+  fi
+
+  if [ ! -d "${COMPILE_DIR}" ]; then
+    SKIPPED+=("${MODDIR}${type:+/$type}")
+    return
+  fi
+
+  pushd "${COMPILE_DIR}" >/dev/null 2>&1 || exit
   if [ -f ./compile.sh ]; then
     echo "###################################################################################################################################"
-    echo "Compiling ${MODDIR}"
+    echo "Compiling ${MODDIR}${type:+/$type}"
     if ./compile.sh; then
-      COMPILED+=("${MODDIR}")
+      COMPILED+=("${MODDIR}${type:+/$type}")
     else
-      FAILED+=("${MODDIR}")
+      FAILED+=("${MODDIR}${type:+/$type}")
     fi
     echo
   else
-    SKIPPED+=("${MODDIR}")
+    SKIPPED+=("${MODDIR}${type:+/$type}")
   fi
   popd >/dev/null 2>&1 || exit
 }
