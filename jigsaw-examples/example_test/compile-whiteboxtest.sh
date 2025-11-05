@@ -14,8 +14,9 @@ mkdir -p patchlib
 #   --add-reads            is needed during compile time  because WhiteBoxTest is a junit test, and therefore a reads dependency is needed to junit (from modfib, because the WhiteBoxTest is patched into modfib)
 #   --add-modules          is needed during compile time  because WhiteBoxTest is a junit test, and therefore junit is needed.
 
-echo "javac $JAVAC_OPTIONS  --patch-module modfib=src --add-reads modfib=junit --module-path amlib${PATH_SEPARATOR}mlib -d patches/modfib src/modtest.whitebox/pkgfib/WhiteBoxTest.java"
-$JAVA_HOME/bin/javac $JAVAC_OPTIONS  -d patches/modfib \
+echo "javac ${JAVAC_OPTIONS}  --patch-module modfib=src --add-reads modfib=junit --module-path amlib${PATH_SEPARATOR}mlib -d patches/modfib src/modtest.whitebox/pkgfib/WhiteBoxTest.java"
+# shellcheck disable=SC2086  # Option variables should not be quoted
+"${JAVA_HOME}/bin/javac" ${JAVAC_OPTIONS}  -d patches/modfib \
     --patch-module modfib=src \
     --add-reads modfib=junit \
     --add-modules junit \
@@ -23,11 +24,12 @@ $JAVA_HOME/bin/javac $JAVAC_OPTIONS  -d patches/modfib \
     src/modtest.whitebox/pkgfib/WhiteBoxTest.java \
      2>&1
 
-pushd patches > /dev/null 2>&1 
+pushd patches > /dev/null 2>&1  || exit
 for dir in */; 
 do
     MODDIR=${dir%*/}
-    echo "jar $JAR_OPTIONS --create --file=../patchlib/${MODDIR}.jar -C ${MODDIR} ."
-    $JAVA_HOME/bin/jar $JAR_OPTIONS --create --file=../patchlib/${MODDIR}.jar -C ${MODDIR} . 2>&1
+    echo "jar ${JAR_OPTIONS} --create --file=../patchlib/${MODDIR}.jar -C ${MODDIR} ."
+    # shellcheck disable=SC2086  # Option variables should not be quoted
+    "${JAVA_HOME}/bin/jar" ${JAR_OPTIONS} --create --file=../patchlib/${MODDIR}.jar -C ${MODDIR} . 2>&1
 done
-popd >/dev/null 2>&1
+popd >/dev/null 2>&1 || exit

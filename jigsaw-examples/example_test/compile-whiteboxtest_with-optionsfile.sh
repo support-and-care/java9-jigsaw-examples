@@ -14,17 +14,20 @@ mkdir -p patchlib
 #   --add-reads            is needed during compile time  because WhiteBoxTest is a junit test, and therefore a reads dependency is needed to junit.
 #   --add-modules          is needed during compile time  because WhiteBoxTest is a junit test, and therefore junit is needed.
 
-echo "javac $JAVAC_OPTIONS  --patch-module modfib=src --add-reads modfib=junit --module-path amlib${PATH_SEPARATOR}mlib -d patches/modfib src/modtest.whitebox/pkgfib/WhiteBoxTest.java"
+echo "javac ${JAVAC_OPTIONS}  --patch-module modfib=src --add-reads modfib=junit --module-path amlib${PATH_SEPARATOR}mlib -d patches/modfib src/modtest.whitebox/pkgfib/WhiteBoxTest.java"
 
 # we have separated some options to an file 'compile-whiteboxtest_optionsfile' 
+# shellcheck disable=SC2086  # PATH_SEPARATOR must not be quoted
 # (unfortunately, no parameters like ${PATH_SEPARATOR} can be used there without further shell magic)
-$JAVA_HOME/bin/javac @compile-whiteboxtest_optionsfile --module-path amlib${PATH_SEPARATOR}mlib src/modtest.whitebox/pkgfib/WhiteBoxTest.java 2>&1
+# shellcheck disable=SC2086  # PATH_SEPARATOR must not be quoted
+"${JAVA_HOME}/bin/javac" @compile-whiteboxtest_optionsfile --module-path amlib${PATH_SEPARATOR}mlib src/modtest.whitebox/pkgfib/WhiteBoxTest.java 2>&1
 
-pushd patches > /dev/null 2>&1 
+pushd patches > /dev/null 2>&1  || exit
 for dir in */; 
 do
     MODDIR=${dir%*/}
-    echo "jar $JAR_OPTIONS --create --file=../patchlib/${MODDIR}.jar -C ${MODDIR} ."
-    $JAVA_HOME/bin/jar $JAR_OPTIONS --create --file=../patchlib/${MODDIR}.jar -C ${MODDIR} . 2>&1
+    echo "jar ${JAR_OPTIONS} --create --file=../patchlib/${MODDIR}.jar -C ${MODDIR} ."
+    # shellcheck disable=SC2086  # Option variables should not be quoted
+    "${JAVA_HOME}/bin/jar" ${JAR_OPTIONS} --create --file=../patchlib/${MODDIR}.jar -C ${MODDIR} . 2>&1
 done
-popd >/dev/null 2>&1
+popd >/dev/null 2>&1 || exit

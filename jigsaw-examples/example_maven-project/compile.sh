@@ -3,10 +3,10 @@ source ../env.sh
 
 ./mvnw --version --fail-at-end
 
-cd src/moda
+cd src/moda || exit
 ../../mvnw -B -s ../../mvn_settings.xml install -DskipTests --fail-at-end 2>&1
-cd - >/dev/null 2>&1
+cd - >/dev/null 2>&1 || exit
 
-cd src/modmain
+cd src/modmain || exit
 ../../mvnw -B -s ../../mvn_settings.xml install -DskipTests --fail-at-end 2>&1
-cd - >/dev/null 2>&1
+cd - >/dev/null 2>&1 || exit

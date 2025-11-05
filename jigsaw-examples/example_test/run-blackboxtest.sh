@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
 source ../env.sh
 
-$JAVA_HOME/bin/java $JAVA_OPTIONS --module-path mlib${PATH_SEPARATOR}amlib \
+# shellcheck disable=SC2086  # Option variables should not be quoted
+"${JAVA_HOME}/bin/java" ${JAVA_OPTIONS} --module-path mlib${PATH_SEPARATOR}amlib \
      --add-modules hamcrest.core,modtest.blackbox \
      --module junit/org.junit.runner.JUnitCore \
      pkgblacktest.BlackBoxTest \

@@ -9,48 +9,49 @@ rm -rf "${result_dir}"
 
 mkdir -p "${result_dir}"
 
-"$JAVA_HOME/bin/java" --version
+"${JAVA_HOME}/bin/java" --version
 echo
 
 echo "1."
 echo "Running with root-module moda"
 echo "   java --module-path mlib --module moda/pkga.AMain"
-"$JAVA_HOME/bin/java" --module-path mlib --module moda/pkga.AMain 2>&1 | normalize | tee ${result_dir}/run.txt | myecho
+"${JAVA_HOME}/bin/java" --module-path mlib --module moda/pkga.AMain 2>&1 | normalize | tee "${result_dir}"/run.txt | myecho
 
 echo ------------------------------------------------------------------
 
 echo "2."
 echo "Running with root-module modb"
 echo "   java --module-path mlib --module modb/pkgb.BMain"
-"$JAVA_HOME/bin/java" --module-path mlib --module modb/pkgb.BMain 2>&1 | normalize | tee -a ${result_dir}/run.txt | myecho
+"${JAVA_HOME}/bin/java" --module-path mlib --module modb/pkgb.BMain 2>&1 | normalize | tee -a "${result_dir}"/run.txt | myecho
 
 echo ------------------------------------------------------------------
 
 echo "3."
 echo "Running with root-module modc"
 echo "   java --module-path mlib --module modc/pkgc.CMain"
-"$JAVA_HOME/bin/java" --module-path mlib --module modc/pkgc.CMain 2>&1 | normalize | tee -a ${result_dir}/run.txt | myecho
+"${JAVA_HOME}/bin/java" --module-path mlib --module modc/pkgc.CMain 2>&1 | normalize | tee -a "${result_dir}"/run.txt | myecho
 
 echo ------------------------------------------------------------------
 
 echo "4."
 echo "Running with root-module modb plus --add-modules modc"
 echo "   java --module-path mlib --add-modules modc --module modb/pkgb.BMain"
-"$JAVA_HOME/bin/java" --module-path mlib --add-modules modc --module modb/pkgb.BMain 2>&1 | normalize | tee -a ${result_dir}/run.txt | myecho
+"${JAVA_HOME}/bin/java" --module-path mlib --add-modules modc --module modb/pkgb.BMain 2>&1 | normalize | tee -a "${result_dir}"/run.txt | myecho
 
 echo ------------------------------------------------------------------
 
 echo "5."
 echo "Running with root-module modb plus automatic module javax.json"
 echo "   java --module-path mlib${PATH_SEPARATOR}amlib --module modb/pkgb.BMain"
-"$JAVA_HOME/bin/java" --module-path mlib${PATH_SEPARATOR}amlib --module modb/pkgb.BMain 2>&1 | normalize | tee -a ${result_dir}/run.txt | myecho
+# shellcheck disable=SC2086  # PATH_SEPARATOR must not be quoted
+"${JAVA_HOME}/bin/java" --module-path mlib${PATH_SEPARATOR}amlib --module modb/pkgb.BMain 2>&1 | normalize | tee -a "${result_dir}"/run.txt | myecho
 
 echo ------------------------------------------------------------------
 
 echo "6."
 echo "Running with root-module modb plus limitmods"
 echo "   java --module-path mlib --limit-modules modb --module modb/pkgb.BMain"
-"$JAVA_HOME/bin/java" --module-path mlib --limit-modules modb --module modb/pkgb.BMain 2>&1 | normalize | tee -a ${result_dir}/run.txt | myecho
+"${JAVA_HOME}/bin/java" --module-path mlib --limit-modules modb --module modb/pkgb.BMain 2>&1 | normalize | tee -a "${result_dir}"/run.txt | myecho
 
 echo ------------------------------------------------------------------
 
@@ -60,7 +61,7 @@ echo "- Note that modb must be added to limitmods otherwise moda cannot be resol
 echo "  (adding only moda would work too, but would be inconventient when modb has"
 echo "   many requires)"
 echo "   java --module-path mlib -limitmods java.logging,java.scripting,modb --module modb/pkgb.BMain"
-"$JAVA_HOME/bin/java" --module-path mlib --limit-modules java.logging,java.scripting,modb --module modb/pkgb.BMain 2>&1 | normalize | tee -a ${result_dir}/run.txt | myecho
+"${JAVA_HOME}/bin/java" --module-path mlib --limit-modules java.logging,java.scripting,modb --module modb/pkgb.BMain 2>&1 | normalize | tee -a "${result_dir}"/run.txt | myecho
 
 echo ------------------------------------------------------------------
 
@@ -70,14 +71,18 @@ echo "8."
 echo "Linking with root module modb ..."
 
 # /x/ doesn't work on module path, replace with x:
-JAVA_HOME_OS=$JAVA_HOME
+JAVA_HOME_OS="${JAVA_HOME}"
 # /x/ doesn't work on module path on windows, replace with x:
-(echo $OSTYPE | grep -i win >/dev/null) && JAVA_HOME_OS=$(echo $JAVA_HOME | sed -r s/^\\\/\([a-z]\)/\\\1:/)
-echo "   jlink --module-path mlib${PATH_SEPARATOR}$JAVA_HOME_OS/jmods --add-modules modb --output jimage/modb"
+(echo "${OSTYPE}" | grep -i win >/dev/null) && JAVA_HOME_OS=$(echo "${JAVA_HOME}" | sed -r s/^\\\/\([a-z]\)/\\\1:/)
+# shellcheck disable=SC2086  # Variables in echo are for display only
+echo "   jlink --module-path mlib${PATH_SEPARATOR}"${JAVA_HOME_OS}"/jmods --add-modules modb --output jimage/modb"
 rm -rf ./jimage
 # TODO The following seems to work (on JDK 11) only with the `-v` option (otherwise `jlink` fails silently)
-$JAVA_HOME/bin/jlink -v --module-path mlib${PATH_SEPARATOR}$JAVA_HOME_OS/jmods --add-modules modb --output jimage/modb 2>&1 | normalize_jlink | tee -a ${result_dir}/run.txt | myecho
+# shellcheck disable=SC2086  # PATH_SEPARATOR must not be quoted
+"${JAVA_HOME}/bin/jlink" -v --module-path mlib${PATH_SEPARATOR}"${JAVA_HOME_OS}"/jmods --add-modules modb --output jimage/modb 2>&1 | normalize_jlink | tee -a "${result_dir}"/run.txt | myecho
 
 echo "... and running the linked runtime image with root module modb"
-echo "./jimage/modb/bin/java $JAVA_OPTIONS --module modb/pkgb.BMain"
-./jimage/modb/bin/java $JAVA_OPTIONS --module modb/pkgb.BMain 2>&1 | normalize | tee -a ${result_dir}/run.txt | myecho
+# shellcheck disable=SC2086  # Variables in echo are for display only
+echo "./jimage/modb/bin/java ${JAVA_OPTIONS} --module modb/pkgb.BMain"
+# shellcheck disable=SC2086  # Option variables should not be quoted
+./jimage/modb/bin/java ${JAVA_OPTIONS} --module modb/pkgb.BMain 2>&1 | normalize | tee -a "${result_dir}"/run.txt | myecho

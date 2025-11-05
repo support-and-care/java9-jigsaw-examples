@@ -7,16 +7,18 @@ mkdir -p classes
 mkdir -p cplib
 
 #  create non-modular jars to be put onto the classpath
-pushd src > /dev/null 2>&1
+pushd src > /dev/null 2>&1 || exit
 
-echo "javac $JAVAC_OPTIONS  -cp ../mlib/*${PATH_SEPARATOR}  -d ../classes/cpmain  \$(find cpmain -name \"*.java\")"
-$JAVA_HOME/bin/javac $JAVAC_OPTIONS  \
+echo "javac ${JAVAC_OPTIONS}  -cp ../mlib/*${PATH_SEPARATOR}  -d ../classes/cpmain  \$(find cpmain -name \"*.java\")"
+# shellcheck disable=SC2046,SC2086  # Word splitting is intentional for find results; option variables should not be quoted
+"${JAVA_HOME}/bin/javac" ${JAVAC_OPTIONS}  \
       -cp ../mlib/*${PATH_SEPARATOR} \
-      -d ../classes/cpmain  $(find cpmain -name "*.java") \
+      -d ../classes/cpmain  $(find cpmain -name '*.java') \
        2>&1
 
-echo "jar $JAR_OPTIONS --create --file=../cplib/cpmain.jar -C ../classes/cpmain ."
-$JAVA_HOME/bin/jar $JAR_OPTIONS --create --file=../cplib/cpmain.jar -C ../classes/cpmain .  2>&1
+echo "jar ${JAR_OPTIONS} --create --file=../cplib/cpmain.jar -C ../classes/cpmain ."
+# shellcheck disable=SC2086  # Option variables should not be quoted
+"${JAVA_HOME}/bin/jar" ${JAR_OPTIONS} --create --file=../cplib/cpmain.jar -C ../classes/cpmain .  2>&1
 
-popd >/dev/null 2>&1
+popd >/dev/null 2>&1 || exit
 
