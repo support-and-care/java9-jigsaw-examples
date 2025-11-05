@@ -119,6 +119,41 @@ If you run all stuff on *nix, use a colon : .
 * *Either* call one of the scripts on the top level, i.e., one of `allclean.sh`, `allcompile.sh`, `allcreatevis.sh` and `allrun.sh` (or `all.sh` for all in one step).
 * *Alternatively*, cd to one of the examples and call one of the scripts there (again `all.sh` for all in one step).
 
+==== Type-Specific Builds
+
+Many examples support multiple build approaches in separate subdirectories (e.g., `m4/` for Maven 4 migrations).
+All orchestration scripts accept an optional `<type>` parameter to execute builds in these subdirectories:
+
+[source,bash]
+----
+# Standard behavior - runs examples in example_xyz/
+cd jigsaw-examples
+./allcompile.sh
+./allverify.sh
+
+# Type-specific behavior - runs examples in example_xyz/m4/
+./allcompile.sh m4
+./allverify.sh m4
+./allrun.sh m4
+./all.sh m4
+
+# Verify with flags
+./allverify.sh m4 --only    # Skip rebuild, only verify
+----
+
+*Available types:*
+
+* `m4` - Maven 4 migrations using Module Source Hierarchy
+* `m3` - (Future) Maven 3 alternative approaches
+* `gradle-alt` - (Future) Gradle build alternatives
+
+*How it works:*
+
+* Without a type parameter: Scripts execute in `example_xyz/` (original build)
+* With a type parameter: Scripts execute in `example_xyz/<type>/` (type-specific build)
+* Examples without the specified type directory are automatically skipped
+* Output shows which variant is being executed (e.g., "Compiling example_hiddenmain/m4")
+
 [[golden-master-testing]]
 === Golden Master Testing
 

@@ -2,6 +2,9 @@
 
 set -eu -o pipefail
 
+# Parse optional <type> parameter (e.g., "m4", "m3")
+type="${1:-}"
+
 # Arrays to track results
 RAN=()
 FAILED=()
@@ -9,19 +12,32 @@ SKIPPED=()
 
 run() {
   MODDIR=${dir%*/}
-  pushd "${MODDIR}" >/dev/null 2>&1 || exit
+  if [ -n "${type}" ]; then
+    # Type-specific: example_xyz/m4/
+    RUN_DIR="${MODDIR}/${type}"
+  else
+    # Default: example_xyz/
+    RUN_DIR="${MODDIR}"
+  fi
+
+  if [ ! -d "${RUN_DIR}" ]; then
+    SKIPPED+=("${MODDIR}${type:+/$type}")
+    return
+  fi
+
+  pushd "${RUN_DIR}" >/dev/null 2>&1 || exit
   # if any run*.sh script exists
   if [ -x run.sh ]; then
     echo "###################################################################################################################################"
-    echo "Running ${MODDIR}"
+    echo "Running ${MODDIR}${type:+/$type}"
     if ./run.sh; then
-      RAN+=("${MODDIR}")
+      RAN+=("${MODDIR}${type:+/$type}")
     else
-      FAILED+=("${MODDIR}")
+      FAILED+=("${MODDIR}${type:+/$type}")
     fi
     echo
   else
-    SKIPPED+=("${MODDIR}")
+    SKIPPED+=("${MODDIR}${type:+/$type}")
   fi
   popd >/dev/null 2>&1 || exit
 }
