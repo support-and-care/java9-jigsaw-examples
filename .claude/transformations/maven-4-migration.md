@@ -574,7 +574,21 @@ EOF
    ./verify.sh
    ```
 
-10. **Document Issues**: Note any JPMS/Maven plugin compatibility issues for future resolution
+10. **Update Example README**: Add Maven 4 output section to the example's README.adoc:
+    ```adoc
+    ==== Maven 4 Output
+
+    This example has been migrated to Maven 4 using the Module Source Hierarchy layout.
+    The Maven 4 build is located in the `m4/` subdirectory and produces identical output:
+
+    [source]
+    ----
+    include::m4/run-result/run.txt[]
+    ----
+    ```
+    This documents the migration completion and shows that Maven 4 produces equivalent output.
+
+11. **Document Issues**: Note any JPMS/Maven plugin compatibility issues for future resolution
 
 ### Example Selection Criteria
 
