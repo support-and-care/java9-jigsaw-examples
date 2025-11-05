@@ -17,8 +17,9 @@ echo
 
 for dir in mlib amlib1 amlib2 amlib3 amlib4
 do
-    pushd "${dir}" > /dev/null 2>&1
-    for JAR in $(ls *.jar | LC_ALL=C LANG=C LC_CTYP=C sort)
+    pushd "${dir}" > /dev/null 2>&1 || exit
+    # shellcheck disable=SC2012 disable=SC2035 # We want to use ls here for sorting
+    for JAR in $(ls *.jar | LC_ALL=C LANG=C LC_CTYPE=C sort)
     do
         echo "JAR-file: ${JAR} in ${dir}"
         
@@ -32,5 +33,5 @@ do
     
         echo " "
     done
-popd > /dev/null 2>&1
+popd > /dev/null 2>&1 || exit
 done

@@ -13,4 +13,5 @@ mkdir -p run-result
 
 # --add-modules for both modb and modc is needed as otherwise a java.lang.NoClassDefFoundError is thrown because classes from modb/pkgb and modc/pkgc are not found
 # because of the 'requires static' dependencies from modb->modc and modmain->modb, we need to add modb and modc explicitely to the runtime Configuration
+# shellcheck disable=SC2086  # Option variables should not be quoted
 "${JAVA_HOME}/bin/java" ${JAVA_OPTIONS} --module-path mlib --add-modules modb,modc --module modmain/pkgmain.Main 2>&1 | normalize | tee run-result/run.txt | myecho

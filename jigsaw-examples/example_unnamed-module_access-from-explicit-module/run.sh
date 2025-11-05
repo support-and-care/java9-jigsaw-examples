@@ -9,6 +9,7 @@ echo
 # Create run-result directory if it doesn't exist
 mkdir -p run-result
 
+# shellcheck disable=SC2086  # Option variables should not be quoted
 "${JAVA_HOME}/bin/java" ${JAVA_OPTIONS} \
       --module-path mlib \
       --class-path cplib/cpb.jar \

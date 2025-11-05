@@ -15,6 +15,7 @@ echo
 
 # when we run the application and only have amlib1/modauto1 on the module path,
 #   we do not see an error, all is fine
+# shellcheck disable=SC2086  # Option variables should not be quoted
 "${JAVA_HOME}/bin/java" ${JAVA_OPTIONS} \
     --module-path mlib${PATH_SEPARATOR}amlib1 \
     --module modmain/pkgmain.Main .  2>&1 | normalize | tee run-result/run.txt | myecho

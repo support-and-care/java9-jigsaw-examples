@@ -14,6 +14,7 @@ echo "Using Java version:"
 "${JAVA_HOME}/bin/java" -version
 echo
 
+# shellcheck disable=SC2086  # Option variables should not be quoted
 "${JAVA_HOME}/bin/java" ${JAVA_OPTIONS} --module-path mlib --module modmain/pkgmain.Main  2>&1 | normalize | tee ${result_dir}/run.txt | myecho
 
 # Patch the module during startup, using a) exploded classes, b) a jar containing the patch.
@@ -22,8 +23,10 @@ echo
 
 # Patch modb with classes
 echo ">> Start modmain/pkgmain.Main with patch classes from patches/modb"
-$JAVA_HOME/bin/java $JAVA_OPTIONS --patch-module modb=patches/modb --module-path mlib --module modmain/pkgmain.Main  2>&1 | normalize | tee -a ${result_dir}/run.txt | myecho
+# shellcheck disable=SC2086  # Option variables should not be quoted
+"${JAVA_HOME}/bin/java" ${JAVA_OPTIONS} --patch-module modb=patches/modb --module-path mlib --module modmain/pkgmain.Main  2>&1 | normalize | tee -a ${result_dir}/run.txt | myecho
 
 # Patch modb with a modular jar
 echo ">> Start modmain/pkgmain.Main with patch classes from patchlib/modb.jar"
-$JAVA_HOME/bin/java $JAVA_OPTIONS --patch-module modb=patchlib/modb.jar --module-path mlib --module modmain/pkgmain.Main  2>&1 | normalize | tee -a ${result_dir}/run.txt | myecho
+# shellcheck disable=SC2086  # Option variables should not be quoted
+"${JAVA_HOME}/bin/java" ${JAVA_OPTIONS} --patch-module modb=patchlib/modb.jar --module-path mlib --module modmain/pkgmain.Main  2>&1 | normalize | tee -a ${result_dir}/run.txt | myecho
