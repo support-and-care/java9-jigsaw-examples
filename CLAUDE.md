@@ -188,6 +188,7 @@ Transformation-specific guides are stored in `.claude/transformations/` director
 
 - **Markdown to AsciiDoc Migration**: `.claude/transformations/markdown-to-asciidoc.md`
 - **Golden Master Testing**: `.claude/transformations/golden-master-testing.md` - Implementing automated regression testing for example outputs
+- **Maven 4 Migration**: `.claude/transformations/maven-4-migration.md` - Migrating examples to Maven 4 with hybrid compilation approach and symbolic linking strategy
 - Additional transformations will be documented as they are undertaken
 
 Each guide serves as a living document that:
