@@ -1,8 +1,0 @@
-Main: pkgmain.Main, id=ID_Main_14, B: from B
-Main: pkgmain.Main, id=ID_Main_14, B: from pkgbinternal.InternalBHelper
-Main: pkgmain.Main, id=ID_Main_14, B: from pkgbinternal.InternalBSuperClass
-Main: pkgmain.Main, id=ID_Main_14, B: from B, but only protected
-doItNotOverwritten
-Main: pkgmain.Main, id=ID_Main_14, Factory.createData(): is Data
-Main: pkgmain.Main, id=ID_Main_14, Factory.createInternalDataAsData(): is InternalData
-Main: pkgmain.Main, id=ID_Main_14, Factory.createInternalData2(): pkgbinternal.InternalData, id=ID_DataFactory_17

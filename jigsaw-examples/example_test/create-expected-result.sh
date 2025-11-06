@@ -11,15 +11,8 @@ echo "Using Java version:"
 "${JAVA_HOME}/bin/java" -version
 echo
 
-mkdir -p expected-result
-
-echo "Running Java tests and capturing output..."
-
-./run-blackboxtest.sh 2>&1 | normalize | sed 's/\x1b\[[0-9;]*[mKGH]//g' | grep -v "^Time: " > expected-result/run.txt
-echo " " >> expected-result/run.txt
-./run-whiteboxtest.sh 2>&1 | normalize | sed 's/\x1b\[[0-9;]*[mKGH]//g' | grep -v "^Time: " >> expected-result/run.txt
-echo " " >> expected-result/run.txt
-./run-whiteboxtest_with-optionsfile.sh 2>&1 | normalize | sed 's/\x1b\[[0-9;]*[mKGH]//g' | grep -v "^Time: " >> expected-result/run.txt
+echo "Running example and capturing output..."
+./run.sh expected-result
 
 echo "✅ Expected result saved to expected-result/run.txt"
 echo
