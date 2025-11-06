@@ -3,8 +3,14 @@ set -eu -o pipefail
 
 source ../env.sh
 
-# Create run-result directory if it doesn't exist
-mkdir -p run-result
+result_dir="${1:-run-result}"
+
+rm -rf "${result_dir}"
+
+mkdir -p "${result_dir}"
+touch "${result_dir}/run.txt"
+
+
 
 echo "Using Java version:"
 "${JAVA_HOME}/bin/java" -version
@@ -15,4 +21,4 @@ echo
       --module-path mlib \
       --class-path cplib/cpb.jar \
       --module modmain/pkgmain.Main \
-      2>&1 | normalize | tee run-result/run.txt | myecho
+      2>&1 | normalize | tee -a "${result_dir}/run.txt" | myecho

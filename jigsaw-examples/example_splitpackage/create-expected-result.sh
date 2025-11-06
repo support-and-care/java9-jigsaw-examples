@@ -11,13 +11,8 @@ echo "Using Java version:"
 "${JAVA_HOME}/bin/java" -version
 echo
 
-mkdir -p expected-result
-
-echo "Running Java modules and capturing output..."
-
-./run-foo.sh 2>&1 | normalize | sed -e 's/\x1b\[[0-9;]*[mKGH]//g' -e 's/Package pkgbar in both.*/Package pkgbar in two different modules/g' > expected-result/run.txt
-echo >> expected-result/run.txt
-./run-bar.sh 2>&1 | normalize | sed -e 's/\x1b\[[0-9;]*[mKGH]//g' -e 's/Package pkgbar in both.*/Package pkgbar in two different modules/g' >> expected-result/run.txt
+echo "Running example and capturing output..."
+./run.sh expected-result
 
 echo "✅ Expected result saved to expected-result/run.txt"
 echo

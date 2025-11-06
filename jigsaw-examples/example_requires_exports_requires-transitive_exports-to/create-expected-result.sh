@@ -11,13 +11,8 @@ echo "Using Java version:"
 "${JAVA_HOME}/bin/java" -version
 echo
 
-mkdir -p expected-result
-
-echo "Running Java modules and capturing output..."
-
-./run-main.sh 2>&1 | normalize > expected-result/run.txt
-echo " " >> expected-result/run.txt
-./run-mainbehindfacade.sh 2>&1 | normalize >> expected-result/run.txt
+echo "Running example and capturing output..."
+./run.sh expected-result
 
 echo "✅ Expected result saved to expected-result/run.txt"
 echo
