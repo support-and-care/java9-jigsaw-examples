@@ -49,7 +49,8 @@ popd >/dev/null 2>&1 || exit
 
 pushd mods2 > /dev/null 2>&1 || exit
 # package new modcommon as jar in barmlib
-for mod in modcommon; 
+# shellcheck disable=SC2043  # Single iteration loop kept for consistency with similar code
+for mod in modcommon;
 do
     echo "jar ${JAR_OPTIONS} --create --file=../barmlib/${mod}.jar -C ${mod} ."
     # shellcheck disable=SC2086  # Option variables should not be quoted

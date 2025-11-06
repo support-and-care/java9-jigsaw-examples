@@ -9,6 +9,7 @@ mkdir -p cplib
 #  create non-modular jars to be put onto the classpath
 pushd src > /dev/null 2>&1 || exit
 
+# shellcheck disable=SC2043  # Single iteration loop kept for consistency with similar code
 for dir in cpb;
 do
    echo "javac ${JAVAC_OPTIONS} -d ../classes/${dir} \$(find ${dir} -name \"*.java\")"
