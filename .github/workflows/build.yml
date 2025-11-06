@@ -206,21 +206,38 @@ jobs:
         distribution: 'temurin'
         java-version: '11.0.28'
 
-    - name: Set up Maven 4 with JDK 17
-      id: setup-maven4
-      uses: s4u/setup-maven-action@v1.19.0
+    - name: Set up JDK 17
+      id: setup-jdk17
+      uses: actions/setup-java@v5
       with:
+        distribution: 'temurin'
         java-version: '17'
-        java-distribution: 'temurin'
+
+    - name: Set up Maven 4
+      uses: stCarolas/setup-maven@v5
+      with:
         maven-version: '4.0.0-rc-4'
 
     - name: Create .envrc with Java and Maven paths
       shell: bash
       env:
         JAVA11_PATH: ${{ steps.setup-jdk11.outputs.path }}
-        JAVA17_PATH: ${{ steps.setup-maven4.outputs.java-home }}
-        MAVEN4_PATH: ${{ steps.setup-maven4.outputs.maven-home }}
+        JAVA17_PATH: ${{ steps.setup-jdk17.outputs.path }}
       run: |
+        # Detect Maven home
+        if command -v mvn > /dev/null; then
+          MVN_PATH="$(command -v mvn)"
+          # Resolve symlinks
+          if [[ "$RUNNER_OS" == "Linux" ]] || [[ "$RUNNER_OS" == "macOS" ]]; then
+            MVN_PATH="$(readlink -f "$MVN_PATH" 2>/dev/null || realpath "$MVN_PATH" 2>/dev/null || echo "$MVN_PATH")"
+          fi
+          # Maven home is two directories up from the mvn binary
+          MAVEN4_PATH="$(dirname "$(dirname "$MVN_PATH")")"
+        else
+          echo "ERROR: Maven not found in PATH"
+          exit 1
+        fi
+
         # Convert Windows paths to Unix paths if on Windows
         if [[ "$RUNNER_OS" == "Windows" ]]; then
           JAVA11_PATH="$(cygpath -u "$JAVA11_PATH")"
