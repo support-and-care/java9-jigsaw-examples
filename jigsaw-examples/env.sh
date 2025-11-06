@@ -13,8 +13,11 @@ set -eu -o pipefail
 # Path to JDK8, only needed in example_compile-target-jdk8 (and special profile in example_spring-hibernate)
 [ -z "${JAVA8_HOME:-}" ] && export JAVA8_HOME=TODO/path/to/java8-jdk/goes/here
 
-# Path to JDK17, only needed in example_gradle-project
-[ -z "${JAVA17_HOME:-}" ] && export JAVA17_HOME=TODO/path/to/java8-jdk/goes/here
+# Path to JDK11, only needed for specific examples (e.g., example_version/m4 runtime)
+[ -z "${JAVA11_HOME:-}" ] && export JAVA11_HOME=TODO/path/to/java11-jdk/goes/here
+
+# Path to JDK17, only needed in example_gradle-project and Maven 4 builds
+[ -z "${JAVA17_HOME:-}" ] && export JAVA17_HOME=TODO/path/to/java17-jdk/goes/here
 
 # Path to Eclipse (legacy compatibility, not recommended for new work)
 [ -z "${ECLIPSE_HOME:-}" ] && export ECLIPSE_HOME=TODO/path/to/eclipse/goes/here

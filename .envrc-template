@@ -21,6 +21,10 @@ export JAVA17_HOME=/path/to/jdk17
 # Strongly recommended: JDK 11.0.28 (Temurin) - cf. README
 export JAVA_HOME=/path/to/java9-or-10-or-11-jdk
 
+# Path to JDK 11 specifically (required for examples that need JDK 11)
+# Strongly recommended: JDK 11.0.28 (Temurin) - cf. README
+export JAVA11_HOME=/path/to/java11-jdk
+
 # Path to JDK 8 (only needed for example_compile-target-jdk8)
 # If you want to explicitly test with JDK 8
 export JAVA8_HOME=/path/to/java8-jdk
