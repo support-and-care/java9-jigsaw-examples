@@ -580,9 +580,6 @@ EOF
     ```adoc
     ==== Maven 4 Output
 
-    This example has been migrated to Maven 4 using the Module Source Hierarchy layout.
-    The Maven 4 build is located in the `m4/` subdirectory and produces identical output:
-
     [source]
     ----
     include::m4/run-result/run.txt[]
