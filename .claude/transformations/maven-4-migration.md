@@ -574,7 +574,9 @@ EOF
    ./verify.sh
    ```
 
-10. **Update Example README**: Add Maven 4 output section to the example's README.adoc:
+10. **Update Example README**: Add both Maven 4 output section and Maven 4 Migration section to the example's README.adoc:
+
+    a. Add the Maven 4 output section (if not already present):
     ```adoc
     ==== Maven 4 Output
 
@@ -586,7 +588,40 @@ EOF
     include::m4/run-result/run.txt[]
     ----
     ```
+
+    b. Add the Maven 4 Migration section at the end of the README (level 2 heading):
+
+    For straightforward migrations (standard POM with sources and compiler plugin):
+    ```adoc
+    == Maven 4 Migration
+
+    This example was migrated to Maven 4 using the standard approach documented in the xref:../../README.adoc#maven-4-migration[central Maven 4 Migration guide].
+    The migration required no special configuration beyond the standard Module Source Hierarchy setup.
+    ```
+
+    For migrations requiring special configuration (add-reads, add-exports, automatic modules, etc.):
+    ```adoc
+    == Maven 4 Migration
+
+    This example required special handling when migrating to Maven 4.
+
+    === Maven 4 Compiler Changes
+
+    ==== The Challenge
+
+    [Explain the specific challenge...]
+
+    ==== The Solution
+
+    [Provide the specific solution with code examples...]
+
+    ==== Key Takeaways
+
+    * [List key points...]
+    ```
+
     This documents the migration completion and shows that Maven 4 produces equivalent output.
+    For examples with special requirements, it provides valuable documentation for similar migrations.
 
 11. **Document Issues**: Note any JPMS/Maven plugin compatibility issues for future resolution
 

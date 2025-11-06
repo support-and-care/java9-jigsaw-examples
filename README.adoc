@@ -207,6 +207,70 @@ Results go to `example_.../classes`.
 . If a module is patched, then the .class files for the patch are in `example_.../patches`.
 Corresponding JAR files are in `example_.../patchlib`.
 
+[[maven-4-migration]]
+== Maven 4 Migration
+
+Many examples have been migrated to Maven 4 using the new https://maven.apache.org/plugins-archives/maven-compiler-plugin-LATEST-4.x/modules.html[Module Source Hierarchy] layout.
+The Maven 4 builds are located in `m4/` subdirectories within each example.
+
+=== Standard Migration Approach
+
+For most examples, the Maven 4 migration follows a straightforward pattern:
+
+. Create a `pom.xml` with `<modelVersion>4.1.0</modelVersion>`
+. Use the `<sources>` block to declare modules:
++
+[source,xml]
+----
+<build>
+  <sources>
+    <source>
+      <module>modmain</module>
+      <directory>src/java/modmain/main</directory>
+    </source>
+    <!-- Additional modules... -->
+  </sources>
+</build>
+----
+
+. Configure the compiler plugin:
++
+[source,xml]
+----
+<plugin>
+  <groupId>org.apache.maven.plugins</groupId>
+  <artifactId>maven-compiler-plugin</artifactId>
+  <version>4.0.0-beta-3</version>
+</plugin>
+----
+
+. Set the target Java version:
++
+[source,xml]
+----
+<properties>
+  <maven.compiler.release>11</maven.compiler.release>
+  <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+</properties>
+----
+
+This standard approach works for examples where modules have straightforward dependencies and no special compilation requirements.
+
+=== Special Cases
+
+Some examples require additional configuration beyond the standard approach:
+
+Automatic module dependencies::
+Examples using automatic modules (like xref:jigsaw-examples/example_automatic-module-logging/README.adoc#maven-4-migration[example_automatic-module-logging]) need the `maven-dependency-plugin` to copy JARs and `--module-path` compiler arguments.
+
+Compiler flags (`--add-reads`, `--add-exports`)::
+Examples demonstrating module boundary overrides (like xref:jigsaw-examples/example_addReads_addExports/README.adoc#maven-4-migration[example_addReads_addExports]) need `<compilerArgs>` configuration.
+
+JDK-specific requirements::
+Examples requiring specific JDK versions may need `fork` and `executable` configuration with environment-specific paths.
+
+Refer to individual example READMEs for detailed migration notes specific to each example's requirements.
+
 == TODOs, LOP, Backlog, Ideas, ...
 
 No software is ready, ever ;-) So here are some ideas left (any other feedback very welcome!):
