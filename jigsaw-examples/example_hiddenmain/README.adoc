@@ -65,3 +65,8 @@ The Maven 4 build is located in the `m4/` subdirectory and produces identical ou
 ----
 include::m4/run-result/run.txt[]
 ----
+
+== Maven 4 Migration
+
+This example was migrated to Maven 4 using the standard approach documented in the xref:../../README.adoc#maven-4-migration[central Maven 4 Migration guide].
+The migration required no special configuration beyond the standard Module Source Hierarchy setup.
