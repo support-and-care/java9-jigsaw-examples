@@ -275,6 +275,10 @@ Refer to individual example READMEs for detailed migration notes specific to eac
 
 No software is ready, ever ;-) So here are some ideas left (any other feedback very welcome!):
 
+* Lessons learned from the <<maven-4-migration,migration to Maven 4>> (and perhaps to reconsider)
+
+** [ ] Module versions are optional, but perhaps enforced currently by the M4 compiler plugin - check and fix if necessary (allow to drop it)?
+
 * [ ] Do a bit of renaming and refactoring of module names. (modmain had been moda before, so that's why most modules are called modb, modc, ...)
 * [ ] New example for open modules
 * [ ] New example for Java agents and instrumentation

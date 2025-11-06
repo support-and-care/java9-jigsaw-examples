@@ -1,30 +1,30 @@
 Main: pkgmain.Main, id=ID_Main_16, B: from B
 
 pkgb.MyException: MyException's message
-	at modb/pkgb.B.doItThrowException(B.java:13)
-	at modmain/pkgmain.Main.main(Main.java:25)
+	at modb@1.0-SNAPSHOT/pkgb.B.doItThrowException(B.java:13)
+	at modmain@1.0-SNAPSHOT/pkgmain.Main.main(Main.java:25)
 
 pkgb.MyRuntimeException: MyRuntimeException's message
-	at modb/pkgb.B.doItThrowRuntimeException(B.java:17)
-	at modmain/pkgmain.Main.main(Main.java:34)
+	at modb@1.0-SNAPSHOT/pkgb.B.doItThrowRuntimeException(B.java:17)
+	at modmain@1.0-SNAPSHOT/pkgmain.Main.main(Main.java:34)
 
 pkgbinternal.MyInternalException: MyInternalException's message
-	at modb/pkgb.B.doItThrowInternalException(B.java:23)
-	at modmain/pkgmain.Main.main(Main.java:45)
+	at modb@1.0-SNAPSHOT/pkgb.B.doItThrowInternalException(B.java:23)
+	at modmain@1.0-SNAPSHOT/pkgmain.Main.main(Main.java:45)
 
 pkgbinternal.MyInternalRuntimeException: MyInternalRuntimeException's message
-	at modb/pkgb.B.doItThrowInternalRuntimeException(B.java:27)
-	at modmain/pkgmain.Main.main(Main.java:58)
+	at modb@1.0-SNAPSHOT/pkgb.B.doItThrowInternalRuntimeException(B.java:27)
+	at modmain@1.0-SNAPSHOT/pkgmain.Main.main(Main.java:58)
 
 java.lang.RuntimeException: chained in B.doItChainInternalExceptionToRuntimeException()
-	at modb/pkgb.B.doItChainInternalExceptionToRuntimeException(B.java:33)
-	at modmain/pkgmain.Main.main(Main.java:71)
+	at modb@1.0-SNAPSHOT/pkgb.B.doItChainInternalExceptionToRuntimeException(B.java:33)
+	at modmain@1.0-SNAPSHOT/pkgmain.Main.main(Main.java:71)
 Caused by: pkgbinternal.MyInternalException: MyInternalException's message
 	... 2 more
 
 java.lang.RuntimeException: chained in B.doItChainInternalRuntimeExceptionToRuntimeException()
-	at modb/pkgb.B.doItChainInternalRuntimeExceptionToRuntimeException(B.java:39)
-	at modmain/pkgmain.Main.main(Main.java:80)
+	at modb@1.0-SNAPSHOT/pkgb.B.doItChainInternalRuntimeExceptionToRuntimeException(B.java:39)
+	at modmain@1.0-SNAPSHOT/pkgmain.Main.main(Main.java:80)
 Caused by: pkgbinternal.MyInternalRuntimeException: MyInternalRuntimeException's message
 	... 2 more
 

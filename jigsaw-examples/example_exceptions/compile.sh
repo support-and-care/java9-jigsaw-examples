@@ -4,9 +4,9 @@ source ../env.sh
 mkdir -p mods
 mkdir -p mlib 
 
-echo "javac ${JAVAC_OPTIONS}  -d mods --module-path mlib --module-source-path src \$(find src -name \"*.java\")"
+echo "javac ${JAVAC_OPTIONS}  -d mods --module-version 1.0-SNAPSHOT --module-path mlib --module-source-path src \$(find src -name \"*.java\")"
 # shellcheck disable=SC2046,SC2086  # Word splitting is intentional for find results; option variables should not be quoted
-"${JAVA_HOME}/bin/javac" ${JAVAC_OPTIONS}  -d mods --module-path mlib --module-source-path src $(find src -name '*.java')  2>&1
+"${JAVA_HOME}/bin/javac" ${JAVAC_OPTIONS}  -d mods --module-version 1.0-SNAPSHOT --module-path mlib --module-source-path src $(find src -name '*.java')  2>&1
 
 pushd mods > /dev/null 2>&1 || exit
 for dir in */; 
