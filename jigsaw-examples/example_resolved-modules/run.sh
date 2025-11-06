@@ -73,9 +73,9 @@ echo "Linking with root module modb ..."
 # /x/ doesn't work on module path, replace with x:
 JAVA_HOME_OS="${JAVA_HOME}"
 # /x/ doesn't work on module path on windows, replace with x:
-(echo "${OSTYPE}" | grep -i win >/dev/null) && JAVA_HOME_OS=$(echo "${JAVA_HOME}" | sed -r s/^\\\/\([a-z]\)/\\\1:/)
+(echo "${OSTYPE}" | grep -i win >/dev/null) && JAVA_HOME_OS=$(echo "${JAVA_HOME}" | sed -r 's/^\/([a-z])/\1:/')
 # shellcheck disable=SC2086  # Variables in echo are for display only
-echo "   jlink --module-path mlib${PATH_SEPARATOR}"${JAVA_HOME_OS}"/jmods --add-modules modb --output jimage/modb"
+echo "   jlink --module-path mlib${PATH_SEPARATOR}${JAVA_HOME_OS}/jmods --add-modules modb --output jimage/modb"
 rm -rf ./jimage
 # TODO The following seems to work (on JDK 11) only with the `-v` option (otherwise `jlink` fails silently)
 # shellcheck disable=SC2086  # PATH_SEPARATOR must not be quoted
