@@ -38,7 +38,7 @@ jobs:
 
     - name: Run shellcheck on shell scripts
       shell: bash
-      run: cd jigsaw-examples && shellcheck -ax all*.sh
+      run: cd jigsaw-examples && ./allshellcheck.sh
 
     - name: Set up JDK 8 (non macOS)
       id: setup-jdk8
