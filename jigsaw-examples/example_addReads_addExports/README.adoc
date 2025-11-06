@@ -60,3 +60,73 @@ include::expected-result/run.txt[]
 ----
 include::run-result/run.txt[]
 ----
+
+==== Maven 4 Output
+
+[source]
+----
+include::m4/run-result/run.txt[]
+----
+
+== Maven 4 Migration
+
+This example demonstrates module system boundary overrides using `--add-reads` and `--add-exports` flags.
+These flags must be configured for both compile-time and runtime.
+
+=== Maven 4 Compiler Changes
+
+==== The Challenge
+
+This example shows how to override module boundaries at compile time and runtime.
+Without explicit configuration, the compiler will reject:
+
+* `modb` reading from `modc` (no `requires` declaration)
+* `modmain` reading from `modb` (no `requires` declaration)  
+* `modmain` accessing non-exported packages from `modb` and `modc`
+
+==== The Solution
+
+Configure the compiler plugin with the necessary `--add-reads` and `--add-exports` arguments:
+
+[source,xml]
+----
+<plugin>
+  <groupId>org.apache.maven.plugins</groupId>
+  <artifactId>maven-compiler-plugin</artifactId>
+  <version>4.0.0-beta-3</version>
+  <configuration>
+    <compilerArgs>
+      <!-- Required for cross-module access without explicit requires/exports -->
+      <arg>--add-reads</arg>
+      <arg>modb=modc</arg>
+      <arg>--add-reads</arg>
+      <arg>modmain=modb</arg>
+      <arg>--add-exports</arg>
+      <arg>modc/pkgc=modb</arg>
+      <arg>--add-exports</arg>
+      <arg>modb/pkgb=modmain</arg>
+    </compilerArgs>
+  </configuration>
+</plugin>
+----
+
+The runtime configuration in `run.sh` must include the same flags:
+
+[source,bash]
+----
+java --module-path mlib  \
+     --add-modules modb,modc            \
+     --add-reads   modmain=modb         \
+     --add-reads   modb=modc            \
+     --add-exports modb/pkgb=modmain    \
+     --add-exports modc/pkgc=modb       \
+     --module modmain/pkgmain.Main
+----
+
+==== Key Takeaways
+
+* Use `<compilerArgs>` to pass module system override flags to the compiler
+* Both compile-time and runtime configurations must specify the same overrides
+* `--add-reads` allows a module to read another without declaring `requires`
+* `--add-exports` makes non-exported packages accessible to specific modules
+* These flags are useful for migration scenarios or working with third-party modules
