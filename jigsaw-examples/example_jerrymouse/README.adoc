@@ -89,3 +89,53 @@ include::expected-result/run.txt[]
 ----
 include::run-result/run.txt[]
 ----
+
+==== Maven 4 Output
+
+[source]
+----
+include::m4/run-result/run.txt[]
+----
+
+== Maven 4 Migration
+
+The `example_jerrymouse` has been migrated to Maven 4 with the following approach.
+
+=== Key Changes
+
+Dependency Management::
+The `javax.json` automatic module dependency is managed via Maven.
++
+* Added `org.glassfish:javax.json:1.0.4` as Maven dependency
+* Configured `maven-dependency-plugin` to copy the JAR to `amlib/` directory
+* Configured `maven-compiler-plugin` to include `amlib/` on the module-path during compilation
+
+Source Code Sharing::
+Uses symbolic links to share source code with the original example.
++
+* `m4/src/java/modstarter/main` → `../../../../src/modstarter`
+
+Application Loading::
+Created `m4/apps_copyallexamples2appdir.sh` script.
++
+* Copies Maven 4 versions of example applications from whitelisted examples
+* Builds M4 versions of dependencies if they don't exist yet
+* Sources from `../example_*/m4/mlib/` instead of `../example_*/mlib/`
+* Creates `app.json` descriptors for each application
+
+Runtime Configuration::
+The `m4/run.sh` script runs the JerryMouse app server.
++
+* Calls `apps_copyallexamples2appdir.sh` to prepare application JARs
+* Runs with correct module-path including `amlib/`
+* Dynamically loads and executes applications in separate module layers
+
+=== Applications Loaded
+
+The JerryMouse server loads and runs these Maven 4 migrated examples:
+
+* `example_requires_exports`
+* `example_requires_exports-to`
+* `example_derived_private-package-protected`
+
+Each application runs in its own module layer with proper isolation.
