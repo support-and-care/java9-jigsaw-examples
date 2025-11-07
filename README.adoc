@@ -272,6 +272,10 @@ Examples requiring specific JDK versions may need `fork` and `executable` config
 Resource handling::
 Examples with non-.class resources (like xref:jigsaw-examples/example_resources/README.adoc#maven-4-migration[example_resources]) need `maven-resources-plugin` configuration to copy resources from the modular source directories (`src/java/<module>/main`) to the target classes directories, as the hybrid compilation approach only packages compiled `.class` files by default.
 
+Multiple module versions::
+Examples requiring multiple versions of the same module (like xref:jigsaw-examples/example_layer-modules-module-resolution/README.adoc#maven-4-migration[example_layer-modules-module-resolution]) cannot use the standard Module Source Hierarchy approach, as the `<sources>` element expects one source location per module name.
+These require a hybrid approach where Maven compiles the primary modules and manual javac compilation handles additional module versions.
+
 Refer to individual example READMEs for detailed migration notes specific to each example's requirements.
 
 == TODOs, LOP, Backlog, Ideas, ...
