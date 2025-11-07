@@ -85,3 +85,53 @@ include::expected-result/run.txt[]
 ----
 include::run-result/run.txt[]
 ----
+
+==== Maven 4 Output
+
+[source]
+----
+include::m4/run-result/run.txt[]
+----
+
+== Maven 4 Migration
+
+This example required a special migration approach due to its unique requirement of compiling multiple versions of the same module.
+
+=== Standard Migration
+
+The primary modules (modbar, modcommon v1.0, modfoo, modmain, modversion1, modversion2) were migrated using the standard Module Source Hierarchy approach documented in the xref:../../README.adoc#maven-4-migration[central Maven 4 Migration guide].
+
+=== Special Handling: Multiple Module Versions
+
+This example demonstrates module layer resolution by using two different versions of `modcommon`:
+
+. `modcommon` v1.0 (from `src/modcommon`) - used in the boot layer
+. `modcommon` v2.0 (from `src2/modcommon`) - used in bar layer #2 to demonstrate version overriding
+
+Problem::
+Maven 4's Module Source Hierarchy cannot handle multiple versions of the same module in a single build.
+The `<sources>` element expects one source location per module name.
+
+Solution::
+Hybrid compilation approach in `m4/compile.sh`:
++
+. Maven compiles the primary modules including modcommon v1.0 via the standard Module Source Hierarchy
+. Manual javac invocation compiles modcommon v2.0 from src2/:
++
+[source,bash]
+----
+javac -d mods2 --release 11 --module-version=2.0 \
+      --module-path mlib --module-source-path ../src2 \
+      $(find ../src2/modcommon -name "*.java")
+----
++
+. JAR placement follows the original structure:
+** mlib/ - boot layer modules (modcommon v1.0, modmain)
+** foomlib/ - foo layer modules (modfoo, modversion1)
+** barmlib/ - bar layer modules (modbar, modversion2, modcommon v2.0)
+
+This hybrid approach is necessary because:
+
+* Maven 4's Module Source Hierarchy is designed for single-version module builds
+* The example's educational value depends on demonstrating module version resolution in layers
+* Manual compilation of the second version preserves the example's behavior while leveraging Maven 4 for the primary build
