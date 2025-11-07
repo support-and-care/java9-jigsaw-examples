@@ -339,7 +339,7 @@ jobs:
     name: Generate and Deploy Documentation
     runs-on: ubuntu-latest
     needs: [build-legacy, build-m4]
-    if: "!cancelled()"
+    if: success() && !cancelled()
 
     permissions:
       contents: read
