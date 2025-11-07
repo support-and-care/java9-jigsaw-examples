@@ -64,3 +64,46 @@ include::expected-result/run.txt[]
 ----
 include::run-result/run.txt[]
 ----
+
+==== Maven 4 Output
+
+[source]
+----
+include::m4/run-result/run.txt[]
+----
+
+== Maven 4 Migration
+
+This example required a special migration approach due to the presence of automatic modules (modules without module-info.java).
+
+=== Standard Migration
+
+The explicit module (`modmain`) was migrated using the standard Module Source Hierarchy approach with direct path to the original source directory.
+
+=== Special Handling: Automatic Modules
+
+Problem::
+Maven 4's Module Source Hierarchy requires module descriptors (module-info.java) for all source entries.
+This example contains `modauto1` and `modauto2`, which are automatic modules without module-info.java.
++
+Automatic modules must be compiled as ordinary JAR files (without module-info.java) and placed on the module-path before `modmain` can be compiled.
+
+Solution::
+Hybrid compilation approach in `m4/compile.sh`:
++
+. Manual javac compilation of modauto1 and modauto2 to amlib1/ and amlib2/
++
+Each automatic module is compiled separately and packaged as a JAR without module-info.java.
++
+. Maven compiles explicit module (modmain) with compiler argument:
++
+* `--module-path ${project.basedir}/amlib1` - makes modauto1 available during compilation
++
+. Runtime uses `--module-path mlib:amlib1` to include both explicit modules and automatic modules
+
+This hybrid approach is necessary because:
+
+* Maven 4's Module Source Hierarchy cannot compile code without module-info.java
+* Automatic modules must be compiled and packaged before explicit modules that depend on them
+* This example demonstrates split package issues between automatic modules
+* Only modauto1 is placed on the module-path at runtime to avoid split package conflicts

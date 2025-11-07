@@ -61,3 +61,71 @@ include::expected-result/run.txt[]
 ----
 include::run-result/run.txt[]
 ----
+
+==== Maven 4 Output
+
+[source]
+----
+include::m4/run-result/run.txt[]
+----
+
+== Maven 4 Migration
+
+This example required a special migration approach due to mixing modular code with classpath code (unnamed module).
+
+=== Standard Migration
+
+The module (modb) was migrated using the standard Module Source Hierarchy approach documented in the xref:../../README.adoc#maven-4-migration[central Maven 4 Migration guide].
+
+=== Special Handling: Classpath Code
+
+This example demonstrates classpath code (unnamed module) accessing modules on the module-path via `--add-modules`.
+
+Problem::
+Maven 4's Module Source Hierarchy requires module descriptors (module-info.java) for all source entries.
+The `cpb` and `cpmain` packages are classpath code without module-info.java and cannot be included in the `<sources>` element.
+
+Solution::
+Hybrid compilation approach in `m4/compile.sh`:
++
+. Maven compiles the module (modb) first:
++
+[source,xml]
+----
+<sources>
+  <source>
+    <module>modb</module>
+    <directory>src/java/modb/main</directory>
+  </source>
+</sources>
+----
++
+. Manual javac invocation compiles cpb and cpmain to cplib/:
++
+[source,bash]
+----
+for dir in cpb cpmain; do
+    javac -cp ../m4/mlib/*:../m4/classes/cpb \
+          -d ../m4/classes/${dir} --release 11 \
+          $(find ${dir} -name "*.java")
+    jar --create --file=../m4/cplib/${dir}.jar \
+        -C ../m4/classes/${dir} .
+done
+----
++
+. Runtime uses separate paths:
++
+[source,bash]
+----
+java --module-path mlib \
+     --class-path cplib/cpmain.jar:cplib/cpb.jar \
+     --add-modules modb pkgcpmain.Main
+----
+
+This hybrid approach is necessary because:
+
+* Maven 4's Module Source Hierarchy is designed for modular code only
+* Classpath code (unnamed module) must be compiled separately and placed on the classpath
+* The `--add-modules modb` flag makes the module available to classpath code
+* Compilation order matters: cpb must be compiled before cpmain (cpmain depends on cpb)
+* Separating cplib/ from mlib/ maintains the classpath/module-path distinction

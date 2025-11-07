@@ -60,3 +60,44 @@ include::expected-result/run.txt[]
 ----
 include::run-result/run.txt[]
 ----
+
+==== Maven 4 Output
+
+[source]
+----
+include::m4/run-result/run.txt[]
+----
+
+== Maven 4 Migration
+
+This example required a special migration approach due to the presence of classpath code (unnamed module).
+
+=== Standard Migration
+
+The explicit modules (`modb`, `modmain`) were migrated using the standard Module Source Hierarchy approach with direct paths to the original source directories.
+
+=== Special Handling: Classpath Code with Reflective Access
+
+Problem::
+Maven 4's Module Source Hierarchy requires module descriptors (module-info.java) for all source entries.
+This example contains `cpb`, which is classpath code (unnamed module) without module-info.java.
++
+Additionally, `modmain` uses reflection to access classes in the unnamed module, which requires `--add-reads modmain=ALL-UNNAMED`.
+
+Solution::
+Hybrid compilation approach in `m4/compile.sh`:
++
+. Manual javac compilation of cpb to cplib/cpb.jar
+. Maven compiles explicit modules (modb, modmain) with compiler arguments:
++
+* `--add-reads modmain=ALL-UNNAMED` - allows modmain to reflectively access unnamed module
+* `--class-path cplib/cpb.jar` - makes cpb available on classpath during compilation
++
+. Runtime uses `--module-path mlib` for modules and `--class-path cplib/cpb.jar` for classpath code
+
+This hybrid approach is necessary because:
+
+* Maven 4's Module Source Hierarchy cannot compile code without module-info.java
+* Classpath code (unnamed module) must be compiled separately from explicit modules
+* Reflective access from explicit modules to the unnamed module requires --add-reads
+* The classpath/module-path split must be maintained at both compile-time and runtime

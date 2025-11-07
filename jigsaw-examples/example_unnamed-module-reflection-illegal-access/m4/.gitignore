@@ -1,0 +1,14 @@
+# Maven build directory
+target/
+
+# Module and automatic module library directories
+*lib/
+*lib[0-9]/
+
+# Compiled class files
+classes/
+classes[0-9]/
+mods/
+
+# Runtime output
+run-result/

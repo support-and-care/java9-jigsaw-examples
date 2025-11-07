@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.1.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.1.0
+                             http://maven.apache.org/xsd/maven-4.1.0.xsd" root="true">
+  <modelVersion>4.1.0</modelVersion>
+
+  <groupId>com.example.jigsaw</groupId>
+  <artifactId>example_splitpackage_automatic-modules-m4</artifactId>
+  <version>1.0-SNAPSHOT</version>
+
+  <properties>
+    <maven.compiler.release>11</maven.compiler.release>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+  </properties>
+
+  <build>
+    <sources>
+      <!-- modauto1 and modauto2 are automatic modules - compiled manually in compile.sh -->
+      <source>
+        <module>modmain</module>
+        <directory>../src/modmain</directory>
+      </source>
+    </sources>
+
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>4.0.0-beta-3</version>
+        <configuration>
+          <compilerArgs>
+            <arg>--module-path</arg>
+            <arg>${project.basedir}/amlib1</arg>
+          </compilerArgs>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+</project>
