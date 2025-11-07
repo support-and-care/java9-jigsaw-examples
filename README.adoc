@@ -269,6 +269,9 @@ Examples demonstrating module boundary overrides (like xref:jigsaw-examples/exam
 JDK-specific requirements::
 Examples requiring specific JDK versions may need `fork` and `executable` configuration with environment-specific paths.
 
+Resource handling::
+Examples with non-.class resources (like xref:jigsaw-examples/example_resources/README.adoc#maven-4-migration[example_resources]) need `maven-resources-plugin` configuration to copy resources from the modular source directories (`src/java/<module>/main`) to the target classes directories, as the hybrid compilation approach only packages compiled `.class` files by default.
+
 Refer to individual example READMEs for detailed migration notes specific to each example's requirements.
 
 == TODOs, LOP, Backlog, Ideas, ...
@@ -278,6 +281,7 @@ No software is ready, ever ;-) So here are some ideas left (any other feedback v
 * Lessons learned from the <<maven-4-migration,migration to Maven 4>> (and perhaps to reconsider)
 
 ** [ ] Module versions are optional, but perhaps enforced currently by the M4 compiler plugin - check and fix if necessary (allow to drop it)?
+** [ ] Maven resources plugin configuration may need to be adapted when modular source code is organized in Module Source Hierarchy (`src/java/<module>/main`) - consider if this should be documented more prominently or if alternative approaches exist.
 
 * [ ] Do a bit of renaming and refactoring of module names. (modmain had been moda before, so that's why most modules are called modb, modc, ...)
 * [ ] New example for open modules
