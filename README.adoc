@@ -266,6 +266,32 @@ Examples using automatic modules (like xref:jigsaw-examples/example_automatic-mo
 Compiler flags (`--add-reads`, `--add-exports`)::
 Examples demonstrating module boundary overrides (like xref:jigsaw-examples/example_addReads_addExports/README.adoc#maven-4-migration[example_addReads_addExports]) need `<compilerArgs>` configuration.
 
+Classpath code (unnamed module)::
+Examples mixing modular code with classpath code (like xref:jigsaw-examples/example_unnamed-module_access-from-explicit-module/README.adoc#maven-4-migration[example_unnamed-module_access-from-explicit-module]) cannot include non-modular code in the `<sources>` element.
+These require a hybrid approach where classpath code is compiled manually with javac and placed in `cplib/`, while Maven compiles the modules with `--add-reads <module>=ALL-UNNAMED` and `--class-path` compiler arguments.
++
+[[admonition:classpath-code-handling]]
+[NOTE]
+.Classpath Code Handling
+====
+Several approaches were attempted before arriving at the hybrid compilation solution:
+
+exec-maven-plugin approach::
+Calling javac directly via exec-maven-plugin was rejected as too specialized and not a general pattern for Maven 4 migration.
+It bypasses the Maven compiler plugin entirely and lacks maintainability.
+
+Dual source directories::
+Attempted using `src/main/java` for classpath code and `src/java` for modules with separate compiler executions.
+Failed because the `<sources>` element is not recognized within plugin execution configurations.
+
+Maven profiles::
+Tried using two profiles to separate classpath and module compilation.
+Failed because the `<sources>` element can only be used at top-level `<build>`, not within profiles or plugin executions.
+
+The core limitation is that the Module Source Hierarchy assumes all directories under `<sources>` are modules with module descriptors.
+There is no way to designate certain source directories as classpath-only code within the Module Source Hierarchy itself, necessitating the hybrid approach with manual javac compilation.
+====
+
 JDK-specific requirements::
 Examples requiring specific JDK versions may need `fork` and `executable` configuration with environment-specific paths.
 
