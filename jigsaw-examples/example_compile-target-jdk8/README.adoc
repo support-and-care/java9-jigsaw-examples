@@ -54,3 +54,10 @@ include::expected-result/run.txt[]
 ----
 include::run-result/run.txt[]
 ----
+
+=== Maven 4 Migration
+
+This example does not include a Maven 4 migration variant (`m4/` directory) because it is primarily about demonstrating compatibility with older JDK 8 code, not about the Java Platform Module System (JPMS).
+
+The example focuses on cross-compilation targeting JDK 8, which is independent of Maven version.
+Since the migration to Maven 4 in this repository focuses on JPMS-related module system features, and this example doesn't rely on JPMS, there is no need for a separate Maven 4 migration demonstration here.
