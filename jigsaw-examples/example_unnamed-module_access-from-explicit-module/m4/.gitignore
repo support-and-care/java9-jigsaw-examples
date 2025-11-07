@@ -5,6 +5,7 @@ target/
 *lib/
 
 # Compiled class files
+classes/
 mods2/
 
 # Runtime output

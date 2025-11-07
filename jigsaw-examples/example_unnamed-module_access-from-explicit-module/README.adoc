@@ -60,3 +60,65 @@ include::expected-result/run.txt[]
 ----
 include::run-result/run.txt[]
 ----
+
+==== Maven 4 Output
+
+[source]
+----
+include::m4/run-result/run.txt[]
+----
+
+== Maven 4 Migration
+
+This example required a special migration approach due to mixing modular code with classpath code (unnamed module).
+
+=== Standard Migration
+
+The modules (modb, modmain) were migrated using the standard Module Source Hierarchy approach documented in the xref:../../README.adoc#maven-4-migration[central Maven 4 Migration guide].
+
+=== Special Handling: Classpath Code
+
+This example demonstrates explicit modules accessing the unnamed module (classpath) via `--add-reads modmain=ALL-UNNAMED`.
+
+Problem::
+Maven 4's Module Source Hierarchy requires module descriptors (module-info.java) for all source entries.
+The `cpb` package is classpath code without a module-info.java and cannot be included in the `<sources>` element.
+
+Solution::
+Hybrid compilation approach in `m4/compile.sh`:
++
+. Manual javac invocation compiles cpb to cplib/cpb.jar:
++
+[source,bash]
+----
+javac -d classes --release 11 $(find ../src/cpb -name "*.java")
+jar --create --file=cplib/cpb.jar -C classes .
+----
++
+. Maven compiles the modules (modb, modmain) with compiler arguments:
++
+[source,xml]
+----
+<compilerArgs>
+  <arg>--add-reads</arg>
+  <arg>modmain=ALL-UNNAMED</arg>
+  <arg>--class-path</arg>
+  <arg>${project.basedir}/cplib/cpb.jar</arg>
+</compilerArgs>
+----
++
+. Runtime uses separate paths:
++
+[source,bash]
+----
+java --module-path mlib \
+     --class-path cplib/cpb.jar \
+     --module modmain/pkgmain.Main
+----
+
+This hybrid approach is necessary because:
+
+* Maven 4's Module Source Hierarchy is designed for modular code only
+* Classpath code (unnamed module) must be compiled separately and placed on the classpath
+* The `--add-reads modmain=ALL-UNNAMED` flag allows the explicit module to read the unnamed module
+* Separating cplib/ from mlib/ maintains the classpath/module-path distinction
