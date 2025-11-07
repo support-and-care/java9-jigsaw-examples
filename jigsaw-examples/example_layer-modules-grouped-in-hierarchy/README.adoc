@@ -85,3 +85,61 @@ include::expected-result/run.txt[]
 ----
 include::run-result/run.txt[]
 ----
+
+==== Maven 4 Output
+
+[source]
+----
+include::m4/run-result/run.txt[]
+----
+
+== Maven 4 Migration
+
+This example required a special migration approach due to the presence of automatic modules with split packages and module-specific dependencies.
+
+=== Standard Migration
+
+The base modules (`modcommon`, `modmain`) were migrated using the standard Module Source Hierarchy approach with direct paths to the original source directories.
+
+=== Special Handling: Automatic Modules with Split Packages
+
+Problem::
+Maven 4's Module Source Hierarchy requires module descriptors (module-info.java) for all source entries.
+This example contains `modauto1` and `modauto2`, which are automatic modules without module-info.java.
++
+Additionally:
++
+* Both automatic modules have split packages (`pkgversion`) which conflict at compile-time
+* `modfoo` requires `modauto1` while `modbar` requires `modauto2`
+* Maven 4 compiles all modules together with the same `--module-path`, causing split package conflicts
++
+The original approach compiles each explicit module separately with different module-path settings to avoid conflicts.
+
+Solution::
+Hybrid compilation approach in `m4/compile.sh`:
++
+. Manual javac compilation of modauto1 → amlib1/ and modauto2 → amlib2/
++
+Each automatic module is compiled separately and packaged as a JAR without module-info.java.
++
+. Maven compiles base modules (modcommon, modmain) without automatic modules on path
++
+These modules don't depend on the automatic modules.
++
+. Manual javac compilation of modfoo with `--module-path mlib:amlib1`
++
+Only modauto1 is on module-path, avoiding split package conflicts.
++
+. Manual javac compilation of modbar with `--module-path mlib:amlib2`
++
+Only modauto2 is on module-path, avoiding split package conflicts.
++
+. Runtime uses only mlib/ (automatic modules not needed at runtime for this example)
+
+This hybrid approach is necessary because:
+
+* Maven 4's Module Source Hierarchy cannot compile code without module-info.java
+* Automatic modules must be compiled and packaged before explicit modules that depend on them
+* Split packages between automatic modules prevent compiling all modules together
+* Each module requiring an automatic module must be compiled separately with only the needed automatic module on path
+* This example demonstrates module layers where different modules use different automatic module versions

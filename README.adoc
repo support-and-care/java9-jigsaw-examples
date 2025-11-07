@@ -267,12 +267,32 @@ Compiler flags (`--add-reads`, `--add-exports`)::
 Examples demonstrating module boundary overrides (like xref:jigsaw-examples/example_addReads_addExports/README.adoc#maven-4-migration[example_addReads_addExports]) need `<compilerArgs>` configuration.
 
 Classpath code (unnamed module)::
-Examples mixing modular code with classpath code (like xref:jigsaw-examples/example_unnamed-module_access-from-explicit-module/README.adoc#maven-4-migration[example_unnamed-module_access-from-explicit-module]) cannot include non-modular code in the `<sources>` element.
-These require a hybrid approach where classpath code is compiled manually with javac and placed in `cplib/`, while Maven compiles the modules with `--add-reads <module>=ALL-UNNAMED` and `--class-path` compiler arguments.
+Examples mixing modular code with classpath code cannot include non-modular code in the `<sources>` element.
+These require a hybrid approach where classpath code is compiled by script with javac and placed in `cplib/`, while Maven compiles the modules.
 +
-[[admonition:classpath-code-handling]]
-[NOTE]
-.Classpath Code Handling
+Two main patterns exist:
+
+Pattern 1: Explicit modules accessing classpath code::::
+When explicit modules need to access the unnamed module (classpath), Maven compiles modules with `--add-reads <module>=ALL-UNNAMED` and `--class-path` compiler arguments.
++
+Examples:
++
+* xref:jigsaw-examples/example_unnamed-module_access-from-explicit-module/README.adoc#maven-4-migration[example_unnamed-module_access-from-explicit-module] - Basic classpath access
+* xref:jigsaw-examples/example_unnamed-module_access-from-explicit-module-reflection/README.adoc#maven-4-migration[example_unnamed-module_access-from-explicit-module-reflection] - Reflective access to classpath code
+
+Pattern 2: Classpath code depending on modules::::
+When classpath code depends on modules at compile-time, Maven compiles the modules first (with the compile script creating JARs in `mlib/`), then classpath code is compiled by the script with `javac -cp mlib/*`.
++
+Examples:
++
+* xref:jigsaw-examples/example_unnamed-module-reflection-illegal-access/README.adoc#maven-4-migration[example_unnamed-module-reflection-illegal-access] - Classpath code using modules, demonstrates `--illegal-access` flags
+* xref:jigsaw-examples/example_unnamed-module_accessing-module-path/README.adoc#maven-4-migration[example_unnamed-module_accessing-module-path] - Classpath code accessing module-path
+* xref:jigsaw-examples/example_unnamed-module_access-from-automatic-module/README.adoc#maven-4-migration[example_unnamed-module_access-from-automatic-module] - Classpath code with automatic modules
+
++
+[[admonition:unsuccessful-classpath-code-handling-approaches]]
+[WARNING]
+.Unsuccessful Classpath Code Handling Approaches
 ====
 Several approaches were attempted before arriving at the hybrid compilation solution:
 
@@ -292,7 +312,26 @@ The core limitation is that the Module Source Hierarchy assumes all directories 
 There is no way to designate certain source directories as classpath-only code within the Module Source Hierarchy itself, necessitating the hybrid approach with manual javac compilation.
 ====
 
+Automatic modules without module descriptors::
+Examples with automatic modules (JARs without `module-info.java`) cannot include these in the `<sources>` element, as Maven 4's Module Source Hierarchy requires module descriptors for all entries.
+These require manual compilation with javac to create JARs, then Maven compiles explicit modules with `--module-path` pointing to the automatic module JARs in `amlib*/`.
++
+Examples:
++
+* xref:jigsaw-examples/example_naming-modules/README.adoc#maven-4-migration[example_naming-modules] - Four automatic modules demonstrating module naming conventions
+* xref:jigsaw-examples/example_layer-modules-all-in-boot-layer/README.adoc#maven-4-migration[example_layer-modules-all-in-boot-layer] - One automatic module (modauto1) used by explicit modules in boot layer
+* xref:jigsaw-examples/example_splitpackage_automatic-modules/README.adoc#maven-4-migration[example_splitpackage_automatic-modules] - Two automatic modules compiled by script, explicit module uses one via `--module-path`
+
+Split packages between automatic modules::
+When multiple automatic modules contain the same package name (split packages), they create compile-time conflicts if both are on the module-path simultaneously.
+This requires a multi-step hybrid approach where each automatic module is compiled to separate directories (`amlib1/`, `amlib2/`), and each explicit module depending on an automatic module is compiled separately with only its required automatic module on the module-path.
++
+Examples:
++
+* xref:jigsaw-examples/example_layer-modules-grouped-in-hierarchy/README.adoc#maven-4-migration[example_layer-modules-grouped-in-hierarchy] - Complex case: two automatic modules with split packages (`pkgversion`), requiring five-step compilation where `modfoo` is compiled with only `amlib1/` on path, and `modbar` with only `amlib2/` on path
+
 JDK-specific requirements::
+Examples requiring specific JDK versions may need `fork` and `executable` configuration with environment-specific paths.
 Examples requiring specific JDK versions may need `fork` and `executable` configuration with environment-specific paths.
 
 Resource handling::
