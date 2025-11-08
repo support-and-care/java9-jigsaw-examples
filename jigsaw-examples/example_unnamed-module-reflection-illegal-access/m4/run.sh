@@ -4,6 +4,19 @@ set -eu -o pipefail
 # shellcheck source=../../env.sh
 source ../../env.sh
 
+# IMPORTANT: This example MUST run with JDK 11 (not JDK 17)
+# The --illegal-access flag was removed in JDK 17, but this example tests
+# the --illegal-access=permit DEFAULT behavior of JDK 9-16.
+# Variant 6-8 expect to work because --illegal-access=permit is the default in JDK 11.
+if [ -z "${JAVA11_HOME:-}" ] || [ "${JAVA11_HOME}" = "TODO/path/to/java11-jdk/goes/here" ]; then
+  echo "ERROR: This example requires JDK 11 to run (--illegal-access flag was removed in JDK 17)"
+  echo "Please set JAVA11_HOME in .envrc or env.sh"
+  exit 1
+fi
+
+# Use JDK 11 for running (not the current JAVA_HOME which might be JDK 17)
+export JAVA_HOME="${JAVA11_HOME}"
+
 result_dir="${1:-run-result}"
 
 rm -rf "${result_dir}"
@@ -63,12 +76,12 @@ echo
 # -------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 #
-# Run main class, which does reflective access to a class from module java.base, package sun.io (a package which has existed before, in Java8)
+# Run main class, which does reflective access to a class from module java.base, package sun.net (a package which has existed before, in Java 8)
 # Variants #5,#6, #7 and #8 will work, while
-#     variant #9 will show java.lang.reflect.InaccessibleObjectException: Unable to make private sun.io.Win32ErrorMode() accessible: module java.base does not "opens sun.io" to unnamed module
-#     variant #10 will show java.lang.ClassNotFoundException: sun.io.Win32ErrorMode
+#     variant #9 will show java.lang.reflect.InaccessibleObjectException: Unable to make private sun.net.PortConfig() accessible: module java.base does not "opens sun.net" to unnamed module
+#     variant #10 will show java.lang.ClassNotFoundException: sun.net.PortConfig
 
-echo "Checking variants of reflective access to java.base/sun.io.Win32ErrorMode. Its package is not new in Java9, but had existed before in Java8!"
+echo "Checking variants of reflective access to java.base/sun.net.PortConfig. Its package is not new in Java 9, but had existed before in Java8!"
 
 echo
 echo "6 - reflective call without any options"
