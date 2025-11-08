@@ -75,3 +75,43 @@ include::expected-result/run.txt[]
 ----
 include::run-result/run.txt[]
 ----
+
+==== Maven 4 Output
+
+[source]
+----
+include::m4/run-result/run.txt[]
+----
+
+== Maven 4 Migration
+
+This example has been migrated to Maven 4 using the standard Module Source Hierarchy approach.
+
+=== Key Characteristics
+
+Multiple Modules::
+This example compiles three modules (`moda`, `modb`, `modc`) demonstrating module resolution, not a single `modmain` module.
++
+The `pom.xml` defines all three modules in the `<sources>` section.
+
+Multi-Scenario Testing::
+The `m4/run.sh` script executes 8 different module resolution scenarios.
++
+. Running with root module `moda` (standalone)
+. Running with root module `modb` (requires `moda`)
+. Running with root module `modc` (standalone)
+. Running with root module `modb` plus `--add-modules modc`
+. Running with root module `modb` plus automatic module `javax.json` (from `../amlib`)
+. Running with root module `modb` plus `--limit-modules`
+. Running with root module `modb` plus `--limit-modules` on specific JDK modules
+. Using `jlink` to create a custom runtime image with `modb`, then running from that image
+
+jlink Integration::
+Scenario 8 demonstrates creating a custom runtime image using `jlink`.
++
+* Creates minimal runtime with only required modules
+* Demonstrates `jlink --module-path` with both application modules and JDK modules
+* Runs the application from the linked runtime image
+
+Automatic Module Reference::
+The run script references `../amlib` for the `javax.json` automatic module in scenario 5, demonstrating that automatic modules are only loaded when explicitly required or added.
