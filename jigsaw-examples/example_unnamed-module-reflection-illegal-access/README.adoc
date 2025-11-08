@@ -77,6 +77,7 @@ include::run-result/run.txt[]
 include::m4/run-result/run.txt[]
 ----
 
+[[sec:maven-4-migration]]
 == Maven 4 Migration
 
 This example required a special migration approach due to the presence of classpath code (unnamed module) that depends on explicit modules.

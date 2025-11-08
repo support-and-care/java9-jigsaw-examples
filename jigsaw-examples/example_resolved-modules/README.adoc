@@ -83,6 +83,7 @@ include::run-result/run.txt[]
 include::m4/run-result/run.txt[]
 ----
 
+[[sec:maven-4-migration]]
 == Maven 4 Migration
 
 This example has been migrated to Maven 4 using the standard Module Source Hierarchy approach.

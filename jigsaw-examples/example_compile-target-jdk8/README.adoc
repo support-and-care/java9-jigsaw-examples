@@ -55,6 +55,7 @@ include::expected-result/run.txt[]
 include::run-result/run.txt[]
 ----
 
+[[sec:maven-4-migration]]
 === Maven 4 Migration
 
 This example does not include a Maven 4 migration variant (`m4/` directory) because it is primarily about demonstrating compatibility with older JDK 8 code, not about the Java Platform Module System (JPMS).

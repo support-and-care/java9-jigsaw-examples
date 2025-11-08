@@ -69,6 +69,7 @@ include::run-result/run.txt[]
 include::m4/run-result/run.txt[]
 ----
 
+[[sec:maven-4-migration]]
 == Maven 4 Migration
 
 This example was migrated to Maven 4 using the standard approach documented in the xref:../../README.adoc#maven-4-migration[central Maven 4 Migration guide].
