@@ -68,6 +68,7 @@ include::run-result/run.txt[]
 include::m4/run-result/run.txt[]
 ----
 
+[[sec:maven-4-migration]]
 == Maven 4 Migration
 
 This example demonstrates module system boundary overrides using `--add-reads` and `--add-exports` flags.
