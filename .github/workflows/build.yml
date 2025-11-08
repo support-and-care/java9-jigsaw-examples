@@ -168,9 +168,9 @@ jobs:
         env | sort
         echo "=== Listing contents of RUNNER_TOOL_CACHE ==="
         if test "$(uname)" == "Windows_NT"; then
-          ls -l "$RUNNER_TOOL_CACHE" "$RUNNER_TOOL_CACHE\\*" "$RUNNER_TOOL_CACHE\\Java*\\*"
+          ls -l $RUNNER_TOOL_CACHE $RUNNER_TOOL_CACHE\\* $RUNNER_TOOL_CACHE\\Java*\\*
         else
-          ls -l "$RUNNER_TOOL_CACHE" "$RUNNER_TOOL_CACHE/*" "$RUNNER_TOOL_CACHE/Java*/*"
+          ls -l $RUNNER_TOOL_CACHE $RUNNER_TOOL_CACHE/* $RUNNER_TOOL_CACHE/Java*/*
         fi
         echo
 
@@ -320,10 +320,15 @@ jobs:
         echo "Environment:"
         env | sort
         echo "=== Listing contents of RUNNER_TOOL_CACHE ==="
-        if test "$(uname)" == "Windows_NT"; then
-          ls -l "$RUNNER_TOOL_CACHE" "$RUNNER_TOOL_CACHE\\*" "$RUNNER_TOOL_CACHE\\Java*\\*"
+        if test "${OS}" == "Windows_NT"; then
+          ls -l $RUNNER_TOOL_CACHE 
+          # TODO: The wildcards do not work on Windows?
+          #   $RUNNER_TOOL_CACHE\\* $RUNNER_TOOL_CACHE\\Java*\\*
+          # We see erors like
+          # ls: cannot access 'C:\hostedtoolcache\windows\*': No such file or directory
+          # ls: cannot access 'C:\hostedtoolcache\windows\Java*\*': No such file or directory
         else
-          ls -l "$RUNNER_TOOL_CACHE" "$RUNNER_TOOL_CACHE/*" "$RUNNER_TOOL_CACHE/Java*/*"
+          ls -l $RUNNER_TOOL_CACHE $RUNNER_TOOL_CACHE/* $RUNNER_TOOL_CACHE/Java*/*
         fi
         echo
 
