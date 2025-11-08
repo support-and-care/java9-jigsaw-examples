@@ -79,7 +79,7 @@ echo "   jlink --module-path mlib${PATH_SEPARATOR}${JAVA_HOME_OS}/jmods --add-mo
 rm -rf ./jimage
 # TODO The following seems to work (on JDK 11) only with the `-v` option (otherwise `jlink` fails silently)
 # shellcheck disable=SC2086  # PATH_SEPARATOR must not be quoted
-"${JAVA_HOME}/bin/jlink" -v --module-path mlib${PATH_SEPARATOR}"${JAVA_HOME_OS}"/jmods --add-modules modb --output jimage/modb 2>&1 | normalize_jlink | tee -a "${result_dir}"/run.txt | myecho
+"${JAVA_HOME}/bin/jlink" -v --module-path mlib${PATH_SEPARATOR}"${JAVA_HOME_OS}"/jmods --add-modules modb --output jimage/modb 2>&1 | normalize_jlink "${JAVA_HOME_OS}" | tee -a "${result_dir}"/run.txt | myecho
 
 echo "... and running the linked runtime image with root module modb"
 # shellcheck disable=SC2086  # Variables in echo are for display only

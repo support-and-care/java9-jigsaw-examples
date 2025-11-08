@@ -104,10 +104,12 @@ normalize_for_jlink() {
   esac
 }
 normalized_jlink_pwd=$(normalize_for_jlink "${PWD}")
-normalized_jlink_java_home=$(normalize_for_jlink "${JAVA_HOME}")
 
 normalize_jlink() {
+  local java_home
+  java_home="${1}"
+  # shellcheck disable=SC2086  # intentional word splitting
   sed \
     -e "s,${normalized_jlink_pwd},<PROJECT_ROOT>,g" \
-    -e "s,${normalized_jlink_java_home},<JAVA_HOME>,g"
+    -e "s,$(normalize_for_jlink ${java_home}),<JAVA_HOME>,g"
 }
