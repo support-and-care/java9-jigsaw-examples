@@ -4,6 +4,18 @@ set -eu -o pipefail
 # shellcheck source=../../env.sh
 source ../../env.sh
 
+# IMPORTANT: This example MUST run with JDK 11 (not JDK 17)
+# The expected output was created with JDK 11, and the available modules list
+# differs between JDK 11 and JDK 17.
+if [ -z "${JAVA11_HOME:-}" ] || [ "${JAVA11_HOME}" = "TODO/path/to/java11-jdk/goes/here" ]; then
+  echo "ERROR: This example requires JDK 11 to run (module list differs in JDK 17)"
+  echo "Please set JAVA11_HOME in .envrc or env.sh"
+  exit 1
+fi
+
+# Use JDK 11 for running (not the current JAVA_HOME which might be JDK 17)
+export JAVA_HOME="${JAVA11_HOME}"
+
 result_dir="${1:-run-result}"
 
 rm -rf "${result_dir}"
