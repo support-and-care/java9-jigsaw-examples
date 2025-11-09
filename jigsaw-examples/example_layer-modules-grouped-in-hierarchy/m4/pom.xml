@@ -20,11 +20,11 @@
       <!-- modfoo, modbar are also compiled manually due to split package conflicts -->
       <source>
         <module>modcommon</module>
-        <directory>../src/modcommon</directory>
+        <directory>src/java/modcommon/main</directory>
       </source>
       <source>
         <module>modmain</module>
-        <directory>../src/modmain</directory>
+        <directory>src/java/modmain/main</directory>
       </source>
     </sources>
 
