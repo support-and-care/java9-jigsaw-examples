@@ -19,7 +19,7 @@
       <!-- modauto1 and modauto2 are automatic modules - compiled manually in compile.sh -->
       <source>
         <module>modmain</module>
-        <directory>../src/modmain</directory>
+        <directory>src/java/modmain/main</directory>
       </source>
     </sources>
 

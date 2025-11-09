@@ -19,11 +19,11 @@
       <!-- cpmain is classpath code - compiled manually in compile.sh -->
       <source>
         <module>modb</module>
-        <directory>../src/modb</directory>
+        <directory>src/java/modb/main</directory>
       </source>
       <source>
         <module>modc</module>
-        <directory>../src/modc</directory>
+        <directory>src/java/modc/main</directory>
       </source>
     </sources>
 
