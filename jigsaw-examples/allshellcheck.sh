@@ -44,14 +44,16 @@ for script in all*.sh; do
 done
 
 echo
-echo "Checking clean.sh, compile*.sh, and verify*.sh scripts in examples..."
+echo "Checking clean*.sh, compile*.sh, run*.sh, and verify*.sh scripts in examples..."
 echo
 for example_dir in example_*/; do
     if [ -d "${example_dir}" ]; then
-        # Check clean.sh
-        if [ -f "${example_dir}clean.sh" ]; then
-            check_script "${example_dir}clean.sh" || error_count=$((error_count + 1))
-        fi
+        # Check clean*.sh
+        for clean_script in "${example_dir}"clean*.sh; do
+            if [ -f "${clean_script}" ]; then
+                check_script "${clean_script}" || error_count=$((error_count + 1))
+            fi
+        done
 
         # Check compile*.sh
         for compile_script in "${example_dir}"compile*.sh; do
@@ -60,10 +62,30 @@ for example_dir in example_*/; do
             fi
         done
 
+        # Check run*.sh
+        for run_script in "${example_dir}"run*.sh; do
+            if [ -f "${run_script}" ]; then
+                check_script "${run_script}" || error_count=$((error_count + 1))
+            fi
+        done
+
         # Check verify*.sh
         for verify_script in "${example_dir}"verify*.sh; do
             if [ -f "${verify_script}" ]; then
                 check_script "${verify_script}" || error_count=$((error_count + 1))
+            fi
+        done
+    fi
+done
+
+echo
+echo "Checking m4/*.sh scripts in examples..."
+echo
+for example_dir in example_*/; do
+    if [ -d "${example_dir}m4" ]; then
+        for m4_script in "${example_dir}"m4/*.sh; do
+            if [ -f "${m4_script}" ]; then
+                check_script "${m4_script}" || error_count=$((error_count + 1))
             fi
         done
     fi
