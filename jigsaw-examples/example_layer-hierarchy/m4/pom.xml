@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.1.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.1.0
+                             http://maven.apache.org/xsd/maven-4.1.0.xsd" root="true">
+  <modelVersion>4.1.0</modelVersion>
+
+  <groupId>com.example.jigsaw</groupId>
+  <artifactId>example_layer-hierarchy-m4</artifactId>
+  <version>1.0-SNAPSHOT</version>
+
+  <properties>
+    <maven.compiler.release>11</maven.compiler.release>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+  </properties>
+
+  <dependencies>
+    <!-- Automatic module for JSON processing -->
+    <dependency>
+      <groupId>org.glassfish</groupId>
+      <artifactId>javax.json</artifactId>
+      <version>1.0.4</version>
+    </dependency>
+  </dependencies>
+
+  <build>
+    <!-- NOTE: Hybrid compilation approach for this example.
+         Reason: Split package problem with mod.x_* modules requires special handling:
+         1. mod.x_bottom, mod.x_middle, mod.x_top must be compiled separately with javac (split package issue)
+         2. All other 12 modules can be compiled with Maven compiler plugin
+
+         compile.sh first compiles mod.x_* with javac, then Maven compiles the rest.
+    -->
+    <sources>
+      <!-- All modules EXCEPT mod.x_* which are compiled separately in compile.sh -->
+      <source>
+        <module>mod.layer</module>
+        <directory>src/java/mod.layer/main</directory>
+      </source>
+      <source>
+        <module>mod.main</module>
+        <directory>src/java/mod.main/main</directory>
+      </source>
+      <source>
+        <module>mod.u_bottom_middle_top</module>
+        <directory>src/java/mod.u_bottom_middle_top/main</directory>
+      </source>
+      <!-- mod.x_* modules excluded - compiled separately -->
+      <source>
+        <module>mod.y_bottom</module>
+        <directory>src/java/mod.y_bottom/main</directory>
+      </source>
+      <source>
+        <module>mod.y_middle</module>
+        <directory>src/java/mod.y_middle/main</directory>
+      </source>
+      <source>
+        <module>mod.y_top</module>
+        <directory>src/java/mod.y_top/main</directory>
+      </source>
+      <source>
+        <module>mod.z_bottom</module>
+        <directory>src/java/mod.z_bottom/main</directory>
+      </source>
+      <source>
+        <module>mod.z_middle</module>
+        <directory>src/java/mod.z_middle/main</directory>
+      </source>
+      <source>
+        <module>mod.z_top</module>
+        <directory>src/java/mod.z_top/main</directory>
+      </source>
+      <source>
+        <module>mod.zreverse_bottom</module>
+        <directory>src/java/mod.zreverse_bottom/main</directory>
+      </source>
+      <source>
+        <module>mod.zreverse_middle</module>
+        <directory>src/java/mod.zreverse_middle/main</directory>
+      </source>
+      <source>
+        <module>mod.zreverse_top</module>
+        <directory>src/java/mod.zreverse_top/main</directory>
+      </source>
+    </sources>
+
+    <plugins>
+      <!-- Copy dependencies (javax.json) to amlib -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-dependency-plugin</artifactId>
+        <version>3.8.1</version>
+        <executions>
+          <execution>
+            <id>copy-dependencies</id>
+            <phase>initialize</phase>
+            <goals>
+              <goal>copy-dependencies</goal>
+            </goals>
+            <configuration>
+              <outputDirectory>${project.basedir}/amlib</outputDirectory>
+              <overWriteReleases>false</overWriteReleases>
+              <overWriteSnapshots>true</overWriteSnapshots>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+
+      <!-- Compile all modules except mod.x_* -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>4.0.0-beta-3</version>
+        <configuration>
+          <compilerArgs>
+            <!-- Add amlib (automatic modules) to module path -->
+            <arg>--module-path</arg>
+            <arg>${project.basedir}/mlib${path.separator}${project.basedir}/amlib</arg>
+          </compilerArgs>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+</project>

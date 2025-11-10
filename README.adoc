@@ -322,13 +322,24 @@ Examples:
 * xref:jigsaw-examples/example_layer-modules-all-in-boot-layer/README.adoc#maven-4-migration[example_layer-modules-all-in-boot-layer] - One automatic module (modauto1) used by explicit modules in boot layer
 * xref:jigsaw-examples/example_splitpackage_automatic-modules/README.adoc#maven-4-migration[example_splitpackage_automatic-modules] - Two automatic modules compiled by script, explicit module uses one via `--module-path`
 
-Split packages between automatic modules::
-When multiple automatic modules contain the same package name (split packages), they create compile-time conflicts if both are on the module-path simultaneously.
-This requires a multi-step hybrid approach where each automatic module is compiled to separate directories (`amlib1/`, `amlib2/`), and each explicit module depending on an automatic module is compiled separately with only its required automatic module on the module-path.
+Split packages in explicit modules::
+When multiple explicit modules contain the same package name (split packages), JPMS handles them differently depending on whether the packages are exported and how the modules are loaded.
 +
 Examples:
 +
-* xref:jigsaw-examples/example_layer-modules-grouped-in-hierarchy/README.adoc#maven-4-migration[example_layer-modules-grouped-in-hierarchy] - Complex case: two automatic modules with split packages (`pkgversion`), requiring five-step compilation where `modfoo` is compiled with only `amlib1/` on path, and `modbar` with only `amlib2/` on path
+* xref:jigsaw-examples/example_splitpackage/README.adoc#sec:maven-4-migration[example_splitpackage] - Two modules (`modsplitbar1` and `modsplitbar2`) both contain package `pkgbar` (not exported).
+They compile successfully when only one is required, but fail at runtime with `LayerInstantiationException` when both are loaded into the same layer via `--add-modules`.
+The foo modules (`modsplitfoo1` and `modsplitfoo2`) cannot compile because they export package `pkgfoo` and `modmainfoo` requires both.
+
+Split packages with automatic modules::
+When an automatic module is on the module-path, it automatically reads _all_ other modules.
+If multiple modules (automatic or explicit) export the same package, the automatic module encounters a split package violation at compile time.
+This requires sequential compilation to avoid having modules with split packages on the module-path simultaneously when the automatic module is present.
++
+Examples:
++
+* xref:jigsaw-examples/example_layer-modules-grouped-in-hierarchy/README.adoc#sec:maven-4-migration[example_layer-modules-grouped-in-hierarchy] - Two automatic modules with split packages (`pkgversion`), requiring five-step compilation where `modfoo` is compiled with only `amlib1/` on path, and `modbar` with only `amlib2/` on path
+* xref:jigsaw-examples/example_layer-hierarchy/README.adoc#sec:maven-4-migration[example_layer-hierarchy] - Three explicit modules (`mod.x_bottom`, `mod.x_middle`, `mod.x_top`) all export `pkgx`, causing compile-time conflicts with automatic module `javax.json` that reads all modules (at runtime, layer isolation prevents the conflict)
 
 JDK-specific requirements::
 Examples requiring specific JDK versions may need `fork` and `executable` configuration with environment-specific paths.
@@ -489,7 +500,7 @@ Relates to all other examples in this section.
 
 Relates to all other examples in this section.
 | image:jigsaw-examples/example_addExports_manifest/moduledependencies.png[width=200,link=jigsaw-examples/example_addExports_manifest/moduledependencies-withlegend.png]
-| icon:wrench[]
+| xref:jigsaw-examples/example_addExports_manifest/README.adoc#sec:maven-4-migration[icon:exclamation-triangle[role=yellow]]
 
 | xref:jigsaw-examples/example_addReads_addExports/README.adoc[addReads_addExports]
 | How can we use --add-reads and --add-exports for Javac compiler and Java launcher
@@ -528,7 +539,7 @@ Related example: xref:jigsaw-examples/example_splitpackage_automatic-modules/REA
 
 Relates to all other examples in this section.
 | image:jigsaw-examples/example_splitpackage/moduledependencies.png[width=200,link=jigsaw-examples/example_splitpackage/moduledependencies-withlegend.png]
-| icon:wrench[]
+| xref:jigsaw-examples/example_splitpackage/README.adoc#sec:maven-4-migration[icon:exclamation-triangle[role=yellow]]
 
 | xref:jigsaw-examples/example_splitpackage_automatic-modules/README.adoc[splitpackage_automatic-modules]
 | What happens when one Automatic Module automatically reads all other Automatic Modules on the module path and hence creates an unwanted split package problem?
@@ -554,11 +565,11 @@ Relates to all other examples in this section.
 | xref:jigsaw-examples/example_resolved-modules/README.adoc#sec:maven-4-migration[icon:check-circle[role=green]]
 
 | xref:jigsaw-examples/example_layer-hierarchy/README.adoc[layer-hierarchy]
-| How can one create a hiearchy of layers automatically and add modules (d naming conventions)?
+| How can one create a hierarchy of layers automatically and add modules (naming conventions)?
 
 Relates to all other examples in this section.
-|
-| icon:wrench[]
+| image:jigsaw-examples/example_layer-hierarchy/layer-hierarchy.drawio.svg[width=200,link=jigsaw-examples/example_layer-hierarchy/layer-hierarchy.drawio.svg]
+| xref:jigsaw-examples/example_layer-hierarchy/README.adoc#sec:maven-4-migration[icon:exclamation-triangle[role=yellow]]
 
 | xref:jigsaw-examples/example_layer-modules-all-in-boot-layer/README.adoc[layer-modules-all-in-boot-layer]
 | How does the boot layer look like containing a bunch of modules?
