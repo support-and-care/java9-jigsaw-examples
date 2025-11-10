@@ -19,18 +19,9 @@ jobs:
         sudo apt-get update
         sudo apt-get install -y shellcheck
 
-    - name: Run shellcheck on orchestration scripts
+    - name: Run shellcheck on all scripts
       shell: bash
-      run: cd jigsaw-examples && shellcheck -ax all*.sh
-
-    - name: Run shellcheck on m4 scripts
-      shell: bash
-      run: |
-        cd jigsaw-examples
-        for m4_dir in */m4; do
-          echo "=== Checking ${m4_dir} ==="
-          (cd "${m4_dir}" && shellcheck -ax *.sh)
-        done
+      run: cd jigsaw-examples && ./allshellcheck.sh
 
   build-legacy:
     name: Build (legacy) on ${{ matrix.os }}

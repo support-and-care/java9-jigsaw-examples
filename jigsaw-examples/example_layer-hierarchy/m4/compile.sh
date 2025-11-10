@@ -36,6 +36,7 @@ for modx in mod.x_bottom mod.x_middle mod.x_top
 do
    echo "javac ${JAVAC_OPTIONS} --release 11 -d target/classes --module-path mlib${PATH_SEPARATOR}amlib --module-source-path \"src/java/*/main\" \$(find -L src/java/${modx}/main -name \"*.java\")"
    # shellcheck disable=SC2086  # JAVAC_OPTIONS is intentionally unquoted for word splitting
+   # shellcheck disable=SC2046  # Word splitting intentional for multiple Java source files
    "${JAVA_HOME}/bin/javac" ${JAVAC_OPTIONS} --release 11 -d target/classes \
        --module-path mlib${PATH_SEPARATOR}amlib \
        --module-source-path "src/java/*/main" \
