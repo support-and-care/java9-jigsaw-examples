@@ -1,4 +1,5 @@
-:icons: font== Example example_test
+== Example example_test
+:icons: font
 
 Part of the full xref:../../README.adoc[Java 9 Jigsaw modules example] suite.
 
@@ -64,4 +65,123 @@ include::expected-result/run.txt[]
 [source]
 ----
 include::run-result/run.txt[]
+----
+
+==== Maven 4 Output
+
+[source]
+----
+include::m4/run-result/run.txt[]
+----
+
+[[sec:maven-4-migration]]
+== Maven 4 Migration
+
+This example has been migrated to Maven 4 with whitebox testing handled entirely by Maven's Module Source Hierarchy, and only blackbox testing requiring a hybrid shell script approach.
+
+=== Migration Challenges
+
+The example demonstrates two distinct testing patterns:
+
+* *Whitebox testing*: Test code needs access to modfib's internal (non-exported) packages using `--patch-module`
+* *Blackbox testing*: Separate test module (modtest.blackbox) with its own module-info.java that requires modfib
+
+Maven 4's Module Source Hierarchy automatically handles whitebox testing when test sources are declared with `scope="test"` for the same module. The blackbox test module, however, cannot be easily integrated into the same Maven build.
+
+=== Migration Strategy
+
+==== Whitebox Testing: Pure Maven 4
+
+Maven 4 automatically handles whitebox testing through its Module Source Hierarchy:
+
+[source,xml]
+----
+<sources>
+  <source>
+    <module>modfib</module>
+    <directory>src/modfib/main/java</directory>
+  </source>
+  <source>
+    <module>modfib</module>
+    <directory>src/modfib/test/java</directory>
+    <scope>test</scope>
+  </source>
+</sources>
+----
+
+When Maven 4 detects test sources for the same module (indicated by `scope="test"`), it automatically:
+
+1. Compiles main sources to `target/classes/modfib/`
+2. Compiles test sources with `--patch-module modfib=...` to `target/test-classes/modfib/`
+3. Generates appropriate module patch arguments in `target/test-classes/META-INF/maven/module-info-patch.args`
+
+No explicit `module-info-patch.maven` configuration file is needed - Maven's Module Source Hierarchy implementation handles this automatically!
+
+==== Blackbox Testing: Hybrid Approach with javac
+
+The blackbox test module (modtest.blackbox) is a separate module that cannot be compiled by the same Maven invocation. It is compiled separately using javac:
+
+[source,bash]
+----
+javac -d mods \
+    --module-path amlib:mlib \
+    --module-source-path "src/*/test/java" \
+    $(find src/modtest.blackbox/test/java/ -name "*.java")
+----
+
+This allows modtest.blackbox to:
+
+* Be a proper module with its own module-info.java declaring `requires modfib; requires junit;`
+* Access JUnit as an automatic module from amlib/
+* Depend on modfib.jar compiled by Maven
+
+=== Technical Implementation
+
+==== Directory Structure
+
+The m4/ directory uses symbolic links to maintain a single source of truth:
+
+[source]
+----
+m4/src/modfib/main/java -> ../../../../src/modfib
+m4/src/modfib/test/java/pkgfib -> ../../../../../src/modtest.whitebox/pkgfib
+m4/src/modtest.blackbox/test/java -> ../../../../src/modtest.blackbox
+----
+
+==== Compilation Scripts
+
+* `compile-whiteboxtest.sh`: Runs Maven 4 `test-compile` (automatic --patch-module), packages modfib.jar and whitebox test JAR
+* `compile-blackboxtest.sh`: Compiles modtest.blackbox with javac, packages blackbox test JAR
+* `compile.sh`: Orchestrates both compilation phases
+
+==== Execution
+
+Three test scenarios are executed:
+
+1. Blackbox test: Tests modfib's exported API using modtest.blackbox module
+2. Whitebox test: Tests modfib internals using `--patch-module modfib=patchlib/modfib.jar`
+3. Whitebox test with options file: Same as (2) but loads options from `@run-whiteboxtest_optionsfile`
+
+The run scripts produce identical output to the original implementation, verified by golden master testing.
+
+=== Maven 4 Benefits
+
+Maven 4's Module Source Hierarchy provides significant value:
+
+* *Automatic --patch-module handling*: No manual configuration needed for whitebox testing - Maven detects the need for patching when test sources are declared with `scope="test"` for the same module
+* *Dependency management*: Automatic download of JUnit and Hamcrest to amlib/
+* *Java 11 bytecode*: Maven runs with JDK 17 but compiles for Java 11 via `maven.compiler.release`
+* *Clean separation*: Whitebox tests integrated into Maven build, blackbox tests compiled separately via shell script
+
+Only the blackbox test module requires a hybrid approach with javac, demonstrating a practical pattern for integrating Maven 4 with custom test module compilation.
+
+=== Running the Maven 4 Version
+
+[source,bash]
+----
+cd m4/
+./compile.sh  # Maven for modfib + whitebox, javac for blackbox
+./run.sh      # Run all three test scenarios
+./verify.sh   # Verify output matches expected result
+./clean.sh    # Remove build artifacts
 ----

@@ -352,6 +352,15 @@ Multiple module versions::
 Examples requiring multiple versions of the same module (like xref:jigsaw-examples/example_layer-modules-module-resolution/README.adoc#maven-4-migration[example_layer-modules-module-resolution]) cannot use the standard Module Source Hierarchy approach, as the `<sources>` element expects one source location per module name.
 These require a hybrid approach where Maven compiles the primary modules and manual javac compilation handles additional module versions.
 
+Testing with separate test modules (blackbox and whitebox)::
+Examples demonstrating both blackbox and whitebox testing patterns require a hybrid approach when the blackbox test is a separate module.
+Maven 4's Module Source Hierarchy automatically handles whitebox testing by detecting test sources with `scope="test"` for the same module and applying `--patch-module` during `test-compile`.
+However, blackbox test modules (with their own `module-info.java`) cannot be integrated into the same Maven build, requiring javac compilation separately.
++
+Examples:
++
+* xref:jigsaw-examples/example_test/README.adoc#sec:maven-4-migration[example_test] - Whitebox testing via Maven 4 automatic `--patch-module`, blackbox testing via javac for separate test module
+
 Refer to individual example READMEs for detailed migration notes specific to each example's requirements.
 
 == TODOs, LOP, Backlog, Ideas, ...
@@ -599,7 +608,7 @@ Relates to all other examples in this section.
 
 Relates to all other examples in this section.
 | image:jigsaw-examples/example_test/moduledependencies.png[width=200,link=jigsaw-examples/example_test/moduledependencies-withlegend.png]
-| icon:wrench[]
+| xref:jigsaw-examples/example_test/README.adoc#sec:maven-4-migration[icon:exclamation-triangle[role=yellow]]
 
 | xref:jigsaw-examples/example_maven-test-blackbox/README.adoc[maven-test-blackbox]
 | How can one achieve blackbox testing with Maven?

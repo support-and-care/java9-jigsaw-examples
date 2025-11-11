@@ -1,0 +1,7 @@
+target/
+mlib/
+mods/
+amlib/
+patches/
+patchlib/
+run-result/
