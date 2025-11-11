@@ -19,15 +19,15 @@
       <!-- Only bar modules - foo modules have split packages and cannot compile -->
       <source>
         <module>modmainbar</module>
-        <directory>src/java/modmainbar/main</directory>
+        <directory>src/modmainbar/main/java</directory>
       </source>
       <source>
         <module>modsplitbar1</module>
-        <directory>src/java/modsplitbar1/main</directory>
+        <directory>src/modsplitbar1/main/java</directory>
       </source>
       <source>
         <module>modsplitbar2</module>
-        <directory>src/java/modsplitbar2/main</directory>
+        <directory>src/modsplitbar2/main/java</directory>
       </source>
     </sources>
 

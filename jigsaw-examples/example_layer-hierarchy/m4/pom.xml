@@ -35,52 +35,52 @@
       <!-- All modules EXCEPT mod.x_* which are compiled separately in compile.sh -->
       <source>
         <module>mod.layer</module>
-        <directory>src/java/mod.layer/main</directory>
+        <directory>src/mod.layer/main/java</directory>
       </source>
       <source>
         <module>mod.main</module>
-        <directory>src/java/mod.main/main</directory>
+        <directory>src/mod.main/main/java</directory>
       </source>
       <source>
         <module>mod.u_bottom_middle_top</module>
-        <directory>src/java/mod.u_bottom_middle_top/main</directory>
+        <directory>src/mod.u_bottom_middle_top/main/java</directory>
       </source>
       <!-- mod.x_* modules excluded - compiled separately -->
       <source>
         <module>mod.y_bottom</module>
-        <directory>src/java/mod.y_bottom/main</directory>
+        <directory>src/mod.y_bottom/main/java</directory>
       </source>
       <source>
         <module>mod.y_middle</module>
-        <directory>src/java/mod.y_middle/main</directory>
+        <directory>src/mod.y_middle/main/java</directory>
       </source>
       <source>
         <module>mod.y_top</module>
-        <directory>src/java/mod.y_top/main</directory>
+        <directory>src/mod.y_top/main/java</directory>
       </source>
       <source>
         <module>mod.z_bottom</module>
-        <directory>src/java/mod.z_bottom/main</directory>
+        <directory>src/mod.z_bottom/main/java</directory>
       </source>
       <source>
         <module>mod.z_middle</module>
-        <directory>src/java/mod.z_middle/main</directory>
+        <directory>src/mod.z_middle/main/java</directory>
       </source>
       <source>
         <module>mod.z_top</module>
-        <directory>src/java/mod.z_top/main</directory>
+        <directory>src/mod.z_top/main/java</directory>
       </source>
       <source>
         <module>mod.zreverse_bottom</module>
-        <directory>src/java/mod.zreverse_bottom/main</directory>
+        <directory>src/mod.zreverse_bottom/main/java</directory>
       </source>
       <source>
         <module>mod.zreverse_middle</module>
-        <directory>src/java/mod.zreverse_middle/main</directory>
+        <directory>src/mod.zreverse_middle/main/java</directory>
       </source>
       <source>
         <module>mod.zreverse_top</module>
-        <directory>src/java/mod.zreverse_top/main</directory>
+        <directory>src/mod.zreverse_top/main/java</directory>
       </source>
     </sources>
 

@@ -21,27 +21,27 @@
            lack module-info.java to demonstrate automatic module naming -->
       <source>
         <module>java.whatever</module>
-        <directory>src/java/java.whatever/main</directory>
+        <directory>src/java.whatever/main/java</directory>
       </source>
       <source>
         <module>jdk.whatever</module>
-        <directory>src/java/jdk.whatever/main</directory>
+        <directory>src/jdk.whatever/main/java</directory>
       </source>
       <source>
         <module>mod.client</module>
-        <directory>src/java/mod.client/main</directory>
+        <directory>src/mod.client/main/java</directory>
       </source>
       <source>
         <module>mod_client</module>
-        <directory>src/java/mod_client/main</directory>
+        <directory>src/mod_client/main/java</directory>
       </source>
       <source>
         <module>modjava</module>
-        <directory>src/java/modjava/main</directory>
+        <directory>src/modjava/main/java</directory>
       </source>
       <source>
         <module>modmain</module>
-        <directory>src/java/modmain/main</directory>
+        <directory>src/modmain/main/java</directory>
       </source>
     </sources>
 

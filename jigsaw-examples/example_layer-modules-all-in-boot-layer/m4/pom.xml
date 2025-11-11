@@ -19,19 +19,19 @@
       <!-- modauto1 is excluded - it's an automatic module without module-info.java -->
       <source>
         <module>modbar</module>
-        <directory>src/java/modbar/main</directory>
+        <directory>src/modbar/main/java</directory>
       </source>
       <source>
         <module>modcommon</module>
-        <directory>src/java/modcommon/main</directory>
+        <directory>src/modcommon/main/java</directory>
       </source>
       <source>
         <module>modfoo</module>
-        <directory>src/java/modfoo/main</directory>
+        <directory>src/modfoo/main/java</directory>
       </source>
       <source>
         <module>modmain</module>
-        <directory>src/java/modmain/main</directory>
+        <directory>src/modmain/main/java</directory>
       </source>
     </sources>
 

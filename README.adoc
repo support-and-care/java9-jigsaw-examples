@@ -213,12 +213,15 @@ Corresponding JAR files are in `example_.../patchlib`.
 Many examples have been migrated to Maven 4 using the new https://maven.apache.org/plugins-archives/maven-compiler-plugin-LATEST-4.x/modules.html[Module Source Hierarchy] layout.
 The Maven 4 builds are located in `m4/` subdirectories within each example.
 
-=== Standard Migration Approach
+=== Standard Migration Approach and Defaults
 
-For most examples, the Maven 4 migration follows a straightforward pattern:
+For most examples, the Maven 4 migration follows a straightforward pattern.
+
+*Directory Structure Convention*: All examples follow Maven 4's default directory structure pattern `src/<module>/<scope>/<lang>` as documented in the https://maven.apache.org/ref/4-LATEST/api/maven-api-model/maven.html[Maven 4 Model API - Source Element].
+This means main sources are located at `src/<module>/main/java` and test sources at `src/<module>/test/java`.
 
 . Create a `pom.xml` with `<modelVersion>4.1.0</modelVersion>`
-. Use the `<sources>` block to declare modules:
+. Use the `<sources>` block to declare modules following the default pattern:
 +
 [source,xml]
 ----
@@ -226,12 +229,24 @@ For most examples, the Maven 4 migration follows a straightforward pattern:
   <sources>
     <source>
       <module>modmain</module>
-      <directory>src/java/modmain/main</directory>
+      <directory>src/modmain/main/java</directory>
+    </source>
+    <!-- Optionle test sources -->
+    <source>
+      <module>modmain</module>
+      <directory>src/modmain/test/java</directory>
+      <scope>test</scope>
     </source>
     <!-- Additional modules... -->
   </sources>
 </build>
 ----
++
+[CAUTION]
+====
+Even though we follow the Maven 4 default pattern, the `<sources>` block including explicit `<directory>` (`<scope>` for test sources) is currently required.
+Maven 4 may support implicit sources in future versions.
+====
 
 . Configure the compiler plugin:
 +
@@ -301,7 +316,7 @@ Calling javac directly via exec-maven-plugin was rejected as too specialized and
 It bypasses the Maven compiler plugin entirely and lacks maintainability.
 
 Dual source directories::
-Attempted using `src/main/java` for classpath code and `src/java` for modules with separate compiler executions.
+Attempted using `src/main/java` for classpath code and `src/<module>/main/java` for modules with separate compiler executions.
 Failed because the `<sources>` element is not recognized within plugin execution configurations.
 
 Maven profiles::
@@ -346,7 +361,7 @@ Examples requiring specific JDK versions may need `fork` and `executable` config
 Examples requiring specific JDK versions may need `fork` and `executable` configuration with environment-specific paths.
 
 Resource handling::
-Examples with non-.class resources (like xref:jigsaw-examples/example_resources/README.adoc#maven-4-migration[example_resources]) need `maven-resources-plugin` configuration to copy resources from the modular source directories (`src/java/<module>/main`) to the target classes directories, as the hybrid compilation approach only packages compiled `.class` files by default.
+Examples with non-.class resources (like xref:jigsaw-examples/example_resources/README.adoc#maven-4-migration[example_resources]) need `maven-resources-plugin` configuration to copy resources from the modular source directories (`src/<module>/main`) to the target classes directories, as the hybrid compilation approach only packages compiled `.class` files by default.
 
 Multiple module versions::
 Examples requiring multiple versions of the same module (like xref:jigsaw-examples/example_layer-modules-module-resolution/README.adoc#maven-4-migration[example_layer-modules-module-resolution]) cannot use the standard Module Source Hierarchy approach, as the `<sources>` element expects one source location per module name.
@@ -370,7 +385,7 @@ No software is ready, ever ;-) So here are some ideas left (any other feedback v
 * Lessons learned from the <<maven-4-migration,migration to Maven 4>> (and perhaps to reconsider)
 
 ** [ ] Module versions are optional, but perhaps enforced currently by the M4 compiler plugin - check and fix if necessary (allow to drop it)?
-** [ ] Maven resources plugin configuration may need to be adapted when modular source code is organized in Module Source Hierarchy (`src/java/<module>/main`) - consider if this should be documented more prominently or if alternative approaches exist.
+** [ ] Maven resources plugin configuration may need to be adapted when modular source code is organized in Module Source Hierarchy (`src/<module>/main`) - consider if this should be documented more prominently or if alternative approaches exist.
 
 * [ ] Do a bit of renaming and refactoring of module names. (modmain had been moda before, so that's why most modules are called modb, modc, ...)
 * [ ] New example for open modules
