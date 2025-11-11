@@ -45,6 +45,115 @@ See scripts compile-patch, resp. run-patch for details on the options to use.
 
 Note: No JavaDoc generation for this example
 
+[[sec:maven-4-migration]]
+=== Maven 4 Migration
+
+This example has been migrated to Maven 4 using a hybrid compilation approach.
+
+==== Migration Challenges
+
+Module patching presents a unique challenge for Maven migration.
+
+The Problem::
+Maven can compile regular modules (`modmain` and `modb`).
+But the patch sources (`modb-patch/`) must be compiled with `--patch-module` to compile them as if they were part of the `modb` module.
+Maven 4 does not have built-in support for patch source compilation (unlike its automatic `--patch-module` support for test sources with `scope="test"`).
+
+==== Migration Approach
+
+The Maven 4 migration uses a hybrid compilation strategy.
+
+Phase 1 - Maven compilation of regular modules::
+Maven 4 compiles the two regular modules (`modmain` and `modb`) using the Module Source Hierarchy.
++
+[source,xml]
+----
+<sources>
+  <source>
+    <module>modmain</module>
+    <directory>src/modmain/main/java</directory>
+  </source>
+  <source>
+    <module>modb</module>
+    <directory>src/modb/main/java</directory>
+  </source>
+</sources>
+----
+
+Phase 2 - Manual compilation of patch sources::
+The `compile.sh` script manually compiles the patch sources using `javac` with `--patch-module`.
++
+[source,bash]
+----
+javac --release 11 \
+  --patch-module modb=src/modb-patch/main/java \
+  --module-path target/classes \
+  -d patches/modb \
+  src/modb-patch/main/java/pkgb/B.java
+----
++
+Key aspects of this compilation:
++
+* `--release 11` ensures the patch is compiled for the same target as the main modules
+* `--patch-module modb=src/modb-patch/main/java` treats the patch directory (via symlink) as sources belonging to module `modb`
+* `--module-path target/classes` provides access to already-compiled `modb` classes for dependency resolution (e.g., `Helper` class)
+* Patch source file accessed via symlink: `src/modb-patch/main/java` → `../../../../src/modb-patch`
+* This approach maintains full consistency with the `src/<name>/main/java` directory pattern
+* The patch JAR is created in `patchlib/modb.jar` (non-modular JAR containing replacement classes)
+
+==== Runtime Behavior
+
+The `run.sh` script demonstrates three scenarios.
+
+Without patch::
+Module runs with original classes from `mlib/modb.jar`.
+
+With exploded patch classes::
+`--patch-module modb=patches/modb` applies patch from directory.
+
+With patch JAR::
+`--patch-module modb=patchlib/modb.jar` applies patch from JAR.
+
+All three scenarios produce output that matches the expected golden master result.
+
+==== Technical Implementation
+
+Symbolic link structure::
++
+[source,bash]
+----
+m4/src/modmain/main/java -> ../../../../src/modmain
+m4/src/modb/main/java -> ../../../../src/modb
+m4/src/modb-patch/main/java -> ../../../../src/modb-patch
+----
++
+These symbolic links are checked into Git and do not need to be created dynamically.
++
+[NOTE]
+====
+The patch compilation uses `--patch-module modb=src/modb-patch/main/java`, pointing directly to the symlinked patch sources.
+This maintains full consistency with the `src/<name>/main/java` directory pattern throughout the `m4/` migration.
+Dependencies from the original `modb` module (like the `Helper` class) are resolved via `--module-path target/classes`.
+====
+
+Build artifacts::
++
+* `target/classes/` - Maven-compiled module classes
+* `mlib/` - Module JARs (modmain.jar, modb.jar)
+* `patches/modb/` - Exploded patch classes
+* `patchlib/modb.jar` - Patch JAR
+
+==== Running the Maven 4 Version
+
+[source,bash]
+----
+cd m4/
+./compile.sh  # Hybrid: Maven for modules, javac for patch
+./run.sh      # Run with all three patch scenarios
+./verify.sh   # Verify output matches expected result
+./clean.sh    # Remove build artifacts
+----
+
 === Output
 
 This example uses xref:../../README.adoc#golden-master-testing[golden master testing] to ensure output consistency.
@@ -62,4 +171,11 @@ include::expected-result/run.txt[]
 [source]
 ----
 include::run-result/run.txt[]
+----
+
+==== Maven 4 Output
+
+[source]
+----
+include::m4/run-result/run.txt[]
 ----

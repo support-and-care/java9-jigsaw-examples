@@ -1,0 +1,12 @@
+# Maven build output
+/target
+
+# Module JARs
+/mlib
+
+# Patch artifacts
+/patches
+/patchlib
+
+# Run results
+/run-result

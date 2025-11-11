@@ -376,6 +376,15 @@ Examples:
 +
 * xref:jigsaw-examples/example_test/README.adoc#sec:maven-4-migration[example_test] - Whitebox testing via Maven 4 automatic `--patch-module`, blackbox testing via javac for separate test module
 
+Module patching for bug fixes or replacements::
+Examples demonstrating module patching (using `--patch-module` to replace or add classes to a module) require a hybrid approach.
+Maven 4 compiles the regular modules, while patch sources must be compiled manually with javac using `--patch-module` to compile them as if they were part of the target module.
+Maven 4 does not have built-in support for patch source compilation (unlike its automatic `--patch-module` support for test sources with `scope="test"`).
++
+Examples:
++
+* xref:jigsaw-examples/example_patch/README.adoc#sec:maven-4-migration[example_patch] - Hybrid approach: Maven compiles modules, javac compiles patch sources with `--patch-module modb=src/modb-patch/main/java`
+
 Refer to individual example READMEs for detailed migration notes specific to each example's requirements.
 
 == TODOs, LOP, Backlog, Ideas, ...
@@ -644,7 +653,7 @@ Relates to all other examples in this section.
 
 Relates to all other examples in this section.
 | image:jigsaw-examples/example_patch/moduledependencies.png[width=200,link=jigsaw-examples/example_patch/moduledependencies-withlegend.png]
-| icon:wrench[]
+| xref:jigsaw-examples/example_patch/README.adoc#sec:maven-4-migration[icon:exclamation-triangle[role=yellow]]
 
 4+| *Examples on Main classes*
 
