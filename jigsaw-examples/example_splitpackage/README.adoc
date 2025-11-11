@@ -83,9 +83,9 @@ The migration uses symbolic links to adapt the source structure to Maven 4's Mod
 
 [source,bash]
 ----
-m4/src/java/modmainbar/main -> ../../../../src/modmainbar
-m4/src/java/modsplitbar1/main -> ../../../../src/modsplitbar1
-m4/src/java/modsplitbar2/main -> ../../../../src/modsplitbar2
+m4/src/modmainbar/main/java -> ../../../../src/modmainbar
+m4/src/modsplitbar1/main/java -> ../../../../src/modsplitbar1
+m4/src/modsplitbar2/main/java -> ../../../../src/modsplitbar2
 ----
 
 These symbolic links are *checked into Git* and do not need to be created dynamically.
@@ -97,15 +97,15 @@ The `pom.xml` declares these modules using Maven 4.1.0 model:
 <sources>
   <source>
     <module>modmainbar</module>
-    <directory>src/java/modmainbar/main</directory>
+    <directory>src/modmainbar/main/java</directory>
   </source>
   <source>
     <module>modsplitbar1</module>
-    <directory>src/java/modsplitbar1/main</directory>
+    <directory>src/modsplitbar1/main/java</directory>
   </source>
   <source>
     <module>modsplitbar2</module>
-    <directory>src/java/modsplitbar2/main</directory>
+    <directory>src/modsplitbar2/main/java</directory>
   </source>
 </sources>
 ----

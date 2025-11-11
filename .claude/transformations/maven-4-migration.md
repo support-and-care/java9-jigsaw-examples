@@ -47,6 +47,22 @@ This approach is simpler than Maven Toolchains and produces correct Java 11 comp
 
 ## Directory Structure
 
+### Maven 4 Default Structure Pattern
+
+**Important**: We follow Maven 4's default directory structure pattern: `src/${module}/${scope}/${lang}`
+
+**Reference**: [Maven 4 Model API - Source Element](https://maven.apache.org/ref/4-LATEST/api/maven-api-model/maven.html)
+
+According to Maven 4 documentation:
+- When the `<directory>` element is absent, its default value is derived from: `src/${scope}/${lang}`
+- When a `<module>` element is specified, the pattern becomes: `src/${module}/${scope}/${lang}`
+- Default `scope` is `main`, default `lang` is `java`
+- **Result**: `src/${module}/main/java` for main sources, `src/${module}/test/java` for test sources
+
+**Note**: Even though we follow the default pattern, Maven 4 currently still requires explicit `<sources>` declarations in the POM. This may change in future Maven versions.
+
+### Example Directory Layout
+
 Each migrated example will have a subdirectory for each build approach:
 
 ```
@@ -62,12 +78,13 @@ example_foo/
 ├── run.sh                        # Original run script
 ├── m4/                           # Maven 4 migration subdirectory
 │   ├── pom.xml                   # Maven 4 specific POM (standalone, minimal)
-│   ├── src/
-│   │   └── java/                 # Maven 4 Module Source Hierarchy
-│   │       ├── moda/
-│   │       │   └── main -> ../../../../src/moda  # Symlink to module source
-│   │       └── modb/
-│   │           └── main -> ../../../../src/modb  # Symlink to module source
+│   ├── src/                      # Maven 4 Module Source Hierarchy (default pattern)
+│   │   ├── moda/
+│   │   │   └── main/
+│   │   │       └── java -> ../../../../src/moda  # Symlink to module source
+│   │   └── modb/
+│   │       └── main/
+│   │           └── java -> ../../../../src/modb  # Symlink to module source
 │   ├── mlib/                     # Module JARs (separate from ../mlib)
 │   ├── run-result/               # Runtime output (for verification)
 │   ├── target/                   # Maven build output
@@ -85,9 +102,9 @@ example_foo/
 
 **Always use relative paths for portability across systems.**
 
-We use the **Module Source Hierarchy** approach, which explicitly declares each module in the directory structure and POM configuration.
+We use the **Module Source Hierarchy** approach following Maven 4's default pattern `src/${module}/${scope}/${lang}`, which explicitly declares each module in the directory structure and POM configuration.
 
-### Standard Links (Module Source Hierarchy)
+### Standard Links (Module Source Hierarchy - Maven 4 Default Pattern)
 
 For examples with multiple modules in `src/`:
 
@@ -95,17 +112,18 @@ For examples with multiple modules in `src/`:
 cd example_foo/m4
 
 # Create structure for first module (e.g., modmain)
-mkdir -p src/java/modmain
-ln -s ../../../../src/modmain src/java/modmain/main
+# Following pattern: src/${module}/main/java
+mkdir -p src/modmain/main
+ln -s ../../../../src/modmain src/modmain/main/java
 
 # Create structure for second module (e.g., modb)
-mkdir -p src/java/modb
-ln -s ../../../../src/modb src/java/modb/main
+mkdir -p src/modb/main
+ln -s ../../../../src/modb src/modb/main/java
 ```
 
-This creates:
-- `m4/src/java/modmain/main` → `../../../../src/modmain`
-- `m4/src/java/modb/main` → `../../../../src/modb`
+This creates the Maven 4 default structure:
+- `m4/src/modmain/main/java` → `../../../../src/modmain`
+- `m4/src/modb/main/java` → `../../../../src/modb`
 
 ### Single Module Examples
 
@@ -113,21 +131,28 @@ For examples with a single module:
 
 ```bash
 cd example_foo/m4
-mkdir -p src/java/modmain
-ln -s ../../../../src/modmain src/java/modmain/main
+mkdir -p src/modmain/main
+ln -s ../../../../src/modmain src/modmain/main/java
 ```
 
 ### Test Links
 
-For examples with tests (rare, but exists):
+For examples with tests:
 
 ```bash
 cd example_foo/m4
-mkdir -p src/java/modmain
-ln -s ../../../../test/modmain src/java/modmain/test
+# Main sources
+mkdir -p src/modmain/main
+ln -s ../../../../src/modmain src/modmain/main/java
+
+# Test sources (following src/${module}/test/java pattern)
+mkdir -p src/modmain/test
+ln -s ../../../../test/modmain src/modmain/test/java
 ```
 
-This creates: `m4/src/java/modmain/test` → `../../../../test/modmain`
+This creates:
+- `m4/src/modmain/main/java` → `../../../../src/modmain`
+- `m4/src/modmain/test/java` → `../../../../test/modmain`
 
 ### Resources
 
@@ -135,19 +160,21 @@ If examples have module-specific resources:
 
 ```bash
 cd example_foo/m4
-mkdir -p src/java/modmain/main
-ln -s ../../../../../resources/modmain src/java/modmain/main/resources
+mkdir -p src/modmain/main/java
+ln -s ../../../../../resources/modmain src/modmain/main/resources
 ```
 
 **Note**: Resource structure depends on original example layout - inspect before creating links.
 
 ### Rationale
 
+- **Maven 4 default pattern**: Following `src/${module}/${scope}/${lang}` aligns with Maven 4 conventions
 - **Relative paths**: Ensures repository remains relocatable
 - **Single source of truth**: All source modifications happen in original `src/` location
 - **No duplication**: Reduces maintenance burden and prevents divergence
 - **Explicit module declaration**: Maven 4 Module Source Hierarchy makes module structure clear
 - **Automatic JPMS arguments**: Compiler automatically adds necessary module compilation flags
+- **Future-proof**: When Maven 4 supports implicit `<sources>`, our structure already matches defaults
 
 ## Maven Project Structure
 
@@ -166,38 +193,39 @@ Each `m4` subdirectory is a **standalone, minimal Maven project**:
 
 Maven 4 introduces a new `<sources>` element that **replaces the default values**. This means you must explicitly declare all source directories.
 
-#### Module Source Hierarchy (Recommended)
+#### Module Source Hierarchy (Following Maven 4 Default Pattern)
 
-We use this approach for explicit module declaration and better JPMS integration:
+We use this approach for explicit module declaration and better JPMS integration, following Maven 4's default `src/${module}/${scope}/${lang}` pattern:
 
 ```xml
 <build>
   <sources>
     <source>
       <module>modmain</module>
-      <directory>src/java/modmain/main</directory>
+      <directory>src/modmain/main/java</directory>
     </source>
     <source>
       <module>modb</module>
-      <directory>src/java/modb/main</directory>
+      <directory>src/modb/main/java</directory>
     </source>
     <!-- Add test sources if example has tests -->
     <source>
       <module>modmain</module>
       <scope>test</scope>
-      <directory>src/java/modmain/test</directory>
+      <directory>src/modmain/test/java</directory>
     </source>
   </sources>
 </build>
 ```
 
 **Benefits**:
+- **Maven 4 default pattern**: Follows `src/${module}/${scope}/${lang}` convention (see [Maven 4 Model API](https://maven.apache.org/ref/4-LATEST/api/maven-api-model/maven.html))
 - **Explicit module declaration**: Each module is clearly identified in the POM
 - **Automatic JPMS compiler arguments**: Maven automatically adds necessary module compilation flags
 - **Better multi-module organization**: Clear separation of modules in directory structure
-- **Future-proof**: Aligns with Maven 4's module-aware design
+- **Future-proof**: When Maven 4 supports implicit `<sources>`, our structure already matches defaults
 
-**For our migration**: We'll use the **Module Source Hierarchy** approach with symbolic links pointing from the Maven 4 structure to the original source locations.
+**For our migration**: We use the **Module Source Hierarchy** with Maven 4 default pattern, with symbolic links pointing from the Maven 4 structure to the original source locations.
 
 #### Package Hierarchy Approach (Alternative, Maven 3 Compatible)
 
@@ -247,20 +275,20 @@ Minimal POM should include (using Module Source Hierarchy):
 
   <build>
     <sources>
-      <!-- Declare each module explicitly -->
+      <!-- Declare each module explicitly following Maven 4 default pattern: src/${module}/${scope}/${lang} -->
       <source>
         <module>modmain</module>
-        <directory>src/java/modmain/main</directory>
+        <directory>src/modmain/main/java</directory>
       </source>
       <source>
         <module>modb</module>
-        <directory>src/java/modb/main</directory>
+        <directory>src/modb/main/java</directory>
       </source>
       <!-- Add test sources if example has tests -->
       <source>
         <module>modmain</module>
         <scope>test</scope>
-        <directory>src/java/modmain/test</directory>
+        <directory>src/modmain/test/java</directory>
       </source>
     </sources>
 
@@ -518,19 +546,21 @@ echo "✅ Javadoc generated in target/site/apidocs"
    cd m4
    ```
 
-4. **Create Symbolic Links** (Module Source Hierarchy):
+4. **Create Symbolic Links** (Module Source Hierarchy - Maven 4 Default Pattern):
    ```bash
    # For each module in the example, create structure and symlink
+   # Following Maven 4 default pattern: src/${module}/${scope}/${lang}
    # Example with two modules: modmain and modb
 
-   mkdir -p src/java/modmain
-   ln -s ../../../../src/modmain src/java/modmain/main
+   mkdir -p src/modmain/main
+   ln -s ../../../../src/modmain src/modmain/main/java
 
-   mkdir -p src/java/modb
-   ln -s ../../../../src/modb src/java/modb/main
+   mkdir -p src/modb/main
+   ln -s ../../../../src/modb src/modb/main/java
 
    # Add test links if example has tests
-   ln -s ../../../../test/modmain src/java/modmain/test
+   mkdir -p src/modmain/test
+   ln -s ../../../../test/modmain src/modmain/test/java
    ```
 
 5. **Create .gitignore**:
@@ -642,7 +672,7 @@ EOF
 
 **Issue**: Maven expects module-info.java at specific location in source tree.
 
-**Solution**: Module Source Hierarchy handles this explicitly - each module gets its own directory structure (e.g., `m4/src/java/modmain/main`) which symlinks to the original module source directory containing `module-info.java`.
+**Solution**: Module Source Hierarchy handles this explicitly - each module gets its own directory structure (e.g., `m4/src/modmain/main/java`) which symlinks to the original module source directory containing `module-info.java`.
 
 ### Challenge: Multi-Module Examples
 
@@ -653,11 +683,11 @@ EOF
 <sources>
   <source>
     <module>modmain</module>
-    <directory>src/java/modmain/main</directory>
+    <directory>src/modmain/main/java</directory>
   </source>
   <source>
     <module>modb</module>
-    <directory>src/java/modb/main</directory>
+    <directory>src/modb/main/java</directory>
   </source>
 </sources>
 ```

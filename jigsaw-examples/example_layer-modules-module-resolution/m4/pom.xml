@@ -18,27 +18,27 @@
     <sources>
       <source>
         <module>modbar</module>
-        <directory>src/java/modbar/main</directory>
+        <directory>src/modbar/main/java</directory>
       </source>
       <source>
         <module>modcommon</module>
-        <directory>src/java/modcommon/main</directory>
+        <directory>src/modcommon/main/java</directory>
       </source>
       <source>
         <module>modfoo</module>
-        <directory>src/java/modfoo/main</directory>
+        <directory>src/modfoo/main/java</directory>
       </source>
       <source>
         <module>modmain</module>
-        <directory>src/java/modmain/main</directory>
+        <directory>src/modmain/main/java</directory>
       </source>
       <source>
         <module>modversion1</module>
-        <directory>src/java/modversion1/main</directory>
+        <directory>src/modversion1/main/java</directory>
       </source>
       <source>
         <module>modversion2</module>
-        <directory>src/java/modversion2/main</directory>
+        <directory>src/modversion2/main/java</directory>
       </source>
     </sources>
 

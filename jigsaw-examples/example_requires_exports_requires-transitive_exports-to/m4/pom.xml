@@ -18,27 +18,27 @@
     <sources>
       <source>
         <module>moda</module>
-        <directory>src/java/moda/main</directory>
+        <directory>src/moda/main/java</directory>
       </source>
       <source>
         <module>modb</module>
-        <directory>src/java/modb/main</directory>
+        <directory>src/modb/main/java</directory>
       </source>
       <source>
         <module>modc</module>
-        <directory>src/java/modc/main</directory>
+        <directory>src/modc/main/java</directory>
       </source>
       <source>
         <module>modfacade</module>
-        <directory>src/java/modfacade/main</directory>
+        <directory>src/modfacade/main/java</directory>
       </source>
       <source>
         <module>modmain</module>
-        <directory>src/java/modmain/main</directory>
+        <directory>src/modmain/main/java</directory>
       </source>
       <source>
         <module>modmainbehindfacade</module>
-        <directory>src/java/modmainbehindfacade/main</directory>
+        <directory>src/modmainbehindfacade/main/java</directory>
       </source>
     </sources>
 

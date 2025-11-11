@@ -159,13 +159,13 @@ Maven 4 compiles all other modules (`mod.main`, `mod.layer`, `mod.y_*`, `mod.z_*
 
 *Symbolic link structure:*
 
-The migration uses symbolic links from `m4/src/java/<module>/main` to `../../../../src/<module>`:
+The migration uses symbolic links from `m4/src/<module>/main/java` to `../../../../src/<module>`:
 
 [source,bash]
 ----
-m4/src/java/mod.main/main -> ../../../../src/mod.main
-m4/src/java/mod.layer/main -> ../../../../src/mod.layer
-m4/src/java/mod.y_bottom/main -> ../../../../src/mod.y_bottom
+m4/src/mod.main/main/java -> ../../../../src/mod.main
+m4/src/mod.layer/main/java -> ../../../../src/mod.layer
+m4/src/mod.y_bottom/main/java -> ../../../../src/mod.y_bottom
 ... (and all other non-x modules)
 ----
 
@@ -180,11 +180,11 @@ The `pom.xml` uses Maven 4.1.0 model and declares all modules except the `mod.x_
 <sources>
   <source>
     <module>mod.main</module>
-    <directory>src/java/mod.main/main</directory>
+    <directory>src/mod.main/main/java</directory>
   </source>
   <source>
     <module>mod.layer</module>
-    <directory>src/java/mod.layer/main</directory>
+    <directory>src/mod.layer/main/java</directory>
   </source>
   <!-- ... all other modules except mod.x_* ... -->
 </sources>

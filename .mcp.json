@@ -1,0 +1,12 @@
+{
+  "mcpServers": {
+    "diagrams-net-intellij": {
+      "type": "stdio",
+      "command": "/Users/ascheman/wrk/docToolchain/diagrams.net-intellij-plugin/mcp-server-wrapper.py",
+      "args": [],
+      "env": {
+        "DIAGRAMS_NET_MCP_PORT": "8764"
+      }
+    }
+  }
+}

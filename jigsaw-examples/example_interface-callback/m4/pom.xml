@@ -18,15 +18,15 @@
     <sources>
       <source>
         <module>modcallbackhandler</module>
-        <directory>src/java/modcallbackhandler/main</directory>
+        <directory>src/modcallbackhandler/main/java</directory>
       </source>
       <source>
         <module>modcallee</module>
-        <directory>src/java/modcallee/main</directory>
+        <directory>src/modcallee/main/java</directory>
       </source>
       <source>
         <module>modmain</module>
-        <directory>src/java/modmain/main</directory>
+        <directory>src/modmain/main/java</directory>
       </source>
     </sources>
 

@@ -19,11 +19,11 @@
     <sources>
       <source>
         <module>moda</module>
-        <directory>src/java/moda/main</directory>
+        <directory>src/moda/main/java</directory>
       </source>
       <source>
         <module>modmain</module>
-        <directory>src/java/modmain/main</directory>
+        <directory>src/modmain/main/java</directory>
       </source>
     </sources>
 

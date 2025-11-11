@@ -114,7 +114,7 @@ The `javax.json` automatic module dependency is managed via Maven.
 Source Code Sharing::
 Uses symbolic links to share source code with the original example.
 +
-* `m4/src/java/modstarter/main` → `../../../../src/modstarter`
+* `m4/src/modstarter/main/java` → `../../../../src/modstarter`
 
 Application Loading::
 Created `m4/apps_copyallexamples2appdir.sh` script.

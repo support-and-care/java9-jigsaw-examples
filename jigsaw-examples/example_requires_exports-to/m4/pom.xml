@@ -18,19 +18,19 @@
     <sources>
       <source>
         <module>modb1</module>
-        <directory>src/java/modb1/main</directory>
+        <directory>src/modb1/main/java</directory>
       </source>
       <source>
         <module>modb2</module>
-        <directory>src/java/modb2/main</directory>
+        <directory>src/modb2/main/java</directory>
       </source>
       <source>
         <module>modc</module>
-        <directory>src/java/modc/main</directory>
+        <directory>src/modc/main/java</directory>
       </source>
       <source>
         <module>modmain</module>
-        <directory>src/java/modmain/main</directory>
+        <directory>src/modmain/main/java</directory>
       </source>
     </sources>
 

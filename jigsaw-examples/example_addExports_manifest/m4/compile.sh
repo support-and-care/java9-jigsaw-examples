@@ -35,11 +35,11 @@ pushd target/classes > /dev/null 2>&1
 for dir in */;
 do
     MODDIR=${dir%*/}
-    # Check if there's a custom MANIFEST.MF file for this module (via src/java symlink structure)
-    if [ -f "../../src/java/${MODDIR}/main/META-INF/MANIFEST.MF" ]; then
-        echo "jar $JAR_OPTIONS --create --manifest=../../src/java/${MODDIR}/main/META-INF/MANIFEST.MF --file=../../mlib/${MODDIR}.jar -C ${MODDIR} ."
+    # Check if there's a custom MANIFEST.MF file for this module (via source symlink structure)
+    if [ -f "../../src/${MODDIR}/main/java/META-INF/MANIFEST.MF" ]; then
+        echo "jar $JAR_OPTIONS --create --manifest=../../src/${MODDIR}/main/java/META-INF/MANIFEST.MF --file=../../mlib/${MODDIR}.jar -C ${MODDIR} ."
         # shellcheck disable=SC2086  # JAR_OPTIONS is intentionally unquoted for word splitting
-        "${JAVA_HOME}/bin/jar" $JAR_OPTIONS --create --manifest="../../src/java/${MODDIR}/main/META-INF/MANIFEST.MF" --file="../../mlib/${MODDIR}.jar" -C "${MODDIR}" . 2>&1
+        "${JAVA_HOME}/bin/jar" $JAR_OPTIONS --create --manifest="../../src/${MODDIR}/main/java/META-INF/MANIFEST.MF" --file="../../mlib/${MODDIR}.jar" -C "${MODDIR}" . 2>&1
     else
         echo "jar $JAR_OPTIONS --create --file=../../mlib/${MODDIR}.jar -C ${MODDIR} ."
         # shellcheck disable=SC2086  # JAR_OPTIONS is intentionally unquoted for word splitting

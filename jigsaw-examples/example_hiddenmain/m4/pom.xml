@@ -18,7 +18,7 @@
     <sources>
       <source>
         <module>modmain</module>
-        <directory>src/java/modmain/main</directory>
+        <directory>src/modmain/main/java</directory>
       </source>
     </sources>
 
