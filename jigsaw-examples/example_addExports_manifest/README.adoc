@@ -32,7 +32,7 @@ image::moduledependencies.png[Example's Module Dependency Graph]
 
 === Example shows ...
 
-... how to use --add-exports in a manifest file for the Java launcher
+how to use `--add-exports` in a manifest file for the Java launcher.
 
 We use Add-Exports in the manifest file of modmain to gain access to internal java.base classes (without a command line option)
 
@@ -61,4 +61,11 @@ include::expected-result/run.txt[]
 [source]
 ----
 include::run-result/run.txt[]
+----
+
+==== Maven 4 Output
+
+[source]
+----
+include::m4/run-result/run.txt[]
 ----

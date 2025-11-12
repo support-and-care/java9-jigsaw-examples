@@ -119,6 +119,41 @@ If you run all stuff on *nix, use a colon : .
 * *Either* call one of the scripts on the top level, i.e., one of `allclean.sh`, `allcompile.sh`, `allcreatevis.sh` and `allrun.sh` (or `all.sh` for all in one step).
 * *Alternatively*, cd to one of the examples and call one of the scripts there (again `all.sh` for all in one step).
 
+==== Type-Specific Builds
+
+Many examples support multiple build approaches in separate subdirectories (e.g., `m4/` for Maven 4 migrations).
+All orchestration scripts accept an optional `<type>` parameter to execute builds in these subdirectories:
+
+[source,bash]
+----
+# Standard behavior - runs examples in example_xyz/
+cd jigsaw-examples
+./allcompile.sh
+./allverify.sh
+
+# Type-specific behavior - runs examples in example_xyz/m4/
+./allcompile.sh m4
+./allverify.sh m4
+./allrun.sh m4
+./all.sh m4
+
+# Verify with flags
+./allverify.sh m4 --only    # Skip rebuild, only verify
+----
+
+*Available types:*
+
+* `m4` - Maven 4 migrations using Module Source Hierarchy
+* `m3` - (Future) Maven 3 alternative approaches
+* `gradle-alt` - (Future) Gradle build alternatives
+
+*How it works:*
+
+* Without a type parameter: Scripts execute in `example_xyz/` (original build)
+* With a type parameter: Scripts execute in `example_xyz/<type>/` (type-specific build)
+* Examples without the specified type directory are automatically skipped
+* Output shows which variant is being executed (e.g., "Compiling example_hiddenmain/m4")
+
 [[golden-master-testing]]
 === Golden Master Testing
 
@@ -172,9 +207,194 @@ Results go to `example_.../classes`.
 . If a module is patched, then the .class files for the patch are in `example_.../patches`.
 Corresponding JAR files are in `example_.../patchlib`.
 
+[[maven-4-migration]]
+== Maven 4 Migration
+
+Many examples have been migrated to Maven 4 using the new https://maven.apache.org/plugins-archives/maven-compiler-plugin-LATEST-4.x/modules.html[Module Source Hierarchy] layout.
+The Maven 4 builds are located in `m4/` subdirectories within each example.
+
+=== Standard Migration Approach and Defaults
+
+For most examples, the Maven 4 migration follows a straightforward pattern.
+
+*Directory Structure Convention*: All examples follow Maven 4's default directory structure pattern `src/<module>/<scope>/<lang>` as documented in the https://maven.apache.org/ref/4-LATEST/api/maven-api-model/maven.html[Maven 4 Model API - Source Element].
+This means main sources are located at `src/<module>/main/java` and test sources at `src/<module>/test/java`.
+
+. Create a `pom.xml` with `<modelVersion>4.1.0</modelVersion>`
+. Use the `<sources>` block to declare modules following the default pattern:
++
+[source,xml]
+----
+<build>
+  <sources>
+    <source>
+      <module>modmain</module>
+      <directory>src/modmain/main/java</directory>
+    </source>
+    <!-- Optionle test sources -->
+    <source>
+      <module>modmain</module>
+      <directory>src/modmain/test/java</directory>
+      <scope>test</scope>
+    </source>
+    <!-- Additional modules... -->
+  </sources>
+</build>
+----
++
+[CAUTION]
+====
+Even though we follow the Maven 4 default pattern, the `<sources>` block including explicit `<directory>` (`<scope>` for test sources) is currently required.
+Maven 4 may support implicit sources in future versions.
+====
+
+. Configure the compiler plugin:
++
+[source,xml]
+----
+<plugin>
+  <groupId>org.apache.maven.plugins</groupId>
+  <artifactId>maven-compiler-plugin</artifactId>
+  <version>4.0.0-beta-3</version>
+</plugin>
+----
+
+. Set the target Java version:
++
+[source,xml]
+----
+<properties>
+  <maven.compiler.release>11</maven.compiler.release>
+  <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+</properties>
+----
+
+This standard approach works for examples where modules have straightforward dependencies and no special compilation requirements.
+
+=== Special Cases
+
+Some examples require additional configuration beyond the standard approach:
+
+Automatic module dependencies::
+Examples using automatic modules (like xref:jigsaw-examples/example_automatic-module-logging/README.adoc#maven-4-migration[example_automatic-module-logging]) need the `maven-dependency-plugin` to copy JARs and `--module-path` compiler arguments.
+
+Compiler flags (`--add-reads`, `--add-exports`)::
+Examples demonstrating module boundary overrides (like xref:jigsaw-examples/example_addReads_addExports/README.adoc#maven-4-migration[example_addReads_addExports]) need `<compilerArgs>` configuration.
+
+Classpath code (unnamed module)::
+Examples mixing modular code with classpath code cannot include non-modular code in the `<sources>` element.
+These require a hybrid approach where classpath code is compiled by script with javac and placed in `cplib/`, while Maven compiles the modules.
++
+Two main patterns exist:
+
+Pattern 1: Explicit modules accessing classpath code::::
+When explicit modules need to access the unnamed module (classpath), Maven compiles modules with `--add-reads <module>=ALL-UNNAMED` and `--class-path` compiler arguments.
++
+Examples:
++
+* xref:jigsaw-examples/example_unnamed-module_access-from-explicit-module/README.adoc#maven-4-migration[example_unnamed-module_access-from-explicit-module] - Basic classpath access
+* xref:jigsaw-examples/example_unnamed-module_access-from-explicit-module-reflection/README.adoc#maven-4-migration[example_unnamed-module_access-from-explicit-module-reflection] - Reflective access to classpath code
+
+Pattern 2: Classpath code depending on modules::::
+When classpath code depends on modules at compile-time, Maven compiles the modules first (with the compile script creating JARs in `mlib/`), then classpath code is compiled by the script with `javac -cp mlib/*`.
++
+Examples:
++
+* xref:jigsaw-examples/example_unnamed-module-reflection-illegal-access/README.adoc#maven-4-migration[example_unnamed-module-reflection-illegal-access] - Classpath code using modules, demonstrates `--illegal-access` flags
+* xref:jigsaw-examples/example_unnamed-module_accessing-module-path/README.adoc#maven-4-migration[example_unnamed-module_accessing-module-path] - Classpath code accessing module-path
+* xref:jigsaw-examples/example_unnamed-module_access-from-automatic-module/README.adoc#maven-4-migration[example_unnamed-module_access-from-automatic-module] - Classpath code with automatic modules
+
++
+[[admonition:unsuccessful-classpath-code-handling-approaches]]
+[WARNING]
+.Unsuccessful Classpath Code Handling Approaches
+====
+Several approaches were attempted before arriving at the hybrid compilation solution:
+
+exec-maven-plugin approach::
+Calling javac directly via exec-maven-plugin was rejected as too specialized and not a general pattern for Maven 4 migration.
+It bypasses the Maven compiler plugin entirely and lacks maintainability.
+
+Dual source directories::
+Attempted using `src/main/java` for classpath code and `src/<module>/main/java` for modules with separate compiler executions.
+Failed because the `<sources>` element is not recognized within plugin execution configurations.
+
+Maven profiles::
+Tried using two profiles to separate classpath and module compilation.
+Failed because the `<sources>` element can only be used at top-level `<build>`, not within profiles or plugin executions.
+
+The core limitation is that the Module Source Hierarchy assumes all directories under `<sources>` are modules with module descriptors.
+There is no way to designate certain source directories as classpath-only code within the Module Source Hierarchy itself, necessitating the hybrid approach with manual javac compilation.
+====
+
+Automatic modules without module descriptors::
+Examples with automatic modules (JARs without `module-info.java`) cannot include these in the `<sources>` element, as Maven 4's Module Source Hierarchy requires module descriptors for all entries.
+These require manual compilation with javac to create JARs, then Maven compiles explicit modules with `--module-path` pointing to the automatic module JARs in `amlib*/`.
++
+Examples:
++
+* xref:jigsaw-examples/example_naming-modules/README.adoc#maven-4-migration[example_naming-modules] - Four automatic modules demonstrating module naming conventions
+* xref:jigsaw-examples/example_layer-modules-all-in-boot-layer/README.adoc#maven-4-migration[example_layer-modules-all-in-boot-layer] - One automatic module (modauto1) used by explicit modules in boot layer
+* xref:jigsaw-examples/example_splitpackage_automatic-modules/README.adoc#maven-4-migration[example_splitpackage_automatic-modules] - Two automatic modules compiled by script, explicit module uses one via `--module-path`
+
+Split packages in explicit modules::
+When multiple explicit modules contain the same package name (split packages), JPMS handles them differently depending on whether the packages are exported and how the modules are loaded.
++
+Examples:
++
+* xref:jigsaw-examples/example_splitpackage/README.adoc#sec:maven-4-migration[example_splitpackage] - Two modules (`modsplitbar1` and `modsplitbar2`) both contain package `pkgbar` (not exported).
+They compile successfully when only one is required, but fail at runtime with `LayerInstantiationException` when both are loaded into the same layer via `--add-modules`.
+The foo modules (`modsplitfoo1` and `modsplitfoo2`) cannot compile because they export package `pkgfoo` and `modmainfoo` requires both.
+
+Split packages with automatic modules::
+When an automatic module is on the module-path, it automatically reads _all_ other modules.
+If multiple modules (automatic or explicit) export the same package, the automatic module encounters a split package violation at compile time.
+This requires sequential compilation to avoid having modules with split packages on the module-path simultaneously when the automatic module is present.
++
+Examples:
++
+* xref:jigsaw-examples/example_layer-modules-grouped-in-hierarchy/README.adoc#sec:maven-4-migration[example_layer-modules-grouped-in-hierarchy] - Two automatic modules with split packages (`pkgversion`), requiring five-step compilation where `modfoo` is compiled with only `amlib1/` on path, and `modbar` with only `amlib2/` on path
+* xref:jigsaw-examples/example_layer-hierarchy/README.adoc#sec:maven-4-migration[example_layer-hierarchy] - Three explicit modules (`mod.x_bottom`, `mod.x_middle`, `mod.x_top`) all export `pkgx`, causing compile-time conflicts with automatic module `javax.json` that reads all modules (at runtime, layer isolation prevents the conflict)
+
+JDK-specific requirements::
+Examples requiring specific JDK versions may need `fork` and `executable` configuration with environment-specific paths.
+Examples requiring specific JDK versions may need `fork` and `executable` configuration with environment-specific paths.
+
+Resource handling::
+Examples with non-.class resources (like xref:jigsaw-examples/example_resources/README.adoc#maven-4-migration[example_resources]) need `maven-resources-plugin` configuration to copy resources from the modular source directories (`src/<module>/main`) to the target classes directories, as the hybrid compilation approach only packages compiled `.class` files by default.
+
+Multiple module versions::
+Examples requiring multiple versions of the same module (like xref:jigsaw-examples/example_layer-modules-module-resolution/README.adoc#maven-4-migration[example_layer-modules-module-resolution]) cannot use the standard Module Source Hierarchy approach, as the `<sources>` element expects one source location per module name.
+These require a hybrid approach where Maven compiles the primary modules and manual javac compilation handles additional module versions.
+
+Testing with separate test modules (blackbox and whitebox)::
+Examples demonstrating both blackbox and whitebox testing patterns require a hybrid approach when the blackbox test is a separate module.
+Maven 4's Module Source Hierarchy automatically handles whitebox testing by detecting test sources with `scope="test"` for the same module and applying `--patch-module` during `test-compile`.
+However, blackbox test modules (with their own `module-info.java`) cannot be integrated into the same Maven build, requiring javac compilation separately.
++
+Examples:
++
+* xref:jigsaw-examples/example_test/README.adoc#sec:maven-4-migration[example_test] - Whitebox testing via Maven 4 automatic `--patch-module`, blackbox testing via javac for separate test module
+
+Module patching for bug fixes or replacements::
+Examples demonstrating module patching (using `--patch-module` to replace or add classes to a module) require a hybrid approach.
+Maven 4 compiles the regular modules, while patch sources must be compiled manually with javac using `--patch-module` to compile them as if they were part of the target module.
+Maven 4 does not have built-in support for patch source compilation (unlike its automatic `--patch-module` support for test sources with `scope="test"`).
++
+Examples:
++
+* xref:jigsaw-examples/example_patch/README.adoc#sec:maven-4-migration[example_patch] - Hybrid approach: Maven compiles modules, javac compiles patch sources with `--patch-module modb=src/modb-patch/main/java`
+
+Refer to individual example READMEs for detailed migration notes specific to each example's requirements.
+
 == TODOs, LOP, Backlog, Ideas, ...
 
 No software is ready, ever ;-) So here are some ideas left (any other feedback very welcome!):
+
+* Lessons learned from the <<maven-4-migration,migration to Maven 4>> (and perhaps to reconsider)
+
+** [ ] Module versions are optional, but perhaps enforced currently by the M4 compiler plugin - check and fix if necessary (allow to drop it)?
+** [ ] Maven resources plugin configuration may need to be adapted when modular source code is organized in Module Source Hierarchy (`src/<module>/main`) - consider if this should be documented more prominently or if alternative approaches exist.
 
 * [ ] Do a bit of renaming and refactoring of module names. (modmain had been moda before, so that's why most modules are called modb, modc, ...)
 * [ ] New example for open modules
@@ -190,261 +410,327 @@ The xref:jigsaw-examples/example_spring-hibernate/README.adoc[example_spring-hib
 
 == Example Overview
 
-[cols="2,5,2",options="header"]
-|===
-| Examples | Description | Module Dependencies
+.Maven 4 Migration Status Legend
+****
+The following table includes a Maven 4 Migration Status column indicating the migration status of each example:
 
-3+| *Examples on the declaration of modules*
+icon:check-circle[role=green] Standard::
+Successfully migrated using standard Module Source Hierarchy.
+No special compilation handling required.
+
+icon:exclamation-triangle[role=yellow] Special::
+Successfully migrated but requires special handling (hybrid compilation, compiler flags, automatic modules, etc.).
+See the <<maven-4-migration,Maven 4 Migration>> section above for details.
+
+icon:times-circle[role=red] Blocked::
+Cannot be migrated to Maven 4 Module Source Hierarchy due to technical limitations (currently _none_).
+
+icon:wrench[] WIP::
+Work in progress.
+Migration attempted but not yet complete.
+
+*N/A*::
+Not applicable.
+Example uses Maven/Gradle directly, or migration is not relevant to JPMS features.
+
+Click the status icon to jump to the example's Maven 4 Migration section for details.
+****
+
+[cols="2,5,2,1",options="header"]
+|===
+| Examples | Description | Module Dependencies | M4
+
+4+| *Examples on the declaration of modules*
 | xref:jigsaw-examples/example_naming-modules/README.adoc[naming-modules]
 | Which naming conventions exist for modules? Which names are not allowed?
 |
+| xref:jigsaw-examples/example_naming-modules/README.adoc#sec:maven-4-migration[icon:exclamation-triangle[role=yellow]]
 
 | xref:jigsaw-examples/example_annotations/README.adoc[annotations]
 | How can one specify annotations and deprecation for modules?
 | image:jigsaw-examples/example_annotations/moduledependencies.png[width=200,link=jigsaw-examples/example_annotations/moduledependencies-withlegend.png]
+| xref:jigsaw-examples/example_annotations/README.adoc#sec:maven-4-migration[icon:check-circle[role=green]]
 
-3+| *Examples on basic module reads and exports attributes*
+4+| *Examples on basic module reads and exports attributes*
 
 | xref:jigsaw-examples/example_requires_exports_requires-transitive_exports-to/README.adoc[requires_exports_requires-transitive_exports-to]
 | How does requires, requires transitive and qualified exports look like?
 
 Relates to all other examples in this section.
 | image:jigsaw-examples/example_requires_exports_requires-transitive_exports-to/moduledependencies.png[width=200,link=jigsaw-examples/example_requires_exports_requires-transitive_exports-to/moduledependencies-withlegend.png]
+| xref:jigsaw-examples/example_requires_exports_requires-transitive_exports-to/README.adoc#sec:maven-4-migration[icon:check-circle[role=green]]
 
 | xref:jigsaw-examples/example_requires-static/README.adoc[requires-static]
 | How does requires static look like?
 
 Relates to all other examples in this section.
 | image:jigsaw-examples/example_requires-static/moduledependencies.png[width=200,link=jigsaw-examples/example_requires-static/moduledependencies-withlegend.png]
+| xref:jigsaw-examples/example_requires-static/README.adoc#sec:maven-4-migration[icon:check-circle[role=green]]
 
 | xref:jigsaw-examples/example_requires_exports/README.adoc[requires_exports]
 | How does requires and exports look like?
 
 Relates to all other examples in this section.
 | image:jigsaw-examples/example_requires_exports/moduledependencies.png[width=200,link=jigsaw-examples/example_requires_exports/moduledependencies-withlegend.png]
+| xref:jigsaw-examples/example_requires_exports/README.adoc#sec:maven-4-migration[icon:check-circle[role=green]]
 
 | xref:jigsaw-examples/example_requires_exports-to/README.adoc[requires_exports-to]
 | How does requires and qualified exports look like?
 
 Relates to all other examples in this section.
 | image:jigsaw-examples/example_requires_exports-to/moduledependencies.png[width=200,link=jigsaw-examples/example_requires_exports-to/moduledependencies-withlegend.png]
+| xref:jigsaw-examples/example_requires_exports-to/README.adoc#sec:maven-4-migration[icon:check-circle[role=green]]
 
 | xref:jigsaw-examples/example_reflection/README.adoc[reflection]
 | How do reflection calls look like?
 
 Relates to all other examples in this section.
 | image:jigsaw-examples/example_reflection/moduledependencies.png[width=200,link=jigsaw-examples/example_reflection/moduledependencies-withlegend.png]
+| xref:jigsaw-examples/example_reflection/README.adoc#sec:maven-4-migration[icon:check-circle[role=green]]
 
-3+| *Examples on dynamic binding with uses/provides*
+4+| *Examples on dynamic binding with uses/provides*
 | xref:jigsaw-examples/example_uses-provides/README.adoc[uses-provides]
 | How does uses-provides look like?
 
 Relates to all other examples in this section.
 | image:jigsaw-examples/example_uses-provides/moduledependencies.png[width=200,link=jigsaw-examples/example_uses-provides/moduledependencies-withlegend.png]
+| xref:jigsaw-examples/example_uses-provides/README.adoc#sec:maven-4-migration[icon:check-circle[role=green]]
 
 | xref:jigsaw-examples/example_uses-provides_uses-in-client/README.adoc[uses-provides_uses-in-client]
 | How does uses-provides look like, when uses is separated from the interface?
 
 Relates to all other examples in this section.
 | image:jigsaw-examples/example_uses-provides_uses-in-client/moduledependencies.png[width=200,link=jigsaw-examples/example_uses-provides_uses-in-client/moduledependencies-withlegend.png]
+| xref:jigsaw-examples/example_uses-provides_uses-in-client/README.adoc#sec:maven-4-migration[icon:check-circle[role=green]]
 
-3+| *Examples on accessibility and (non) exported packages*
+4+| *Examples on accessibility and (non) exported packages*
 
 | xref:jigsaw-examples/example_derived_private-package-protected/README.adoc[derived_private-package-protected]
 | What happens, when classes / packages in a module are exported, but their sub/super classes are not?
 
 Relates to all other examples in this section.
 | image:jigsaw-examples/example_derived_private-package-protected/moduledependencies.png[width=200,link=jigsaw-examples/example_derived_private-package-protected/moduledependencies-withlegend.png]
+| xref:jigsaw-examples/example_derived_private-package-protected/README.adoc#sec:maven-4-migration[icon:check-circle[role=green]]
 
 | xref:jigsaw-examples/example_exceptions/README.adoc[exceptions]
 | What happens, when exceptions are thrown to classes outside the module but their package is not exported?
 
 Relates to all other examples in this section.
 | image:jigsaw-examples/example_exceptions/moduledependencies.png[width=200,link=jigsaw-examples/example_exceptions/moduledependencies-withlegend.png]
+| xref:jigsaw-examples/example_exceptions/README.adoc#sec:maven-4-migration[icon:check-circle[role=green]]
 
 | xref:jigsaw-examples/example_interface-callback/README.adoc[interface-callback]
 | What happens, when outside the module a callback implementation is called which package is not exported?
 
 Relates to all other examples in this section.
 | image:jigsaw-examples/example_interface-callback/moduledependencies.png[width=200,link=jigsaw-examples/example_interface-callback/moduledependencies-withlegend.png]
+| xref:jigsaw-examples/example_interface-callback/README.adoc#sec:maven-4-migration[icon:check-circle[role=green]]
 
-3+| *Examples on specificing add options*
+4+| *Examples on specificing add options*
 
 | xref:jigsaw-examples/example_addExports_manifest/README.adoc[addExports_manifest]
 | How can we use --add-exports in a manifest file for the Java launcher?
 
 Relates to all other examples in this section.
 | image:jigsaw-examples/example_addExports_manifest/moduledependencies.png[width=200,link=jigsaw-examples/example_addExports_manifest/moduledependencies-withlegend.png]
+| xref:jigsaw-examples/example_addExports_manifest/README.adoc#sec:maven-4-migration[icon:exclamation-triangle[role=yellow]]
 
 | xref:jigsaw-examples/example_addReads_addExports/README.adoc[addReads_addExports]
 | How can we use --add-reads and --add-exports for Javac compiler and Java launcher
 
 Relates to all other examples in this section.
 | image:jigsaw-examples/example_addReads_addExports/moduledependencies.png[width=200,link=jigsaw-examples/example_addReads_addExports/moduledependencies-withlegend.png]
+| xref:jigsaw-examples/example_addReads_addExports/README.adoc#sec:maven-4-migration[icon:exclamation-triangle[role=yellow]]
 
 | xref:jigsaw-examples/example_addReads_addExports_reflection/README.adoc[addReads_addExports_reflection]
 | How can we use --add-reads and --add-exports for reflection calls?
 
 Relates to all other examples in this section.
 | image:jigsaw-examples/example_addReads_addExports_reflection/moduledependencies.png[width=200,link=jigsaw-examples/example_addReads_addExports_reflection/moduledependencies-withlegend.png]
+| xref:jigsaw-examples/example_addReads_addExports_reflection/README.adoc#sec:maven-4-migration[icon:exclamation-triangle[role=yellow]]
 
-3+| *Examples on automatic modules*
+4+| *Examples on automatic modules*
 
 | xref:jigsaw-examples/example_automatic-module-logging/README.adoc[automatic-module-logging]
 | How to automatic modules (for logging) look like?
 
 Related example: xref:jigsaw-examples/example_splitpackage_automatic-modules/README.adoc[splitpackage_automatic-modules]
 | image:jigsaw-examples/example_automatic-module-logging/moduledependencies.png[width=200,link=jigsaw-examples/example_automatic-module-logging/moduledependencies-withlegend.png]
+| xref:jigsaw-examples/example_automatic-module-logging/README.adoc#sec:maven-4-migration[icon:exclamation-triangle[role=yellow]]
 
-3+| *Examples on restricting the access to resources in other modules*
+4+| *Examples on restricting the access to resources in other modules*
 
 | xref:jigsaw-examples/example_resources/README.adoc[resources]
 | Which resources in modules are accessible, which are not?
 | image:jigsaw-examples/example_resources/moduledependencies.png[width=200,link=jigsaw-examples/example_resources/moduledependencies-withlegend.png]
+| xref:jigsaw-examples/example_resources/README.adoc#sec:maven-4-migration[icon:exclamation-triangle[role=yellow]]
 
-3+| *Examples on the split package problem*
+4+| *Examples on the split package problem*
 
 | xref:jigsaw-examples/example_splitpackage/README.adoc[splitpackage]
 | What happens when one has a split package problem at compile / at runtime?
 
 Relates to all other examples in this section.
 | image:jigsaw-examples/example_splitpackage/moduledependencies.png[width=200,link=jigsaw-examples/example_splitpackage/moduledependencies-withlegend.png]
+| xref:jigsaw-examples/example_splitpackage/README.adoc#sec:maven-4-migration[icon:exclamation-triangle[role=yellow]]
 
 | xref:jigsaw-examples/example_splitpackage_automatic-modules/README.adoc[splitpackage_automatic-modules]
 | What happens when one Automatic Module automatically reads all other Automatic Modules on the module path and hence creates an unwanted split package problem?
 
 Related examples: xref:jigsaw-examples/example_automatic-module-logging/README.adoc[automatic-module-logging] and all other examples in this section.
 | image:jigsaw-examples/example_splitpackage_automatic-modules/moduledependencies.png[width=200,link=jigsaw-examples/example_splitpackage_automatic-modules/moduledependencies-withlegend.png]
+| xref:jigsaw-examples/example_splitpackage_automatic-modules/README.adoc#sec:maven-4-migration[icon:exclamation-triangle[role=yellow]]
 
-3+| *Examples on resolution of modules, layers and visibility of modules between layers*
+4+| *Examples on resolution of modules, layers and visibility of modules between layers*
 
 | xref:jigsaw-examples/example_jerrymouse/README.adoc[jerrymouse]
 | How can an "app server" JerryMouse (sic!) load and start modules, as a kind of module starter/container?
 
 Relates to all other examples in this section.
 |
+| xref:jigsaw-examples/example_jerrymouse/README.adoc#sec:maven-4-migration[icon:exclamation-triangle[role=yellow]]
 
 | xref:jigsaw-examples/example_resolved-modules/README.adoc[resolved-modules]
 | Which modules are resolved? Usage of jlink
 
 Relates to all other examples in this section.
 | image:jigsaw-examples/example_resolved-modules/moduledependencies.png[width=200,link=jigsaw-examples/example_resolved-modules/moduledependencies-withlegend.png]
+| xref:jigsaw-examples/example_resolved-modules/README.adoc#sec:maven-4-migration[icon:check-circle[role=green]]
 
 | xref:jigsaw-examples/example_layer-hierarchy/README.adoc[layer-hierarchy]
-| How can one create a hiearchy of layers automatically and add modules (d naming conventions)?
+| How can one create a hierarchy of layers automatically and add modules (naming conventions)?
 
 Relates to all other examples in this section.
-|
+| image:jigsaw-examples/example_layer-hierarchy/layer-hierarchy.drawio.svg[width=200,link=jigsaw-examples/example_layer-hierarchy/layer-hierarchy.drawio.svg]
+| xref:jigsaw-examples/example_layer-hierarchy/README.adoc#sec:maven-4-migration[icon:exclamation-triangle[role=yellow]]
 
 | xref:jigsaw-examples/example_layer-modules-all-in-boot-layer/README.adoc[layer-modules-all-in-boot-layer]
 | How does the boot layer look like containing a bunch of modules?
 
 Relates to all other examples in this section.
 | image:jigsaw-examples/example_layer-modules-all-in-boot-layer/moduledependencies.png[width=200,link=jigsaw-examples/example_layer-modules-all-in-boot-layer/moduledependencies-withlegend.png]
+| xref:jigsaw-examples/example_layer-modules-all-in-boot-layer/README.adoc#sec:maven-4-migration[icon:exclamation-triangle[role=yellow]]
 
 | xref:jigsaw-examples/example_layer-modules-grouped-in-hierarchy/README.adoc[layer-modules-grouped-in-hierarchy]
 | How does a small hiearchy of layers look like when one explicitely distributes a bunch of modules to these layers?
 
 Relates to all other examples in this section.
 | image:jigsaw-examples/example_layer-modules-grouped-in-hierarchy/moduledependencies.png[width=200,link=jigsaw-examples/example_layer-modules-grouped-in-hierarchy/moduledependencies.png]
+| xref:jigsaw-examples/example_layer-modules-grouped-in-hierarchy/README.adoc#sec:maven-4-migration[icon:exclamation-triangle[role=yellow]]
 
 | xref:jigsaw-examples/example_layer-modules-module-resolution/README.adoc[layer-modules-module-resolution]
 | How are different versions of a module resolved depending on the setup of the layer?
 
 Relates to all other examples in this section.
 |
+| xref:jigsaw-examples/example_layer-modules-module-resolution/README.adoc#sec:maven-4-migration[icon:exclamation-triangle[role=yellow]]
 
-3+| *Examples on testing*
+4+| *Examples on testing*
 
 | xref:jigsaw-examples/example_test/README.adoc[test]
 | How can one achieve blackbox and whitebox testing?
 
 Relates to all other examples in this section.
 | image:jigsaw-examples/example_test/moduledependencies.png[width=200,link=jigsaw-examples/example_test/moduledependencies-withlegend.png]
+| xref:jigsaw-examples/example_test/README.adoc#sec:maven-4-migration[icon:exclamation-triangle[role=yellow]]
 
 | xref:jigsaw-examples/example_maven-test-blackbox/README.adoc[maven-test-blackbox]
 | How can one achieve blackbox testing with Maven?
 
 Relates to all other examples in this section.
 |
+| N/A
 
 | xref:jigsaw-examples/example_maven-test-whitebox/README.adoc[maven-test-whitebox]
 | How can one achieve whitebox testing with Maven?
 
 Relates to all other examples in this section.
 |
+| N/A
 
 | xref:jigsaw-examples/example_patch/README.adoc[patch]
 | How can we patch a module at compile / runtime?
 
 Relates to all other examples in this section.
 | image:jigsaw-examples/example_patch/moduledependencies.png[width=200,link=jigsaw-examples/example_patch/moduledependencies-withlegend.png]
+| xref:jigsaw-examples/example_patch/README.adoc#sec:maven-4-migration[icon:exclamation-triangle[role=yellow]]
 
-3+| *Examples on Main classes*
+4+| *Examples on Main classes*
 
 | xref:jigsaw-examples/example_hiddenmain/README.adoc[hiddenmain]
 | Is it possible that one can call a Main class which is in a non-exported package?
 | image:jigsaw-examples/example_hiddenmain/moduledependencies.png[width=200,link=jigsaw-examples/example_hiddenmain/moduledependencies-withlegend.png]
+| xref:jigsaw-examples/example_hiddenmain/README.adoc#sec:maven-4-migration[icon:check-circle[role=green]]
 
-3+| *Examples on access from and to the classpath (i.e. the unnamed module)*
+4+| *Examples on access from and to the classpath (i.e. the unnamed module)*
 | xref:jigsaw-examples/example_unnamed-module_access-from-automatic-module/README.adoc[unnamed-module_access-from-automatic-module]
 | Can a Automatic Module access the classpath (i.e. the unnamed module)?
 
 Relates to all other examples in this section.
 |
+| xref:jigsaw-examples/example_unnamed-module_access-from-automatic-module/README.adoc#sec:maven-4-migration[icon:exclamation-triangle[role=yellow]]
 
 | xref:jigsaw-examples/example_unnamed-module_access-from-explicit-module/README.adoc[unnamed-module_access-from-explicit-module]
 | Can a Explicit Module access the classpath (i.e. the unnamed module)?
 
 Relates to all other examples in this section.
 | image:jigsaw-examples/example_unnamed-module_access-from-explicit-module/moduledependencies.png[width=200,link=jigsaw-examples/example_unnamed-module_access-from-explicit-module/moduledependencies-withlegend.png]
+| xref:jigsaw-examples/example_unnamed-module_access-from-explicit-module/README.adoc#sec:maven-4-migration[icon:exclamation-triangle[role=yellow]]
 
 | xref:jigsaw-examples/example_unnamed-module_access-from-explicit-module-reflection/README.adoc[unnamed-module_access-from-explicit-module-reflection]
 | Can a Explicit Module access the classpath (i.e. the unnamed module) via reflection?
 
 Relates to all other examples in this section.
 | image:jigsaw-examples/example_unnamed-module_access-from-explicit-module-reflection/moduledependencies.png[width=200,link=jigsaw-examples/example_unnamed-module_access-from-explicit-module-reflection/moduledependencies-withlegend.png]
+| xref:jigsaw-examples/example_unnamed-module_access-from-explicit-module-reflection/README.adoc#sec:maven-4-migration[icon:exclamation-triangle[role=yellow]]
 
 | xref:jigsaw-examples/example_unnamed-module-reflection-illegal-access/README.adoc[unnamed-module-reflection-illegal-access]
 | Can the classpath (i.e. the unnamed module) access concealed packages in the JDK and what happens when the JDK "kill switch" is activated?
 
 Relates to all other examples in this section.
 | image:jigsaw-examples/example_unnamed-module-reflection-illegal-access/moduledependencies.png[width=200,link=jigsaw-examples/example_unnamed-module-reflection-illegal-access/moduledependencies-withlegend.png]
+| xref:jigsaw-examples/example_unnamed-module-reflection-illegal-access/README.adoc#sec:maven-4-migration[icon:exclamation-triangle[role=yellow]]
 
 | xref:jigsaw-examples/example_unnamed-module_accessing-module-path/README.adoc[unnamed-module_accessing-module-path]
 | Can the classpath (i.e. the unnamed module) access modules on the module path?
 
 Relates to all other examples in this section.
 | image:jigsaw-examples/example_unnamed-module_accessing-module-path/moduledependencies.png[width=200,link=jigsaw-examples/example_unnamed-module_accessing-module-path/moduledependencies-withlegend.png]
+| xref:jigsaw-examples/example_unnamed-module_accessing-module-path/README.adoc#sec:maven-4-migration[icon:exclamation-triangle[role=yellow]]
 
-3+| *Examples on build systems*
+4+| *Examples on build systems*
 
 | xref:jigsaw-examples/example_gradle-project/README.adoc[gradle-project]
 | How can one use Gradle 9.1.0 for building a modularized project? Includes Gradle Wrapper. Requires JDK 17+.
 
 Relates to all other examples in this section.
 | image:jigsaw-examples/example_gradle-project/moduledependencies.png[width=200,link=jigsaw-examples/example_gradle-project/moduledependencies-withlegend.png]
+| N/A
 
 | xref:jigsaw-examples/example_maven-project/README.adoc[maven-project]
 | How can one use Maven 3.9.11 for building a modularized project? Includes Maven Wrapper.
 
 Relates to all other examples in this section.
 |
+| N/A
 
-3+| *Examples on porting applications from Java8 to Java9*
+4+| *Examples on porting applications from Java8 to Java9*
 
 | xref:jigsaw-examples/example_spring-hibernate/README.adoc[spring-hibernate]
 | How does the migration of a Spring Boot application with a bunch of Maven plugins look like and where do we have to tweak / change in comparison to Java 8?
 |
+| N/A
 
 | xref:jigsaw-examples/example_compile-target-jdk8/README.adoc[compile-target-jdk8]
 | What happens when one compiles with a modern JDK while targeting Java release 8 for backwards compatibility? |
+| xref:jigsaw-examples/example_compile-target-jdk8/README.adoc#sec:maven-4-migration[icon:exclamation-triangle[role=yellow]]
 
-3+| *Examples on non-Jigsaw topics*
+4+| *Examples on non-Jigsaw topics*
 
 | xref:jigsaw-examples/example_version/README.adoc[version]
 | How does the new Java 9 version string (cf JEP 223) look like?
 |
+| xref:jigsaw-examples/example_version/README.adoc#sec:maven-4-migration[icon:check-circle[role=green]]
 
 |===
 
@@ -459,7 +745,7 @@ The examples have been used and tested with these tools and libraries (on Window
 | JDK | See <<recommended-jdk>> | all examples at compile and runtime | Required for golden master testing (verify.sh) | https://adoptium.net/ or https://sdkman.io/
 | JDK | 17 LTS or later | xref:jigsaw-examples/example_gradle-project/README.adoc[Gradle example] | Required by Gradle 9.x | https://adoptium.net/ or https://sdkman.io/
 | JDK | 8 LTS | only needed for xref:jigsaw-examples/example_compile-target-jdk8/README.adoc[cross-compilation example] | For cross-compilation testing | https://adoptium.net/temurin/releases/?version=8
-| Maven Wrapper | 3.9.11 | Maven examples | *Included in all Maven examples* - no manual installation required | https://maven.apache.org/wrapper/
+| Maven Wrapper | 3.9.11 | Original Maven examples | *Included in all (non M4 migrated) Maven examples* - no manual installation required | https://maven.apache.org/wrapper/
 | Gradle Wrapper | 9.1.0 | Gradle example | *Included in xref:jigsaw-examples/example_gradle-project/README.adoc[example_gradle-project]* - no manual installation required. Requires JDK 17+ | https://docs.gradle.org/current/userguide/gradle_wrapper.html
 | +++<s>+++Maven+++</s>+++ | +++<s>+++3.5.2, 3.6.1+++</s>+++ | +++<s>+++Maven examples+++</s>+++ | *Deprecated* - Use Maven Wrapper instead (./mvnw) | https://maven.apache.org/download.cgi
 | +++<s>+++Gradle+++</s>+++ | +++<s>+++4.2.1, 4.6, 5.4.1+++</s>+++ | +++<s>+++Gradle example+++</s>+++ | *Deprecated* - Use Gradle Wrapper instead (./gradlew) | https://github.com/gradle/gradle

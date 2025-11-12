@@ -66,3 +66,84 @@ include::expected-result/run.txt[]
 ----
 include::run-result/run.txt[]
 ----
+
+==== Maven 4 Output
+
+[source]
+----
+include::m4/run-result/run.txt[]
+----
+
+[[sec:maven-4-migration]]
+== Maven 4 Migration
+
+This example required special handling for automatic module dependencies when migrating to Maven 4's Module Source Hierarchy.
+
+=== Maven 4 Compiler Changes
+
+==== The Challenge
+
+By default, Maven places all dependencies on the `--class-path`, but automatic modules must be on the `--module-path` to be recognized by the module system.
+
+When slf4j-api-1.7.12.jar is on the classpath, the compiler cannot resolve:
+
+[source,java]
+----
+requires slf4j.api;  // Module not found!
+----
+
+The module name `slf4j.api` is derived from the JAR filename when it's treated as an automatic module on the module-path.
+
+==== The Solution
+
+The solution involves two steps:
+
+. *Copy dependencies to a local directory* using `maven-dependency-plugin`:
++
+[source,xml]
+----
+<plugin>
+  <groupId>org.apache.maven.plugins</groupId>
+  <artifactId>maven-dependency-plugin</artifactId>
+  <version>3.8.1</version>
+  <executions>
+    <execution>
+      <id>copy-dependencies</id>
+      <phase>generate-sources</phase>
+      <goals>
+        <goal>copy-dependencies</goal>
+      </goals>
+      <configuration>
+        <outputDirectory>${project.basedir}/amlib-api</outputDirectory>
+      </configuration>
+    </execution>
+  </executions>
+</plugin>
+----
+
+. *Add the directory to `--module-path`* via compiler configuration:
++
+[source,xml]
+----
+<plugin>
+  <groupId>org.apache.maven.plugins</groupId>
+  <artifactId>maven-compiler-plugin</artifactId>
+  <version>4.0.0-beta-3</version>
+  <configuration>
+    <compilerArgs>
+      <arg>--module-path</arg>
+      <arg>${project.basedir}/amlib-api</arg>
+    </compilerArgs>
+  </configuration>
+</plugin>
+----
+
+This approach ensures that slf4j-api JAR is on the module-path during compilation.
+It allows the JAR to be recognized as an automatic module with the derived name `slf4j.api`.
+
+==== Key Takeaways
+
+* Automatic modules must be on `--module-path`, not `--class-path`
+* Maven dependency plugin can copy JARs to a local directory
+* The `--module-path` compiler argument can be extended via `<compilerArgs>`
+* Module names for automatic modules are derived from JAR filenames (version numbers stripped, hyphens converted to dots)

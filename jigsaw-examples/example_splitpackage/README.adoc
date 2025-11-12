@@ -51,6 +51,76 @@ In one classloader, two or more modules must not be loaded, which have/export th
 
 * [ ] Does case 2 work, if the classloader for modsplitbar1 and modsplitbar2 is different (i.e., what about layers)?
 
+[[sec:maven-4-migration]]
+=== Maven 4 Migration
+
+This example has been migrated to Maven 4 using the Module Source Hierarchy layout.
+The migration demonstrates an important constraint of the split package problem.
+
+==== Migration Approach
+
+*Only bar modules are compiled* in the Maven 4 migration:
+
+* `modmainbar` - Main module that requires `modsplitbar1`
+* `modsplitbar1` - First module with package `pkgbar`
+* `modsplitbar2` - Second module with package `pkgbar`
+
+The foo modules (`modmainfoo`, `modsplitfoo1`, `modsplitfoo2`) _cannot_ be compiled because `modmainfoo` requires both `modsplitfoo1` and `modsplitfoo2`, which both export package `pkgfoo`.
+This violates JPMS rules at compile time.
+
+==== Golden Master Testing
+
+To maintain consistency with the original example, the Maven 4 `run.sh` script produces the same output format:
+
+1. First outputs: `"Error: Does not run, as it does not even compile!"` (representing the foo modules)
+2. Then runs the bar modules to demonstrate the runtime split package problem
+
+This ensures the Maven 4 migration verifies against the same shared `expected-result/run.txt` as the original example.
+
+==== Technical Implementation
+
+The migration uses symbolic links to adapt the source structure to Maven 4's Module Source Hierarchy:
+
+[source,bash]
+----
+m4/src/modmainbar/main/java -> ../../../../src/modmainbar
+m4/src/modsplitbar1/main/java -> ../../../../src/modsplitbar1
+m4/src/modsplitbar2/main/java -> ../../../../src/modsplitbar2
+----
+
+These symbolic links are *checked into Git* and do not need to be created dynamically.
+
+The `pom.xml` declares these modules using Maven 4.1.0 model:
+
+[source,xml]
+----
+<sources>
+  <source>
+    <module>modmainbar</module>
+    <directory>src/modmainbar/main/java</directory>
+  </source>
+  <source>
+    <module>modsplitbar1</module>
+    <directory>src/modsplitbar1/main/java</directory>
+  </source>
+  <source>
+    <module>modsplitbar2</module>
+    <directory>src/modsplitbar2/main/java</directory>
+  </source>
+</sources>
+----
+
+==== Running the Maven 4 Version
+
+[source,bash]
+----
+cd m4/
+./compile.sh  # Compiles all bar modules, creates JARs
+./run.sh      # Demonstrates both successful and failing cases
+./verify.sh   # Verifies output matches expected result
+./clean.sh    # Removes build artifacts and symbolic links
+----
+
 === Output
 
 This example uses xref:../../README.adoc#golden-master-testing[golden master testing] to ensure output consistency.
@@ -68,4 +138,11 @@ include::expected-result/run.txt[]
 [source]
 ----
 include::run-result/run.txt[]
+----
+
+==== Maven 4 Output
+
+[source]
+----
+include::m4/run-result/run.txt[]
 ----

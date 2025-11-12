@@ -64,3 +64,66 @@ include::expected-result/run.txt[]
 ----
 include::run-result/run.txt[]
 ----
+
+==== Maven 4 Output
+
+[source]
+----
+include::m4/run-result/run.txt[]
+----
+
+[[sec:maven-4-migration]]
+== Maven 4 Migration
+
+This example demonstrates module system boundary overrides using both compile-time flags and runtime reflection APIs.
+
+=== Maven 4 Compiler Changes
+
+==== The Challenge
+
+This example combines static module system overrides (compile-time) with dynamic overrides (runtime reflection).
+At compile time, `modmain` needs access to `modb`, but without explicit `requires` declarations, the compiler will reject the code.
+
+At runtime, the example uses reflection APIs to dynamically add additional module reads and exports, demonstrating programmatic module boundary manipulation.
+
+==== The Solution
+
+Configure compile-time access using compiler arguments:
+
+[source,xml]
+----
+<plugin>
+  <groupId>org.apache.maven.plugins</groupId>
+  <artifactId>maven-compiler-plugin</artifactId>
+  <version>4.0.0-beta-3</version>
+  <configuration>
+    <compilerArgs>
+      <!-- Required for compile-time access from modmain to modb -->
+      <arg>--add-reads</arg>
+      <arg>modmain=modb</arg>
+      <arg>--add-exports</arg>
+      <arg>modb/pkgb=modmain</arg>
+    </compilerArgs>
+  </configuration>
+</plugin>
+----
+
+The runtime configuration provides partial access via command-line flags:
+
+[source,bash]
+----
+java --module-path mlib \
+     --add-modules modb \
+     --add-exports modb/pkgb=modmain \
+     --module modmain/pkgmain.Main
+----
+
+Additional access is granted at runtime through reflection APIs in the code itself, as demonstrated in `Main.java`.
+
+==== Key Takeaways
+
+* Compile-time flags establish basic module access for code compilation
+* Runtime flags can be split between command-line arguments and reflection APIs
+* Reflection APIs (`Module.addReads()`, `Module.addExports()`) enable dynamic module boundary changes
+* This hybrid approach is useful when module access needs vary based on runtime conditions
+* The example demonstrates that not all access needs to be configured via command-line flags

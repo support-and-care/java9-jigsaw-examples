@@ -56,3 +56,67 @@ include::expected-result/run.txt[]
 ----
 include::run-result/run.txt[]
 ----
+
+==== Maven 4 Output
+
+[source]
+----
+include::m4/run-result/run.txt[]
+----
+
+[[sec:maven-4-migration]]
+== Maven 4 Migration
+
+This example required a special migration approach as it contains NO explicit modules - only non-modular code.
+
+=== Special Handling: No Explicit Modules
+
+This example demonstrates an automatic module (modmain.auto) accessing classpath code (cpa).
+Neither has a module descriptor (module-info.java).
+
+Problem::
+Maven 4's Module Source Hierarchy requires module descriptors (module-info.java) for all source entries.
+This example intentionally contains only non-modular code:
++
+* `cpa` - classpath code without module-info.java
+* `modmain.auto` - automatic module without module-info.java
++
+Since there are no explicit modules, Maven has nothing to compile.
+
+Solution::
+All compilation is done manually in `m4/compile.sh`:
++
+. Manual javac invocation compiles cpa to cplib/:
++
+[source,bash]
+----
+javac -d classes/cpa --release 11 $(find cpa -name "*.java")
+jar --create --file=cplib/cpa.jar -C classes/cpa .
+----
++
+. Manual javac invocation compiles modmain.auto to amlib/:
++
+[source,bash]
+----
+javac -cp cplib/* -d classes/modmain.auto --release 11 \
+      $(find modmain.auto -name "*.java")
+jar --create --file=amlib/modmain.auto.jar \
+    -C classes/modmain.auto .
+----
++
+. Runtime uses automatic module on module-path and classpath:
++
+[source,bash]
+----
+java --module-path amlib \
+     -cp cplib/cpa.jar \
+     -m modmain.auto/pkgmain.Main
+----
+
+This approach is necessary because:
+
+* Maven 4's Module Source Hierarchy is designed for modular code only
+* Automatic modules must be compiled as non-modular JARs (without module-info.java)
+* Classpath code (unnamed module) must be compiled separately
+* Automatic modules CAN access classpath code (unlike explicit modules)
+* No Maven compilation is performed - pom.xml has no `<sources>` element

@@ -61,3 +61,18 @@ include::expected-result/run.txt[]
 ----
 include::run-result/run.txt[]
 ----
+
+==== Maven 4 Output
+
+[source]
+----
+include::m4/run-result/run.txt[]
+----
+
+[[sec:maven-4-migration]]
+== Maven 4 Migration
+
+This example was migrated to Maven 4 using the standard approach documented in the xref:../../README.adoc#maven-4-migration[central Maven 4 Migration guide].
+
+The source files follow the standard Module Source Hierarchy setup.
+The runtime execution in `m4/run.sh` was aligned with the original `run.sh` to execute both main classes sequentially, ensuring compatibility with the expected output.

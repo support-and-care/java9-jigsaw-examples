@@ -69,3 +69,46 @@ include::expected-result/run.txt[]
 ----
 include::run-result/run.txt[]
 ----
+
+==== Maven 4 Output
+
+[source]
+----
+include::m4/run-result/run.txt[]
+----
+
+[[sec:maven-4-migration]]
+== Maven 4 Migration
+
+This example required a special migration approach due to the presence of classpath code (unnamed module) that depends on explicit modules.
+
+=== Standard Migration
+
+The explicit modules (`modb`, `modc`) were migrated using the standard Module Source Hierarchy approach with direct paths to the original source directories.
+
+=== Special Handling: Classpath Code Dependent on Modules
+
+Problem::
+Maven 4's Module Source Hierarchy requires module descriptors (module-info.java) for all source entries.
+This example contains `cpmain`, which is classpath code (unnamed module) without module-info.java.
++
+Additionally, `cpmain` needs to access classes from `modb` during compilation, requiring the modules to be compiled first.
+
+Solution::
+Hybrid compilation approach in `m4/compile.sh`:
++
+. Maven compiles explicit modules (modb, modc) first
+. Package modules as JARs in mlib/
+. Manual javac compilation of cpmain with classpath pointing to mlib/*
++
+The compilation order is critical: modules must be compiled and packaged before cpmain.
++
+. Runtime uses 20 test variants with various `--illegal-access` and `--add-opens` flags to demonstrate JDK encapsulation behavior
+
+This hybrid approach is necessary because:
+
+* Maven 4's Module Source Hierarchy cannot compile code without module-info.java
+* Classpath code (unnamed module) must be compiled separately from explicit modules
+* Compilation order matters: cpmain depends on modb during compilation
+* The classpath/module-path split must be maintained at both compile-time and runtime
+* The example demonstrates illegal reflective access behavior with various JVM flags

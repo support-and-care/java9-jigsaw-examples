@@ -64,3 +64,64 @@ include::expected-result/run.txt[]
 ----
 include::run-result/run.txt[]
 ----
+
+==== Maven 4 Output
+
+[source]
+----
+include::m4/run-result/run.txt[]
+----
+
+[[sec:maven-4-migration]]
+== Maven 4 Migration
+
+This example required a special migration approach due to mixing explicit modules with automatic modules.
+
+=== Standard Migration
+
+The explicit modules (modbar, modcommon, modfoo, modmain) were migrated using the standard Module Source Hierarchy approach documented in the xref:../../README.adoc#maven-4-migration[central Maven 4 Migration guide].
+
+=== Special Handling: Automatic Modules
+
+This example demonstrates automatic modules (modauto1) which lack module descriptors.
+
+Problem::
+Maven 4's Module Source Hierarchy requires module descriptors (module-info.java) for all source entries.
+The `modauto1` module is an automatic module without module-info.java and cannot be included in the `<sources>` element.
+
+Solution::
+Hybrid compilation approach in `m4/compile.sh`:
++
+. Manual javac invocation compiles modauto1 to amlib1/modauto1.jar:
++
+[source,bash]
+----
+javac -d classes/modauto1 --release 11 $(find ../src/modauto1 -name "*.java")
+jar --create --file=amlib1/modauto1.jar -C classes/modauto1 .
+----
++
+. Maven compiles the explicit modules (modbar, modcommon, modfoo, modmain) with compiler arguments:
++
+[source,xml]
+----
+<compilerArgs>
+  <arg>--module-path</arg>
+  <arg>${project.basedir}/amlib1</arg>
+</compilerArgs>
+----
++
+. Runtime uses both paths:
++
+[source,bash]
+----
+java --module-path mlib${PATH_SEPARATOR}amlib1 \
+     --add-modules modbar,modfoo \
+     --module modmain/pkgmain.Main .
+----
+
+This hybrid approach is necessary because:
+
+* Maven 4's Module Source Hierarchy is designed for modular code only
+* Automatic modules must be compiled as non-modular JARs (without module-info.java)
+* The `--module-path` compiler argument allows explicit modules to find the automatic module
+* Separating amlib1/ from mlib/ maintains the automatic module/explicit module distinction

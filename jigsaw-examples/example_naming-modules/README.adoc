@@ -49,3 +49,54 @@ include::expected-result/run.txt[]
 ----
 include::run-result/run.txt[]
 ----
+
+==== Maven 4 Output
+
+[source]
+----
+include::m4/run-result/run.txt[]
+----
+
+[[sec:maven-4-migration]]
+== Maven 4 Migration
+
+This example required a special migration approach due to mixing explicit modules with automatic modules.
+
+=== Standard Migration
+
+The explicit modules (java.whatever, jdk.whatever, mod.client, mod_client, modjava, modmain) were migrated using the standard Module Source Hierarchy approach documented in the xref:../../README.adoc#maven-4-migration[central Maven 4 Migration guide].
+
+=== Special Handling: Automatic Modules
+
+This example demonstrates automatic module naming conventions by compiling non-modular JARs without module descriptors.
+
+Problem::
+Maven 4's Module Source Hierarchy requires module descriptors (module-info.java) for all source entries.
+The automatic modules (automatic-whatever, automatic-whateverX-47.11, automatic-whateverX48.12, automatic-whateverX49-13) intentionally lack module-info.java to demonstrate how module names are derived from JAR filenames.
+They cannot be included in the `<sources>` element.
+
+Solution::
+Hybrid compilation approach in `m4/compile.sh`:
++
+. Manual javac invocation compiles automatic modules to separate amlib1-4/ directories:
++
+[source,bash]
+----
+for dir in automatic-whatever automatic-whateverX-47.11 \
+           automatic-whateverX48.12 automatic-whateverX49-13
+do
+    javac -d classes/${dir} --release 11 $(find ../src/${dir} -name "*.java")
+    jar --create --file=amlib${counter}/${dir}.jar -C classes/${dir} .
+done
+----
++
+. Maven compiles the explicit modules using Module Source Hierarchy
++
+. Runtime tests each module independently from its respective directory
+
+This hybrid approach is necessary because:
+
+* Maven 4's Module Source Hierarchy is designed for modular code only
+* Automatic modules must be compiled as non-modular JARs (without module-info.java)
+* Each automatic module is placed in a separate amlib*/ directory to demonstrate distinct naming scenarios
+* The example intentionally includes invalid module names (automatic-whateverX48.12) to demonstrate module naming validation

@@ -188,6 +188,7 @@ Transformation-specific guides are stored in `.claude/transformations/` director
 
 - **Markdown to AsciiDoc Migration**: `.claude/transformations/markdown-to-asciidoc.md`
 - **Golden Master Testing**: `.claude/transformations/golden-master-testing.md` - Implementing automated regression testing for example outputs
+- **Maven 4 Migration**: `.claude/transformations/maven-4-migration.md` - Migrating examples to Maven 4 with hybrid compilation approach and symbolic linking strategy
 - Additional transformations will be documented as they are undertaken
 
 Each guide serves as a living document that:
@@ -515,13 +516,25 @@ The repository is organized as:
 ### Environment Setup
 
 Before running any examples, `jigsaw-examples/env.sh` must be configured with:
-- `JAVA_HOME`: Path to JDK 9+ (tested with JDK 9, 10, 11)
+
+**Required:**
+- `JAVA_HOME`: Path to JDK 9+ (tested with JDK 9, 10, 11; recommended: JDK 11.0.28)
+
+**Optional (example-specific):**
 - `JAVA8_HOME`: Only needed for `example_compile-target-jdk8`
-- `MAVEN_HOME`: Path to Maven 3.5.2+ (3.6.1 for JDK 11)
-- `GRADLE_HOME`: Path to Gradle 4.2.1+ (5.4.1 for JDK 11)
-- `GRAPHVIZ_HOME`: Path to GraphViz 2.38 for module visualization
+- `JAVA17_HOME`: Only needed for `example_gradle-project` (Gradle 9.x requires JDK 17+)
+- `M4_HOME`: Path to Maven 4 (required for `m4/` migration subdirectories)
+- `M3_HOME`: Path to Maven 3 (optional, for future `m3/` migration comparisons)
+- `GRAPHVIZ_HOME`: Path to GraphViz 2.38+ for module visualization
 - `DEPVIS_HOME`: Path to depvis tool (https://github.com/accso/java9-jigsaw-depvis)
-- `PATH_SEPARATOR`: Use `\;` on Windows (even in bash), `:` on Unix
+
+**Notes:**
+- `MAVEN_HOME` and `GRADLE_HOME` are no longer needed - all Maven and Gradle examples include wrappers (Maven Wrapper 3.9.11, Gradle Wrapper 9.1.0)
+- `ECLIPSE_HOME` is defined in `env.sh` for legacy compatibility but is not recommended for new work
+- `PATH_SEPARATOR` is automatically set based on platform (`;` on Windows, `:` on Unix)
+- SDKMAN users: Use `.sdkmanrc` for automatic JDK configuration
+- For Maven 4: Use `sdk install maven 4.0.0-beta-5` (or similar) and set `M4_HOME` to `$(sdk home maven 4.0.0-beta-5)`
+- `M4_HOME/bin` is added to PATH in `m4/` scripts (compile.sh, run.sh), not globally
 
 ### Top-level Commands (run from repository root)
 

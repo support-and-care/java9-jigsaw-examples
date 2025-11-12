@@ -2,50 +2,81 @@
 
 set -eu -o pipefail
 
+# Parse optional <type> parameter and other arguments
+type=""
+args=()
+examples_dirs=()
+
+# Parse arguments
+while [ "$#" -gt 0 ]; do
+    case "$1" in
+        --*)
+            # Flags starting with -- (e.g., --only)
+            args+=("$1")
+            shift
+            ;;
+        m4|m3|gradle-alt)
+            # Type parameter (e.g., "m4", "m3")
+            type="$1"
+            shift
+            ;;
+        example_*)
+            # Specific example names
+            examples_dirs+=("$1/")
+            shift
+            ;;
+        *)
+            echo "Unknown argument: $1"
+            exit 1
+            ;;
+    esac
+done
+
+# If no specific examples provided, use all examples
+if [ "${#examples_dirs[@]}" -eq 0 ]; then
+    examples_dirs=(example_*/)
+fi
+
 # Arrays to track results
 VERIFIED=()
 FAILED=()
 SKIPPED=()
 
 verify() {
-  local args=("$@")
+  local verify_args=("$@")
   MODDIR=${dir%*/}
-  pushd "${MODDIR}" > /dev/null 2>&1 || exit
+
+  if [ -n "${type}" ]; then
+    # Type-specific: example_xyz/m4/
+    VERIFY_DIR="${MODDIR}/${type}"
+  else
+    # Default: example_xyz/
+    VERIFY_DIR="${MODDIR}"
+  fi
+
+  if [ ! -d "${VERIFY_DIR}" ]; then
+    SKIPPED+=("${MODDIR}${type:+/$type}")
+    return
+  fi
+
+  pushd "${VERIFY_DIR}" > /dev/null 2>&1 || exit
   if [ -f ./verify.sh ]
   then
     echo "###################################################################################################################################"
-    echo "Verifying ${MODDIR}"
-    if ./verify.sh "${args[@]}"; then
-      VERIFIED+=("${MODDIR}")
+    echo "Verifying ${MODDIR}${type:+/$type}"
+    if ./verify.sh "${verify_args[@]}"; then
+      VERIFIED+=("${MODDIR}${type:+/$type}")
     else
-      FAILED+=("${MODDIR}")
+      FAILED+=("${MODDIR}${type:+/$type}")
     fi
     echo " "
   else
-    SKIPPED+=("${MODDIR}")
+    SKIPPED+=("${MODDIR}${type:+/$type}")
   fi
   popd >/dev/null 2>&1 || exit
 }
 
-# Collect all arguments starting with --
-args=()
-for arg in "$@"; do
-    if [[ "$arg" == --* ]]; then
-        args+=("$arg")
-        shift
-    fi
-done
-
-if [ "$#" -gt 0 ]; then
-    examples_dirs=()
-    for arg in "$@"; do
-        examples_dirs+=("${arg}/")
-    done
-else
-    examples_dirs=(example_*/)
-fi
-
-echo "Verifying examples: ${examples_dirs[*]}"
+echo "Verifying examples: ${examples_dirs[*]}${type:+ (type: $type)}"
 
 for dir in "${examples_dirs[@]}";
 do
