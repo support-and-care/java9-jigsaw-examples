@@ -14,4 +14,5 @@ mkdir -p run-result
 
 # Run the Java code, save output to run-result/run.txt, and display with highlighting
 # shellcheck disable=SC2086  # JAVA_OPTIONS is intentionally unquoted for word splitting
-"${JAVA_HOME}/bin/java" ${JAVA_OPTIONS} --module-path mlib --module modmain/pkgmain.Main 2>&1 | normalize | tee run-result/run.txt | myecho
+# JARs are now in target/ (created by maven-jar-plugin)
+"${JAVA_HOME}/bin/java" ${JAVA_OPTIONS} --module-path target --module modmain/pkgmain.Main 2>&1 | normalize | tee run-result/run.txt | myecho
