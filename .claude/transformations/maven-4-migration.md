@@ -85,13 +85,13 @@ example_foo/
 │   │   └── modb/
 │   │       └── main/
 │   │           └── java -> ../../../../src/modb  # Symlink to module source
-│   ├── mlib/                     # Module JARs (separate from ../mlib)
+│   ├── mlib/                     # Module JARs (Phase 1 only - not used in Phase 2)
 │   ├── run-result/               # Runtime output (for verification)
-│   ├── target/                   # Maven build output
-│   ├── .gitignore                # Ignore build artifacts (target/, mlib/, run-result/)
+│   ├── target/                   # Maven build output (Phase 2: also contains JARs)
+│   ├── .gitignore                # Ignore build artifacts (Phase 1: target/, mlib/, run-result/; Phase 2: target/, run-result/)
 │   ├── clean.sh                  # Clean m4 artifacts
-│   ├── compile.sh                # Maven compile + jar packaging
-│   ├── run.sh                    # Execution (uses m4/mlib)
+│   ├── compile.sh                # Phase 1: Maven compile + jar; Phase 2: Maven package
+│   ├── run.sh                    # Phase 1: uses mlib; Phase 2: uses target
 │   ├── verify.sh                 # Golden master verification
 │   └── javadoc.sh               # Maven javadoc wrapper (optional)
 ├── m3/                           # (Future) Maven 3 alternative approach
@@ -384,16 +384,106 @@ popd >/dev/null 2>&1
 - Creates JARs directly to `mlib/` (not `../mlib/`) for complete separation
 - Uses same JAR creation pattern as original compile.sh
 
-**Phase 2: Full Maven (Future)**
+**Phase 2: Maven JAR Plugin (Current Best Practice)**
 
-Once Maven plugins prove compatible with JPMS:
+Replace manual JAR creation with maven-jar-plugin for cleaner Maven integration:
 
 ```bash
 #!/usr/bin/env bash
 set -eu -o pipefail
 
-echo "=== Maven 4 Compile (Full Maven) ==="
+# shellcheck source=../../env.sh
+source ../../env.sh
+
+# Ensure we're using Maven 4
+if [ -z "${M4_HOME:-}" ]; then
+  echo "ERROR: M4_HOME is not set. Please configure it in .envrc or env.sh"
+  exit 1
+fi
+
+# Maven 4 requires Java 17+ to run
+if [ -n "${JAVA17_HOME:-}" ]; then
+  export JAVA_HOME="${JAVA17_HOME}"
+fi
+
+# Add Maven 4 to PATH
+export PATH="${M4_HOME}/bin:${PATH}"
+
+echo "mvn --version"
+mvn --version
 echo
+
+echo "mvn clean package"
+echo "(Maven runs with JDK 17, compiles for Java 11 via maven.compiler.release)"
+echo "(JARs are created by maven-jar-plugin in target/ directory)"
+mvn clean package
+```
+
+**Benefits**:
+- Eliminates manual JAR creation loop
+- JARs created directly in `target/` directory by Maven
+- Simpler script - just `mvn clean package`
+- No need for `mlib/` directory
+- Follows standard Maven conventions
+
+**POM Configuration**:
+
+Add maven-jar-plugin to create module-specific JARs:
+
+```xml
+<plugin>
+  <groupId>org.apache.maven.plugins</groupId>
+  <artifactId>maven-jar-plugin</artifactId>
+  <version>3.4.2</version>
+  <executions>
+    <!-- Skip default JAR creation -->
+    <execution>
+      <id>default-jar</id>
+      <phase>none</phase>
+    </execution>
+    <!-- Create module-specific JARs -->
+    <execution>
+      <id>modmain</id>
+      <phase>package</phase>
+      <goals>
+        <goal>jar</goal>
+      </goals>
+      <configuration>
+        <classesDirectory>${project.build.outputDirectory}/modmain</classesDirectory>
+        <classifier>modmain</classifier>
+      </configuration>
+    </execution>
+    <execution>
+      <id>modb</id>
+      <phase>package</phase>
+      <goals>
+        <goal>jar</goal>
+      </goals>
+      <configuration>
+        <classesDirectory>${project.build.outputDirectory}/modb</classesDirectory>
+        <classifier>modb</classifier>
+      </configuration>
+    </execution>
+    <!-- Add execution for each module in the example -->
+  </executions>
+</plugin>
+```
+
+**JAR Naming Convention**:
+- Pattern: `${artifactId}-${version}-${classifier}.jar`
+- Example: `example-requires-exports-m4-1.0-SNAPSHOT-modmain.jar`
+- Location: `target/` directory
+- Java's `--module-path target` automatically finds these JARs
+
+**Phase 3: Full Maven (Future)**
+
+Once all examples migrated to maven-jar-plugin, scripts could be further simplified:
+
+```bash
+#!/usr/bin/env bash
+set -eu -o pipefail
+
+echo "=== Maven 4 Build ==="
 mvn --version
 echo
 mvn clean package
@@ -403,6 +493,8 @@ echo "✅ Build complete"
 ### run.sh - Execution Wrapper
 
 Execute the example using artifacts from Maven build (stays close to original run.sh):
+
+**Phase 1: Using mlib/ directory (Hybrid Approach)**
 
 ```bash
 #!/usr/bin/env bash
@@ -424,9 +516,33 @@ mkdir -p run-result
 "${JAVA_HOME}/bin/java" ${JAVA_OPTIONS} --module-path mlib --module modmain/pkgmain.Main 2>&1 | normalize | tee run-result/run.txt | myecho
 ```
 
+**Phase 2: Using target/ directory (Maven JAR Plugin)**
+
+```bash
+#!/usr/bin/env bash
+set -eu -o pipefail
+
+# shellcheck source=../../env.sh
+source ../../env.sh
+
+# Show Java version for user information
+echo "Using Java version:"
+"${JAVA_HOME}/bin/java" -version
+echo
+
+# Create run-result directory if it doesn't exist
+mkdir -p run-result
+
+# Run the Java code, save output to run-result/run.txt, and display with highlighting
+# JARs are now in target/ (created by maven-jar-plugin)
+# shellcheck disable=SC2086  # JAVA_OPTIONS is intentionally unquoted for word splitting
+"${JAVA_HOME}/bin/java" ${JAVA_OPTIONS} --module-path target --module modmain/pkgmain.Main 2>&1 | normalize | tee run-result/run.txt | myecho
+```
+
 **Important**:
 - Copy structure from original `run.sh` to stay close to original
-- Use `mlib` (not `../mlib`) since artifacts are in m4/mlib
+- **Phase 1**: Use `mlib` (not `../mlib`) since artifacts are in m4/mlib
+- **Phase 2**: Use `target` since JARs are created directly in target/ by maven-jar-plugin
 - Preserve any special JVM flags from original (--add-exports, --add-reads, --add-modules, etc.)
 - No M4_HOME needed here - only Maven runtime uses it
 - Output to `run-result/run.txt` for golden master verification
@@ -504,6 +620,8 @@ fi
 
 Clean all m4 build artifacts:
 
+**Phase 1: Hybrid Approach (with mlib/)**
+
 ```bash
 #!/usr/bin/env bash
 rm -rf target
@@ -511,7 +629,17 @@ rm -rf mlib
 rm -rf run-result
 ```
 
-**Note**: Simple cleanup matching original pattern - removes Maven output, JARs, and runtime results
+**Phase 2: Maven JAR Plugin (no mlib/)**
+
+```bash
+#!/usr/bin/env bash
+rm -rf target
+rm -rf run-result
+```
+
+**Note**:
+- **Phase 1**: Removes Maven output (target/), manually created JARs (mlib/), and runtime results (run-result/)
+- **Phase 2**: Simpler - only removes Maven output (target/) and runtime results (run-result/), no mlib/ needed
 
 ### javadoc.sh - Documentation Wrapper (Optional)
 
@@ -564,11 +692,22 @@ echo "✅ Javadoc generated in target/site/apidocs"
    ```
 
 5. **Create .gitignore**:
+
+   **Phase 1: Hybrid Approach**
    ```bash
    # Create .gitignore to exclude build artifacts
    cat > .gitignore << 'EOF'
 target/
 mlib/
+run-result/
+EOF
+   ```
+
+   **Phase 2: Maven JAR Plugin**
+   ```bash
+   # Create .gitignore to exclude build artifacts (no mlib needed)
+   cat > .gitignore << 'EOF'
+target/
 run-result/
 EOF
    ```
@@ -579,32 +718,47 @@ EOF
    - Declare each module with matching `<module>` name and `<directory>` path
    - Add dependencies if needed
    - Configure compiler plugin for JPMS
+   - **Phase 2**: Add maven-jar-plugin configuration (see Phase 2 compile.sh section above)
    - Adjust release version per example requirements
    - Include test sources declaration if example has tests
 
-6. **Create compile.sh**:
+7. **Create compile.sh**:
+
+   **Phase 1: Hybrid Approach**
    - Follow hybrid approach (Maven compile + traditional jar)
    - Inspect original compile.sh for jar commands
    - Adapt paths to Maven's target/ structure
-   - Copy JARs to ../mlib for compatibility
+   - Create JARs in mlib/
 
-7. **Create run.sh**:
+   **Phase 2: Maven JAR Plugin** (Recommended)
+   - Use `mvn clean package` instead of `mvn clean compile`
+   - Remove manual JAR creation loop
+   - JARs created automatically in target/ by maven-jar-plugin
+
+8. **Create run.sh**:
+
+   **Phase 1: Using mlib/**
    - Copy module path configuration from original
-   - Adjust paths to use ../mlib (populated by compile.sh)
+   - Adjust paths to use `mlib` (populated by compile.sh)
    - Preserve any special JVM flags
 
-8. **Create verify.sh**:
+   **Phase 2: Using target/**
+   - Change `--module-path mlib` to `--module-path target`
+   - JARs automatically found in target/ directory
+   - Preserve any special JVM flags
+
+9. **Create verify.sh**:
    - Integrate with golden master framework
    - Reuse existing expected-result.txt
    - Follow verification script pattern above
 
-9. **Test Migration**:
+10. **Test Migration**:
    ```bash
    cd m4
    ./verify.sh
    ```
 
-10. **Update Example README**: Add both Maven 4 output section and Maven 4 Migration section to the example's README.adoc:
+11. **Update Example README**: Add both Maven 4 output section and Maven 4 Migration section to the example's README.adoc:
 
     a. Add the Maven 4 output section (if not already present):
     ```adoc
@@ -650,7 +804,78 @@ EOF
     This documents the migration completion and shows that Maven 4 produces equivalent output.
     For examples with special requirements, it provides valuable documentation for similar migrations.
 
-11. **Document Issues**: Note any JPMS/Maven plugin compatibility issues for future resolution
+12. **Document Issues**: Note any JPMS/Maven plugin compatibility issues for future resolution
+
+### Migrating from Phase 1 (Hybrid) to Phase 2 (Maven JAR Plugin)
+
+To migrate an existing Phase 1 example to Phase 2:
+
+1. **Update pom.xml**:
+   Add maven-jar-plugin configuration with one execution per module:
+   ```xml
+   <plugin>
+     <groupId>org.apache.maven.plugins</groupId>
+     <artifactId>maven-jar-plugin</artifactId>
+     <version>3.4.2</version>
+     <executions>
+       <execution>
+         <id>default-jar</id>
+         <phase>none</phase>
+       </execution>
+       <!-- Add execution for each module -->
+       <execution>
+         <id>modmain</id>
+         <phase>package</phase>
+         <goals><goal>jar</goal></goals>
+         <configuration>
+           <classesDirectory>${project.build.outputDirectory}/modmain</classesDirectory>
+           <classifier>modmain</classifier>
+         </configuration>
+       </execution>
+     </executions>
+   </plugin>
+   ```
+
+2. **Update compile.sh**:
+   Replace:
+   ```bash
+   mvn clean compile
+   # ... JAR creation loop ...
+   ```
+   With:
+   ```bash
+   mvn clean package
+   ```
+   Remove the `mkdir -p mlib` and the entire JAR creation loop.
+
+3. **Update run*.sh scripts**:
+   Change all occurrences of `--module-path mlib` to `--module-path target`
+
+4. **Update .gitignore**:
+   Remove the `mlib/` line
+
+5. **Update clean.sh**:
+   Remove the `rm -rf mlib` line
+
+6. **Update documentation**:
+   Check the example's README.adoc for any `mlib` references and update them:
+   ```bash
+   grep -n "mlib" ../README.adoc
+   ```
+   Replace `mlib` references with `target` where appropriate.
+   Note: Most examples reference `mlib` in their Maven 4 Migration sections if they document directory structure.
+
+7. **Test the migration**:
+   ```bash
+   ./clean.sh
+   ./verify.sh
+   ```
+
+8. **Verify JARs are in target/**:
+   ```bash
+   ls -la target/*.jar
+   ```
+   Should show files like `example-foo-m4-1.0-SNAPSHOT-modmain.jar`
 
 ### Example Selection Criteria
 
@@ -744,6 +969,17 @@ A migration is considered successful when:
 
 ## Reference Examples
 
-Once first examples are migrated, list them here as references:
+### Phase 2 Migrations (Maven JAR Plugin)
 
-- (TBD - will be populated as migrations complete)
+Examples fully migrated to maven-jar-plugin (no manual JAR creation):
+
+- **example_requires_exports** - 3 modules (modmain, modb, modc) - Standard multi-module example
+- **example_annotations** - 3 modules (mod.annotations, modb, modmain) - Demonstrates module with dot in name
+- **example_hiddenmain** - 1 module (modmain) - Single module example with multiple main classes
+
+### Phase 1 Migrations (Hybrid Approach)
+
+Examples using Maven compile + manual JAR creation (33 examples total):
+
+- See `git log` for full list of Phase 1 migrations
+- These examples are candidates for Phase 2 migration

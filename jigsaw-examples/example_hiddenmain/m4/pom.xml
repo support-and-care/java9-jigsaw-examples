@@ -28,6 +28,30 @@
         <artifactId>maven-compiler-plugin</artifactId>
         <version>4.0.0-beta-3</version>
       </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-jar-plugin</artifactId>
+        <version>3.4.2</version>
+        <executions>
+          <!-- Skip default JAR creation -->
+          <execution>
+            <id>default-jar</id>
+            <phase>none</phase>
+          </execution>
+          <!-- Create module-specific JAR -->
+          <execution>
+            <id>modmain</id>
+            <phase>package</phase>
+            <goals>
+              <goal>jar</goal>
+            </goals>
+            <configuration>
+              <classesDirectory>${project.build.outputDirectory}/modmain</classesDirectory>
+              <classifier>modmain</classifier>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
     </plugins>
   </build>
 </project>
