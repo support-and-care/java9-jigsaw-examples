@@ -121,7 +121,7 @@ Created `m4/apps_copyallexamples2appdir.sh` script.
 +
 * Copies Maven 4 versions of example applications from whitelisted examples
 * Builds M4 versions of dependencies if they don't exist yet
-* Sources from `../example_*/m4/mlib/` instead of `../example_*/mlib/`
+* Sources from `../example_*/m4/target/` (Phase 2: JARs created by maven-jar-plugin)
 * Creates `app.json` descriptors for each application
 
 Runtime Configuration::
