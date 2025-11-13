@@ -4,5 +4,8 @@
 /patches
 /patchlib
 
+# Module library (symlink on Unix, directory on Windows)
+/mlib
+
 # Run results
 /run-result
