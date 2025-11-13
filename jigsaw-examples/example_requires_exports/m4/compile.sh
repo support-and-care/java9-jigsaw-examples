@@ -26,5 +26,4 @@ echo
 
 echo "mvn clean package"
 echo "(Maven runs with JDK 17, compiles for Java 11 via maven.compiler.release)"
-echo "(JARs are created by maven-jar-plugin in target/ directory)"
 mvn clean package

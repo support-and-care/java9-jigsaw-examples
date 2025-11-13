@@ -116,20 +116,38 @@ The `<sources>` element expects one source location per module name.
 Solution::
 Hybrid compilation approach in `m4/compile.sh`:
 +
-. Maven compiles the primary modules including modcommon v1.0 via the standard Module Source Hierarchy
+. Maven compiles all primary modules (modbar, modcommon v1.0, modfoo, modmain, modversion1, modversion2) using Module Source Hierarchy
+** Maven creates JARs in `target/` using maven-jar-plugin with classifiers
+. The compile script copies layer-specific JARs to their respective directories for dynamic module loading:
++
+[source,bash]
+----
+# Copy foo layer modules (modfoo, modversion1) to foomlib/
+for mod in modfoo modversion1; do
+    cp "target/example_layer-modules-module-resolution-m4-1.0-${mod}.jar" "foomlib/${mod}.jar"
+done
+
+# Copy bar layer modules (modbar, modversion2) to barmlib/
+for mod in modbar modversion2; do
+    cp "target/example_layer-modules-module-resolution-m4-1.0-${mod}.jar" "barmlib/${mod}.jar"
+done
+----
++
 . Manual javac invocation compiles modcommon v2.0 from src2/:
 +
 [source,bash]
 ----
 javac -d mods2 --release 11 --module-version=2.0 \
-      --module-path mlib --module-source-path ../src2 \
+      --module-path target --module-source-path ../src2 \
       $(find ../src2/modcommon -name "*.java")
+
+jar --create --file=../barmlib/modcommon.jar -C modcommon .
 ----
 +
-. JAR placement follows the original structure:
-** mlib/ - boot layer modules (modcommon v1.0, modmain)
-** foomlib/ - foo layer modules (modfoo, modversion1)
-** barmlib/ - bar layer modules (modbar, modversion2, modcommon v2.0)
+. JAR placement for dynamic module loading:
+** target/ - Maven-built JARs (with classifiers)
+** foomlib/ - foo layer modules (modfoo, modversion1) copied from target/
+** barmlib/ - bar layer modules (modbar, modversion2) copied from target/, plus modcommon v2.0 compiled manually
 
 This hybrid approach is necessary because:
 

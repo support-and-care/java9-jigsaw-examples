@@ -20,30 +20,12 @@ fi
 # Add Maven 4 to PATH
 export PATH="${M4_HOME}/bin:${PATH}"
 
-mkdir -p mlib
 
 echo "mvn --version"
 mvn --version
 echo
 
-echo "mvn clean compile"
+echo "mvn clean package"
 echo "(Maven runs with JDK 17, targets Java 11 via maven.compiler.source/target)"
-mvn clean compile
+mvn clean package
 
-# Create JARs directly to mlib (similar to original compile.sh)
-pushd target/classes > /dev/null 2>&1
-for dir in */;
-do
-    MODDIR=${dir%*/}
-    # Check if there's a custom MANIFEST.MF file for this module (via source symlink structure)
-    if [ -f "../../src/${MODDIR}/main/java/META-INF/MANIFEST.MF" ]; then
-        echo "jar $JAR_OPTIONS --create --manifest=../../src/${MODDIR}/main/java/META-INF/MANIFEST.MF --file=../../mlib/${MODDIR}.jar -C ${MODDIR} ."
-        # shellcheck disable=SC2086  # JAR_OPTIONS is intentionally unquoted for word splitting
-        "${JAVA_HOME}/bin/jar" $JAR_OPTIONS --create --manifest="../../src/${MODDIR}/main/java/META-INF/MANIFEST.MF" --file="../../mlib/${MODDIR}.jar" -C "${MODDIR}" . 2>&1
-    else
-        echo "jar $JAR_OPTIONS --create --file=../../mlib/${MODDIR}.jar -C ${MODDIR} ."
-        # shellcheck disable=SC2086  # JAR_OPTIONS is intentionally unquoted for word splitting
-        "${JAVA_HOME}/bin/jar" $JAR_OPTIONS --create --file="../../mlib/${MODDIR}.jar" -C "${MODDIR}" . 2>&1
-    fi
-done
-popd >/dev/null 2>&1
