@@ -24,6 +24,17 @@ echo
 # Create run-result directory if it doesn't exist
 mkdir -p run-result
 
+# Ensure mlib → target symlink exists and is valid
+# (Java code uses ModuleLayer API to load modules from mlib/)
+if [ -L mlib ] && [ ! -e mlib ]; then
+  # Broken symlink, remove it
+  rm mlib
+fi
+if [ ! -e mlib ]; then
+  # Create symlink (target/ should exist from compile.sh)
+  ln -s target mlib
+fi
+
 # Run the Java code with mlib on module-path
 # Note: Automatic modules are not needed at runtime for this example
 # shellcheck disable=SC2086  # JAVA_OPTIONS is intentionally unquoted for word splitting

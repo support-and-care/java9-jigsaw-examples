@@ -21,17 +21,8 @@ export PATH="${M4_HOME}/bin:${PATH}"
 mkdir -p patches
 mkdir -p patchlib
 
-# Ensure mlib → target symlink exists and is valid
-# (Committed symlink works on Unix, but Windows needs it recreated after target/ exists)
-mkdir -p target
-if [ -L mlib ] && [ ! -e mlib ]; then
-  # Broken symlink (target doesn't exist yet), remove it
-  rm mlib
-fi
-if [ ! -e mlib ]; then
-  # Create symlink (or recreate if it was broken)
-  ln -s target mlib
-fi
+# Note: mlib → target symlink is committed to Git
+# It will be validated/recreated in run.sh after Maven compilation completes
 
 echo "=== Step 1: Compile modules modmain and modb with Maven 4 ===="
 echo

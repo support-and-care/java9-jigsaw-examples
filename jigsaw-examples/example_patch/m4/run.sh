@@ -9,6 +9,17 @@ result_dir="${1:-run-result}"
 rm -rf "${result_dir}"
 mkdir -p "${result_dir}"
 
+# Ensure mlib → target symlink exists and is valid
+# (Needed for --module-path mlib after Maven compilation)
+if [ -L mlib ] && [ ! -e mlib ]; then
+  # Broken symlink, remove it
+  rm mlib
+fi
+if [ ! -e mlib ]; then
+  # Create symlink (target/ should exist from compile.sh)
+  ln -s target mlib
+fi
+
 # Show Java version for user information
 echo "Using Java version:"
 "${JAVA_HOME}/bin/java" -version
