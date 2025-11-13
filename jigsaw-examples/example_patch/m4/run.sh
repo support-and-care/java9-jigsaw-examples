@@ -9,15 +9,20 @@ result_dir="${1:-run-result}"
 rm -rf "${result_dir}"
 mkdir -p "${result_dir}"
 
-# Ensure mlib → target symlink exists and is valid
-# (Needed for --module-path mlib after Maven compilation)
-if [ -L mlib ] && [ ! -e mlib ]; then
-  # Broken symlink, remove it
-  rm mlib
-fi
-if [ ! -e mlib ]; then
-  # Create symlink (target/ should exist from compile.sh)
-  ln -s target mlib
+# Setup mlib for module-path access
+# Windows: Copy JARs to mlib/ directory (symlinks cause AccessDeniedException)
+# Unix: Use symlink to target/
+if [ "${OS:-$(uname)}" = "Windows_NT" ]; then
+  # Windows: Ensure mlib is a directory, copy JARs
+  echo "We are on Windows, copying JARs to mlib/"
+  rm -rf mlib
+  mkdir -p mlib
+  cp -p target/*.jar mlib/
+  ls -l mlib/
+else
+  # Unix: Ensure mlib is a symlink to target
+  echo "We are on Unix, using JARs from mlib/ as symlink"
+  test -h mlib || ln -sfn target mlib
 fi
 
 # Show Java version for user information

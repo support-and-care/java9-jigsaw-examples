@@ -1,7 +1,8 @@
 # Maven build output
 target/
 
-# Module JARs
+# Module library (symlink on Unix, directory on Windows)
+mlib/
 
 # Automatic module library (copied by maven-dependency-plugin)
 amlib/

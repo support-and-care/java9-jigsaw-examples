@@ -146,8 +146,11 @@ jar --create --file=../barmlib/modcommon.jar -C modcommon .
 +
 . JAR placement for dynamic module loading:
 ** target/ - Maven-built JARs (with classifiers)
+** mlib/ - Boot layer modules (OS-specific: Unix uses symlink to target/, Windows uses directory with copied JARs)
 ** foomlib/ - foo layer modules (modfoo, modversion1) copied from target/
 ** barmlib/ - bar layer modules (modbar, modversion2) copied from target/, plus modcommon v2.0 compiled manually
++
+The `run.sh` script creates `mlib` using OS-specific approaches to avoid `AccessDeniedException` when Java's `ModuleLayer` API traverses symlinks on Windows.
 
 This hybrid approach is necessary because:
 

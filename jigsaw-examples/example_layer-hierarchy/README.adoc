@@ -221,7 +221,7 @@ The automatic module `javax.json` is downloaded via `maven-dependency-plugin` to
 </plugin>
 ----
 
-*Dynamic module loading symlink:*
+*Dynamic module loading via mlib:*
 
 The Java code in `mod.main/pkgmain/Main.java` uses the `ModuleLayer` API to dynamically load modules at runtime from a hardcoded path:
 
@@ -230,24 +230,18 @@ The Java code in `mod.main/pkgmain/Main.java` uses the `ModuleLayer` API to dyna
 layerBuilder.createJigsawLayers(LayerHierarchy.root, LayerHierarchy.root.getLayer(), path + "/mlib");
 ----
 
-Since Maven (4) creates JARs in the `target/` directory (not `mlib/`), but the shared source code still references `mlib`, the migration uses a committed symbolic link:
+Since Maven (4) creates JARs in the `target/` directory (not `mlib/`), but the shared source code still references `mlib`, the `run.sh` script creates `mlib` using OS-specific approaches:
 
-[source,bash]
-----
-m4/mlib -> target
-----
+Unix/macOS:: Creates symlink `mlib → target` (using `ln -sfn`)
+Windows:: Creates directory `mlib/` and copies JARs from `target/`
 
-This symlink:
-
-* Redirects the hardcoded `mlib` path to `target/` at runtime
-* Avoids modifying shared source code that is also used by the original (non-Maven) version
-* Is committed to Git (like the source symlinks)
-* Points to `target/` which Maven 4 populates with classifier-based JARs
+The Windows approach avoids `AccessDeniedException` issues when Java's `ModuleLayer` API traverses symlinks.
 
 [NOTE]
 ====
-Both source symlinks (`m4/src/*/main/java → ../../../../src/*`) and the runtime symlink (`m4/mlib → target`) are committed to Git.
-This allows the M4 migration to work seamlessly after checkout without manual symlink creation.
+A committed symlink `m4/mlib → target` exists in Git for convenience on Unix systems.
+On Windows, this symlink is replaced with a directory and copied JARs at runtime by `run.sh`.
+Both approaches redirect the hardcoded `mlib` path to Maven-built JARs without modifying shared source code.
 ====
 
 ==== Running the Maven 4 Version
