@@ -19,8 +19,16 @@ export PATH="${M4_HOME}/bin:${PATH}"
 
 mkdir -p target/classes
 
-# Note: mlib → target symlink is committed to Git for dynamic module loading
-# (Java code uses path + "/mlib" to load modules at runtime)
+# Ensure mlib → target symlink exists and is valid
+# (Committed symlink works on Unix, but Windows needs it recreated after target/ exists)
+if [ -L mlib ] && [ ! -e mlib ]; then
+  # Broken symlink (target doesn't exist yet), remove it
+  rm mlib
+fi
+if [ ! -e mlib ]; then
+  # Create symlink (or recreate if it was broken)
+  ln -s target mlib
+fi
 
 # Step 1: Use Maven to download dependencies to amlib
 echo "=== Step 1: Download dependencies with Maven ==="

@@ -23,6 +23,18 @@ export PATH="${M4_HOME}/bin:${PATH}"
 mkdir -p foomlib
 mkdir -p barmlib
 
+# Ensure mlib → target symlink exists and is valid
+# (Committed symlink works on Unix, but Windows needs it recreated after target/ exists)
+mkdir -p target
+if [ -L mlib ] && [ ! -e mlib ]; then
+  # Broken symlink (target doesn't exist yet), remove it
+  rm mlib
+fi
+if [ ! -e mlib ]; then
+  # Create symlink (or recreate if it was broken)
+  ln -s target mlib
+fi
+
 echo "mvn --version"
 mvn --version
 echo

@@ -30,8 +30,17 @@ mkdir -p amlib1
 mkdir -p amlib2
 mkdir -p classes
 
-# Note: mlib → target symlink is committed to Git for dynamic module loading
-# (Java code uses path + "/mlib" to load modules at runtime)
+# Ensure mlib → target symlink exists and is valid
+# (Committed symlink works on Unix, but Windows needs it recreated after target/ exists)
+mkdir -p target
+if [ -L mlib ] && [ ! -e mlib ]; then
+  # Broken symlink (target doesn't exist yet), remove it
+  rm mlib
+fi
+if [ ! -e mlib ]; then
+  # Create symlink (or recreate if it was broken)
+  ln -s target mlib
+fi
 
 echo "=== Hybrid Compilation for Maven 4 ==="
 echo
