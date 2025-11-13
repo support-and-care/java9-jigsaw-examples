@@ -16,7 +16,7 @@ echo "Using Java version:"
 echo
 
 # Iterate through all JAR directories (modular and automatic modules)
-for dir in mlib amlib1 amlib2 amlib3 amlib4
+for dir in target amlib1 amlib2 amlib3 amlib4
 do
     pushd "${dir}" > /dev/null 2>&1
     # shellcheck disable=SC2012,SC2035  # JAR filenames are controlled, safe to use ls with glob
@@ -25,7 +25,14 @@ do
         echo "JAR-file: ${JAR} in ${dir}"
 
         # get name of JAR-file
-        MOD="$(basename "${JAR}" | sed s/'.jar'//g | sed s/'-'/'.'/g | cut -d '.' -f 1-2)"
+        # For target/ JARs (Phase 2): extract classifier after last hyphen before .jar
+        # For amlib JARs: use the whole basename
+        if [[ "${dir}" == "target" ]]; then
+            # Extract classifier from pattern: artifactId-version-classifier.jar
+            MOD="$(basename "${JAR}" .jar | sed 's/.*-\([^-]*\)$/\1/')"
+        else
+            MOD="$(basename "${JAR}" | sed s/'.jar'//g | sed s/'-'/'.'/g | cut -d '.' -f 1-2)"
+        fi
 
         echo "java --module-path . --module ${MOD}/pkgmain.Main"
         if ! "${JAVA_HOME}/bin/java" --module-path . --module "${MOD}/pkgmain.Main" 2>&1 | normalize | tee -a "../${result_dir}/run.txt" | myecho; then

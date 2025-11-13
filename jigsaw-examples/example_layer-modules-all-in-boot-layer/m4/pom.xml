@@ -47,6 +47,63 @@
           </compilerArgs>
         </configuration>
       </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-jar-plugin</artifactId>
+        <version>3.4.2</version>
+        <executions>
+          <!-- Skip default JAR creation -->
+          <execution>
+            <id>default-jar</id>
+            <phase>none</phase>
+          </execution>
+          <!-- Create module-specific JARs -->
+          <execution>
+            <id>modbar</id>
+            <phase>package</phase>
+            <goals>
+              <goal>jar</goal>
+            </goals>
+            <configuration>
+              <classesDirectory>${project.build.outputDirectory}/modbar</classesDirectory>
+              <classifier>modbar</classifier>
+            </configuration>
+          </execution>
+          <execution>
+            <id>modcommon</id>
+            <phase>package</phase>
+            <goals>
+              <goal>jar</goal>
+            </goals>
+            <configuration>
+              <classesDirectory>${project.build.outputDirectory}/modcommon</classesDirectory>
+              <classifier>modcommon</classifier>
+            </configuration>
+          </execution>
+          <execution>
+            <id>modfoo</id>
+            <phase>package</phase>
+            <goals>
+              <goal>jar</goal>
+            </goals>
+            <configuration>
+              <classesDirectory>${project.build.outputDirectory}/modfoo</classesDirectory>
+              <classifier>modfoo</classifier>
+            </configuration>
+          </execution>
+          <execution>
+            <id>modmain</id>
+            <phase>package</phase>
+            <goals>
+              <goal>jar</goal>
+            </goals>
+            <configuration>
+              <classesDirectory>${project.build.outputDirectory}/modmain</classesDirectory>
+              <classifier>modmain</classifier>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
     </plugins>
   </build>
 </project>

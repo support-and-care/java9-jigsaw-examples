@@ -40,6 +40,63 @@
         <artifactId>maven-compiler-plugin</artifactId>
         <version>4.0.0-beta-3</version>
       </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-jar-plugin</artifactId>
+        <version>3.4.2</version>
+        <executions>
+          <!-- Skip default JAR creation -->
+          <execution>
+            <id>default-jar</id>
+            <phase>none</phase>
+          </execution>
+          <!-- Create module-specific JARs -->
+          <execution>
+            <id>modmain</id>
+            <phase>package</phase>
+            <goals>
+              <goal>jar</goal>
+            </goals>
+            <configuration>
+              <classesDirectory>${project.build.outputDirectory}/modmain</classesDirectory>
+              <classifier>modmain</classifier>
+            </configuration>
+          </execution>
+          <execution>
+            <id>modservice.impl.com</id>
+            <phase>package</phase>
+            <goals>
+              <goal>jar</goal>
+            </goals>
+            <configuration>
+              <classesDirectory>${project.build.outputDirectory}/modservice.impl.com</classesDirectory>
+              <classifier>modservice.impl.com</classifier>
+            </configuration>
+          </execution>
+          <execution>
+            <id>modservice.impl.net</id>
+            <phase>package</phase>
+            <goals>
+              <goal>jar</goal>
+            </goals>
+            <configuration>
+              <classesDirectory>${project.build.outputDirectory}/modservice.impl.net</classesDirectory>
+              <classifier>modservice.impl.net</classifier>
+            </configuration>
+          </execution>
+          <execution>
+            <id>modservicedefinition</id>
+            <phase>package</phase>
+            <goals>
+              <goal>jar</goal>
+            </goals>
+            <configuration>
+              <classesDirectory>${project.build.outputDirectory}/modservicedefinition</classesDirectory>
+              <classifier>modservicedefinition</classifier>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
     </plugins>
   </build>
 </project>

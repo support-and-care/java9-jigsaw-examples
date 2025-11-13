@@ -14,7 +14,7 @@ mkdir -p run-result
 
 # Run the Java code, save output to run-result/run.txt, and display with highlighting
 # shellcheck disable=SC2086  # JAVA_OPTIONS is intentionally unquoted for word splitting
-"${JAVA_HOME}/bin/java" ${JAVA_OPTIONS} --module-path mlib  \
+"${JAVA_HOME}/bin/java" ${JAVA_OPTIONS} --module-path target  \
      --add-modules modb,modc            \
      --add-reads   modmain=modb         \
      --add-reads   modb=modc            \

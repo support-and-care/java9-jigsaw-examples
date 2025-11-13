@@ -48,6 +48,85 @@
         <artifactId>maven-compiler-plugin</artifactId>
         <version>4.0.0-beta-3</version>
       </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-jar-plugin</artifactId>
+        <version>3.4.2</version>
+        <executions>
+          <!-- Skip default JAR creation -->
+          <execution>
+            <id>default-jar</id>
+            <phase>none</phase>
+          </execution>
+          <!-- Create module-specific JARs -->
+          <execution>
+            <id>moda</id>
+            <phase>package</phase>
+            <goals>
+              <goal>jar</goal>
+            </goals>
+            <configuration>
+              <classesDirectory>${project.build.outputDirectory}/moda</classesDirectory>
+              <classifier>moda</classifier>
+            </configuration>
+          </execution>
+          <execution>
+            <id>modb</id>
+            <phase>package</phase>
+            <goals>
+              <goal>jar</goal>
+            </goals>
+            <configuration>
+              <classesDirectory>${project.build.outputDirectory}/modb</classesDirectory>
+              <classifier>modb</classifier>
+            </configuration>
+          </execution>
+          <execution>
+            <id>modc</id>
+            <phase>package</phase>
+            <goals>
+              <goal>jar</goal>
+            </goals>
+            <configuration>
+              <classesDirectory>${project.build.outputDirectory}/modc</classesDirectory>
+              <classifier>modc</classifier>
+            </configuration>
+          </execution>
+          <execution>
+            <id>modfacade</id>
+            <phase>package</phase>
+            <goals>
+              <goal>jar</goal>
+            </goals>
+            <configuration>
+              <classesDirectory>${project.build.outputDirectory}/modfacade</classesDirectory>
+              <classifier>modfacade</classifier>
+            </configuration>
+          </execution>
+          <execution>
+            <id>modmain</id>
+            <phase>package</phase>
+            <goals>
+              <goal>jar</goal>
+            </goals>
+            <configuration>
+              <classesDirectory>${project.build.outputDirectory}/modmain</classesDirectory>
+              <classifier>modmain</classifier>
+            </configuration>
+          </execution>
+          <execution>
+            <id>modmainbehindfacade</id>
+            <phase>package</phase>
+            <goals>
+              <goal>jar</goal>
+            </goals>
+            <configuration>
+              <classesDirectory>${project.build.outputDirectory}/modmainbehindfacade</classesDirectory>
+              <classifier>modmainbehindfacade</classifier>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
     </plugins>
   </build>
 </project>

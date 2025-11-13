@@ -20,7 +20,6 @@ fi
 # Add Maven 4 to PATH
 export PATH="${M4_HOME}/bin:${PATH}"
 
-mkdir -p mlib
 mkdir -p foomlib
 mkdir -p barmlib
 
@@ -28,44 +27,25 @@ echo "mvn --version"
 mvn --version
 echo
 
-echo "mvn clean compile"
+echo "mvn clean package"
 echo "(Maven runs with JDK 17, compiles for Java 11 via maven.compiler.release)"
-mvn clean compile
+mvn clean package
 
-# Create JARs in appropriate directories (matching original compile.sh structure)
-pushd target/classes > /dev/null 2>&1
+# Copy Maven-built JARs to layer-specific directories for dynamic module loading
+echo
+echo "Copying JARs to layer-specific directories..."
 
-# Boot layer modules go to mlib
-for mod in modcommon modmain;
-do
-    if [ -d "${mod}" ]; then
-        echo "jar $JAR_OPTIONS --create --file=../../mlib/${mod}.jar -C ${mod} ."
-        # shellcheck disable=SC2086  # JAR_OPTIONS is intentionally unquoted for word splitting
-        "${JAVA_HOME}/bin/jar" $JAR_OPTIONS --create --file="../../mlib/${mod}.jar" -C "${mod}" . 2>&1
-    fi
+# Copy foo layer modules (modfoo, modversion1) to foomlib/
+for mod in modfoo modversion1; do
+    echo "cp target/example_layer-modules-module-resolution-m4-1.0-${mod}.jar foomlib/${mod}.jar"
+    cp "target/example_layer-modules-module-resolution-m4-1.0-${mod}.jar" "foomlib/${mod}.jar"
 done
 
-# Foo layer modules go to foomlib
-for mod in modversion1 modfoo;
-do
-    if [ -d "${mod}" ]; then
-        echo "jar $JAR_OPTIONS --create --file=../../foomlib/${mod}.jar -C ${mod} ."
-        # shellcheck disable=SC2086  # JAR_OPTIONS is intentionally unquoted for word splitting
-        "${JAVA_HOME}/bin/jar" $JAR_OPTIONS --create --file="../../foomlib/${mod}.jar" -C "${mod}" . 2>&1
-    fi
+# Copy bar layer modules (modbar, modversion2) to barmlib/
+for mod in modbar modversion2; do
+    echo "cp target/example_layer-modules-module-resolution-m4-1.0-${mod}.jar barmlib/${mod}.jar"
+    cp "target/example_layer-modules-module-resolution-m4-1.0-${mod}.jar" "barmlib/${mod}.jar"
 done
-
-# Bar layer modules go to barmlib
-for mod in modversion2 modbar;
-do
-    if [ -d "${mod}" ]; then
-        echo "jar $JAR_OPTIONS --create --file=../../barmlib/${mod}.jar -C ${mod} ."
-        # shellcheck disable=SC2086  # JAR_OPTIONS is intentionally unquoted for word splitting
-        "${JAVA_HOME}/bin/jar" $JAR_OPTIONS --create --file="../../barmlib/${mod}.jar" -C "${mod}" . 2>&1
-    fi
-done
-
-popd >/dev/null 2>&1
 
 # Compile second version of modcommon from src2 (version 2.0)
 # Maven doesn't support multiple versions of the same module, so we compile manually
@@ -79,9 +59,9 @@ if [ -n "${JAVA11_HOME:-}" ]; then
   COMPILE_JAVA_HOME="${JAVA11_HOME}"
 fi
 
-echo "javac ${JAVAC_OPTIONS} -d mods2 --release 11 --module-version=2.0 --module-path mlib --module-source-path ../src2 \$(find ../src2/modcommon -name \"*.java\")"
+echo "javac ${JAVAC_OPTIONS} -d mods2 --release 11 --module-version=2.0 --module-path target --module-source-path ../src2 \$(find ../src2/modcommon -name \"*.java\")"
 # shellcheck disable=SC2046,SC2086  # JAVAC_OPTIONS is intentionally unquoted for word splitting, the find command is intended to be expanded
-"${COMPILE_JAVA_HOME}/bin/javac" ${JAVAC_OPTIONS} -d mods2 --release 11 --module-version=2.0 --module-path mlib --module-source-path ../src2 $(find ../src2/modcommon -name "*.java") 2>&1
+"${COMPILE_JAVA_HOME}/bin/javac" ${JAVAC_OPTIONS} -d mods2 --release 11 --module-version=2.0 --module-path target --module-source-path ../src2 $(find ../src2/modcommon -name "*.java") 2>&1
 
 # Package new modcommon v2.0 as jar in barmlib (overwrites v1.0)
 pushd mods2 > /dev/null 2>&1

@@ -7,7 +7,7 @@
 
   <groupId>com.example.jigsaw</groupId>
   <artifactId>example_naming-modules-m4</artifactId>
-  <version>1.0-SNAPSHOT</version>
+  <version>0.1</version>
 
   <properties>
     <maven.compiler.release>11</maven.compiler.release>
@@ -50,6 +50,85 @@
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
         <version>4.0.0-beta-3</version>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-jar-plugin</artifactId>
+        <version>3.4.2</version>
+        <executions>
+          <!-- Skip default JAR creation -->
+          <execution>
+            <id>default-jar</id>
+            <phase>none</phase>
+          </execution>
+          <!-- Create module-specific JARs -->
+          <execution>
+            <id>java.whatever</id>
+            <phase>package</phase>
+            <goals>
+              <goal>jar</goal>
+            </goals>
+            <configuration>
+              <classesDirectory>${project.build.outputDirectory}/java.whatever</classesDirectory>
+              <classifier>java.whatever</classifier>
+            </configuration>
+          </execution>
+          <execution>
+            <id>jdk.whatever</id>
+            <phase>package</phase>
+            <goals>
+              <goal>jar</goal>
+            </goals>
+            <configuration>
+              <classesDirectory>${project.build.outputDirectory}/jdk.whatever</classesDirectory>
+              <classifier>jdk.whatever</classifier>
+            </configuration>
+          </execution>
+          <execution>
+            <id>mod.client</id>
+            <phase>package</phase>
+            <goals>
+              <goal>jar</goal>
+            </goals>
+            <configuration>
+              <classesDirectory>${project.build.outputDirectory}/mod.client</classesDirectory>
+              <classifier>mod.client</classifier>
+            </configuration>
+          </execution>
+          <execution>
+            <id>mod_client</id>
+            <phase>package</phase>
+            <goals>
+              <goal>jar</goal>
+            </goals>
+            <configuration>
+              <classesDirectory>${project.build.outputDirectory}/mod_client</classesDirectory>
+              <classifier>mod_client</classifier>
+            </configuration>
+          </execution>
+          <execution>
+            <id>modjava</id>
+            <phase>package</phase>
+            <goals>
+              <goal>jar</goal>
+            </goals>
+            <configuration>
+              <classesDirectory>${project.build.outputDirectory}/modjava</classesDirectory>
+              <classifier>modjava</classifier>
+            </configuration>
+          </execution>
+          <execution>
+            <id>modmain</id>
+            <phase>package</phase>
+            <goals>
+              <goal>jar</goal>
+            </goals>
+            <configuration>
+              <classesDirectory>${project.build.outputDirectory}/modmain</classesDirectory>
+              <classifier>modmain</classifier>
+            </configuration>
+          </execution>
+        </executions>
       </plugin>
     </plugins>
   </build>

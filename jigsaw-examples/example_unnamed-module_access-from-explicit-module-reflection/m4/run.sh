@@ -15,7 +15,7 @@ mkdir -p run-result
 # Run the Java code with modules on module-path and classpath code on classpath
 # shellcheck disable=SC2086  # JAVA_OPTIONS is intentionally unquoted for word splitting
 "${JAVA_HOME}/bin/java" ${JAVA_OPTIONS} \
-    --module-path mlib \
+    --module-path target \
     --class-path cplib/cpb.jar \
     --module modmain/pkgmain.Main \
     2>&1 | normalize | tee run-result/run.txt | myecho
