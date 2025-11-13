@@ -13,6 +13,17 @@ fi
 # Create run-result directory if it doesn't exist
 mkdir -p run-result
 
+# Ensure mlib → target symlink exists and is valid
+# (Java code uses ModuleLayer API to load modules from path + "/mlib")
+if [ -L mlib ] && [ ! -e mlib ]; then
+  # Broken symlink, remove it
+  rm mlib
+fi
+if [ ! -e mlib ]; then
+  # Create symlink (target/ should exist from compile.sh)
+  ln -s target mlib
+fi
+
 echo "Using Java version:"
 "${JAVA11_HOME}/bin/java" -version
 echo
