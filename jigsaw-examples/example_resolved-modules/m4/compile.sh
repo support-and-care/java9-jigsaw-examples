@@ -26,17 +26,16 @@ echo "mvn --version"
 mvn --version
 echo
 
-echo "mvn clean compile"
+echo "mvn clean package"
 echo "(Maven runs with JDK 17, compiles for Java 11 via maven.compiler.release)"
-mvn clean compile
+mvn clean package
 
-# Create JARs directly to mlib (similar to original compile.sh)
-pushd target/classes > /dev/null 2>&1
-for dir in */;
-do
-    MODDIR=${dir%*/}
-    echo "jar $JAR_OPTIONS --create --file=../../mlib/${MODDIR}.jar -C ${MODDIR} ."
-    # shellcheck disable=SC2086  # JAR_OPTIONS is intentionally unquoted for word splitting
-    "${JAVA_HOME}/bin/jar" $JAR_OPTIONS --create --file="../../mlib/${MODDIR}.jar" -C "${MODDIR}" . 2>&1
+# Copy JARs to mlib with simple names for jlink
+# (jlink outputs the JAR filename in its output, and we need simple names)
+echo
+echo "Copying JARs to mlib with simple names..."
+for mod in moda modb modc; do
+    echo "cp target/example_resolved-modules-m4-1.0-SNAPSHOT-${mod}.jar mlib/${mod}.jar"
+    cp "target/example_resolved-modules-m4-1.0-SNAPSHOT-${mod}.jar" "mlib/${mod}.jar"
 done
-popd >/dev/null 2>&1
+

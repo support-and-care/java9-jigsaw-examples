@@ -127,8 +127,38 @@ m4/src/modb/main/java -> ../../../../src/modb
 m4/src/modb-patch/main/java -> ../../../../src/modb-patch
 ----
 +
-These symbolic links are checked into Git and do not need to be created dynamically.
+These source symlinks point to the original shared source directories and are checked into Git.
+
+Module-path symlink for JAR naming::
 +
+Maven (4) uses maven-jar-plugin with classifiers, creating JARs with names like:
++
+[source]
+----
+target/example_patch-m4-1.0-SNAPSHOT-modmain.jar
+target/example_patch-m4-1.0-SNAPSHOT-modb.jar
+----
++
+However, Java's `--module-path` works best with simple JAR names or explicit paths. To maintain compatibility with the module-path, the migration uses a committed symlink:
++
+[source,bash]
+----
+m4/mlib -> target
+----
++
+This symlink:
++
+* Allows `--module-path mlib` to resolve to the actual JARs in `target/`
+* Maintains consistency with the original example structure
+* Is committed to Git (like the source symlinks)
+* Enables running the example from IDE without executing `compile.sh`
+
+[NOTE]
+====
+Both source symlinks (`m4/src/modmain/main/java` → `../../../../src/modmain`) and the runtime symlink (`m4/mlib → target`) are committed to Git.
+This unified symlink handling allows the M4 migration to work seamlessly after checkout without manual symlink creation.
+====
+
 [NOTE]
 ====
 The patch compilation uses `--patch-module modb=src/modb-patch/main/java`, pointing directly to the symlinked patch sources.
@@ -138,8 +168,9 @@ Dependencies from the original `modb` module (like the `Helper` class) are resol
 
 Build artifacts::
 +
+* `target/` - Maven-built JARs with classifiers (example_patch-m4-1.0-SNAPSHOT-modmain.jar, etc.)
 * `target/classes/` - Maven-compiled module classes
-* `mlib/` - Module JARs (modmain.jar, modb.jar)
+* `mlib/` - Symlink to `target/` for module-path compatibility
 * `patches/modb/` - Exploded patch classes
 * `patchlib/modb.jar` - Patch JAR
 

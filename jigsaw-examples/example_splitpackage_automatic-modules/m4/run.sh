@@ -31,6 +31,6 @@ echo
 # we do not see an error, all is fine
 # shellcheck disable=SC2086  # JAVA_OPTIONS is intentionally unquoted for word splitting
 "${JAVA_HOME}/bin/java" ${JAVA_OPTIONS} \
-    --module-path mlib"${PATH_SEPARATOR}"amlib1 \
+    --module-path target"${PATH_SEPARATOR}"amlib1 \
     --module modmain/pkgmain.Main . \
     2>&1 | normalize | tee run-result/run.txt | myecho

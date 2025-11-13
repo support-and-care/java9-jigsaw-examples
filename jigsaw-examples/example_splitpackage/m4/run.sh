@@ -22,11 +22,11 @@ mkdir -p run-result
 
   # Bar modules: Demonstrate runtime split package problem
   # shellcheck disable=SC2086  # JAVA_OPTIONS is intentionally unquoted for word splitting
-  "${JAVA_HOME}/bin/java" ${JAVA_OPTIONS} --module-path mlib --module modmainbar/pkgmainbar.Main 2>&1
+  "${JAVA_HOME}/bin/java" ${JAVA_OPTIONS} --module-path target --module modmainbar/pkgmainbar.Main 2>&1
 
   # This should fail with LayerInstantiationException because both modules have package pkgbar
   # shellcheck disable=SC2086  # JAVA_OPTIONS is intentionally unquoted for word splitting
-  if "${JAVA_HOME}/bin/java" ${JAVA_OPTIONS} --module-path mlib --add-modules modsplitbar2 --module modmainbar/pkgmainbar.Main 2>&1; then
+  if "${JAVA_HOME}/bin/java" ${JAVA_OPTIONS} --module-path target --add-modules modsplitbar2 --module modmainbar/pkgmainbar.Main 2>&1; then
     echo "A runtime exception was expected here" >&2
     exit 1
   fi

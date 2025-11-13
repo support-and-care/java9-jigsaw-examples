@@ -30,7 +30,6 @@ mkdir -p amlib1
 mkdir -p amlib2
 mkdir -p classes1
 mkdir -p classes2
-mkdir -p mlib
 
 echo "=== Hybrid Compilation for Maven 4 ==="
 echo
@@ -69,23 +68,11 @@ echo "mvn --version"
 mvn --version
 echo
 
-echo "mvn clean compile"
+echo "mvn clean package"
 echo "(Maven runs with JDK 17, compiles for Java 11 via maven.compiler.release)"
 echo "(Compiler args: --module-path amlib1)"
-mvn clean compile
+mvn clean package
 
-# Create JARs directly to mlib (similar to original compile.sh)
-echo
-echo "Step 3: Package module as JAR in mlib/"
-pushd target/classes > /dev/null 2>&1
-for dir in */;
-do
-    MODDIR=${dir%*/}
-    echo "jar ${JAR_OPTIONS} --create --file=../../mlib/${MODDIR}.jar -C ${MODDIR} ."
-    # shellcheck disable=SC2086  # JAR_OPTIONS is intentionally unquoted for word splitting
-    "${JAVA_HOME}/bin/jar" ${JAR_OPTIONS} --create --file="../../mlib/${MODDIR}.jar" -C "${MODDIR}" . 2>&1
-done
-popd >/dev/null 2>&1
 
 echo
 echo "✅ Hybrid compilation complete"

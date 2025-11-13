@@ -116,3 +116,38 @@ Scenario 8 demonstrates creating a custom runtime image using `jlink`.
 
 Automatic Module Reference::
 The run script references `../amlib` for the `javax.json` automatic module in scenario 5, demonstrating that automatic modules are only loaded when explicitly required or added.
+
+=== JAR Naming for Module-Path and jlink
+
+Maven (4) uses maven-jar-plugin with classifiers, creating JARs with names like:
+
+[source]
+----
+target/example_resolved-modules-m4-1.0-SNAPSHOT-moda.jar
+target/example_resolved-modules-m4-1.0-SNAPSHOT-modb.jar
+target/example_resolved-modules-m4-1.0-SNAPSHOT-modc.jar
+----
+
+However, when using `jlink`, it outputs the actual JAR filenames in its verbose output. The golden master test expects simple JAR names (e.g., `moda.jar`) for consistency with the original example.
+
+To solve this, `compile.sh` copies the JARs to `mlib/` with simple names:
+
+[source,bash]
+----
+# Copy JARs to mlib with simple names for jlink
+for mod in moda modb modc; do
+    cp "target/example_resolved-modules-m4-1.0-SNAPSHOT-${mod}.jar" "mlib/${mod}.jar"
+done
+----
+
+The `run.sh` script then uses `--module-path mlib` instead of `--module-path target`, ensuring:
+
+* Simple JAR names in jlink output (matches golden master expectations)
+* Consistent module-path references throughout all 8 test scenarios
+* Compatibility with both direct Java execution and jlink-created runtime images
+
+[NOTE]
+====
+While `--module-path target` would work for direct Java execution, jlink would output the full classifier-based names, breaking golden master verification.
+The JAR copying approach maintains output consistency across all scenarios.
+====

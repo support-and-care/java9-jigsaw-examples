@@ -20,4 +20,4 @@ echo
 # Run the Java code, save output to run-result/run.txt, and display with highlighting
 # The '.' argument specifies the JSON file (layers_triple_hierarchy.json) location
 # shellcheck disable=SC2086  # JAVA_OPTIONS is intentionally unquoted for word splitting
-"${JAVA11_HOME}/bin/java" ${JAVA_OPTIONS} --module-path "mlib${PATH_SEPARATOR}amlib" --module mod.main/pkgmain.Main . 2>&1 | normalize | tee run-result/run.txt | myecho
+"${JAVA11_HOME}/bin/java" ${JAVA_OPTIONS} --module-path "target${PATH_SEPARATOR}amlib" --module mod.main/pkgmain.Main . 2>&1 | normalize | tee run-result/run.txt | myecho

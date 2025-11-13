@@ -29,7 +29,9 @@ export PATH="${M4_HOME}/bin:${PATH}"
 mkdir -p amlib1
 mkdir -p amlib2
 mkdir -p classes
-mkdir -p mlib
+
+# Note: mlib → target symlink is committed to Git for dynamic module loading
+# (Java code uses path + "/mlib" to load modules at runtime)
 
 echo "=== Hybrid Compilation for Maven 4 ==="
 echo
@@ -66,53 +68,41 @@ echo "mvn --version"
 mvn --version
 echo
 
-echo "mvn clean compile"
+echo "mvn clean package"
 echo "(Maven runs with JDK 17, compiles for Java 11 via maven.compiler.release)"
-mvn clean compile
+mvn clean package
 
-# Create JARs for Maven-compiled modules
-echo
-echo "Step 3: Package Maven-compiled modules as JARs in mlib/"
-pushd target/classes > /dev/null 2>&1
-for dir in */;
-do
-    MODDIR=${dir%*/}
-    echo "jar ${JAR_OPTIONS} --create --file=../../mlib/${MODDIR}.jar -C ${MODDIR} ."
-    # shellcheck disable=SC2086  # JAR_OPTIONS is intentionally unquoted for word splitting
-    "${JAVA_HOME}/bin/jar" ${JAR_OPTIONS} --create --file="../../mlib/${MODDIR}.jar" -C "${MODDIR}" . 2>&1
-done
-popd >/dev/null 2>&1
 
 echo
 echo "Step 4: Manually compile modfoo (requires modauto1)"
 pushd ../src/modfoo > /dev/null 2>&1
 mkdir -p ../../m4/mods/modfoo
-echo "javac ${JAVAC_OPTIONS} -d ../../m4/mods/modfoo --module-path ../../m4/mlib${PATH_SEPARATOR}../../m4/amlib1 --release 11 \$(find . -name \"*.java\")"
+echo "javac ${JAVAC_OPTIONS} -d ../../m4/mods/modfoo --module-path ../../m4/target${PATH_SEPARATOR}../../m4/amlib1 --release 11 \$(find . -name \"*.java\")"
 # shellcheck disable=SC2046,SC2086  # find output needs word splitting, JAVAC_OPTIONS intentionally unquoted
 "${COMPILE_JAVA_HOME}/bin/javac" ${JAVAC_OPTIONS} -d ../../m4/mods/modfoo \
-    --module-path ../../m4/mlib"${PATH_SEPARATOR}"../../m4/amlib1 \
+    --module-path ../../m4/target"${PATH_SEPARATOR}"../../m4/amlib1 \
     --release 11 \
     $(find . -name "*.java") 2>&1
 
-echo "jar ${JAR_OPTIONS} --create --file=../../m4/mlib/modfoo.jar -C ../../m4/mods/modfoo ."
+echo "jar ${JAR_OPTIONS} --create --file=../../m4/target/modfoo.jar -C ../../m4/mods/modfoo ."
 # shellcheck disable=SC2086  # JAR_OPTIONS is intentionally unquoted for word splitting
-"${COMPILE_JAVA_HOME}/bin/jar" ${JAR_OPTIONS} --create --file=../../m4/mlib/modfoo.jar -C ../../m4/mods/modfoo . 2>&1
+"${COMPILE_JAVA_HOME}/bin/jar" ${JAR_OPTIONS} --create --file=../../m4/target/modfoo.jar -C ../../m4/mods/modfoo . 2>&1
 popd >/dev/null 2>&1
 
 echo
 echo "Step 5: Manually compile modbar (requires modauto2)"
 pushd ../src/modbar > /dev/null 2>&1
 mkdir -p ../../m4/mods/modbar
-echo "javac ${JAVAC_OPTIONS} -d ../../m4/mods/modbar --module-path ../../m4/mlib${PATH_SEPARATOR}../../m4/amlib2 --release 11 \$(find . -name \"*.java\")"
+echo "javac ${JAVAC_OPTIONS} -d ../../m4/mods/modbar --module-path ../../m4/target${PATH_SEPARATOR}../../m4/amlib2 --release 11 \$(find . -name \"*.java\")"
 # shellcheck disable=SC2046,SC2086  # find output needs word splitting, JAVAC_OPTIONS intentionally unquoted
 "${COMPILE_JAVA_HOME}/bin/javac" ${JAVAC_OPTIONS} -d ../../m4/mods/modbar \
-    --module-path ../../m4/mlib"${PATH_SEPARATOR}"../../m4/amlib2 \
+    --module-path ../../m4/target"${PATH_SEPARATOR}"../../m4/amlib2 \
     --release 11 \
     $(find . -name "*.java") 2>&1
 
-echo "jar ${JAR_OPTIONS} --create --file=../../m4/mlib/modbar.jar -C ../../m4/mods/modbar ."
+echo "jar ${JAR_OPTIONS} --create --file=../../m4/target/modbar.jar -C ../../m4/mods/modbar ."
 # shellcheck disable=SC2086  # JAR_OPTIONS is intentionally unquoted for word splitting
-"${COMPILE_JAVA_HOME}/bin/jar" ${JAR_OPTIONS} --create --file=../../m4/mlib/modbar.jar -C ../../m4/mods/modbar . 2>&1
+"${COMPILE_JAVA_HOME}/bin/jar" ${JAR_OPTIONS} --create --file=../../m4/target/modbar.jar -C ../../m4/mods/modbar . 2>&1
 popd >/dev/null 2>&1
 
 echo

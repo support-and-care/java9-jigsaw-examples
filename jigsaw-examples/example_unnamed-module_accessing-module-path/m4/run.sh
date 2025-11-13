@@ -16,7 +16,7 @@ mkdir -p run-result
 # --add-modules modb makes the module available even though not required
 # shellcheck disable=SC2086  # JAVA_OPTIONS is intentionally unquoted for word splitting
 "${JAVA_HOME}/bin/java" ${JAVA_OPTIONS} \
-        --module-path mlib \
+        --module-path target \
         --class-path cplib/cpmain.jar"${PATH_SEPARATOR}"cplib/cpb.jar \
         --add-modules modb pkgcpmain.Main \
         2>&1 | normalize | tee run-result/run.txt | myecho

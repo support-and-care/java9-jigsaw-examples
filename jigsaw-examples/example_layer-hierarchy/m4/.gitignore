@@ -2,7 +2,6 @@
 target/
 
 # Module JARs
-mlib/
 
 # Automatic module library (copied by maven-dependency-plugin)
 amlib/

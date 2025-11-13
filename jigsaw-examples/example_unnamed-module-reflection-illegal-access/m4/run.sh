@@ -38,35 +38,35 @@ echo "Checking variants of reflective access to java.base/jdk.internal.math.Doub
 echo
 echo "1 - reflective call without any options"
 echo "Should throw InaccessibleObjectException"
-if "${JAVA_HOME}/bin/java" --module-path mlib -cp cplib/cpmain.jar pkgcpmain.MainCallingJavaBaseJDKInternal 2>&1 | normalize | tee "${result_dir}/run.txt" | myecho; then
+if "${JAVA_HOME}/bin/java" --module-path target -cp cplib/cpmain.jar pkgcpmain.MainCallingJavaBaseJDKInternal 2>&1 | normalize | tee "${result_dir}/run.txt" | myecho; then
   echo "ERROR: Variant 1 - Expected exception but command succeeded"
   exit 1
 fi
 echo
 echo "2 - reflective call with --illegal-access=permit"
 echo "Should throw InaccessibleObjectException"
-if "${JAVA_HOME}/bin/java" --illegal-access=permit --module-path mlib -cp cplib/cpmain.jar pkgcpmain.MainCallingJavaBaseJDKInternal 2>&1 | normalize | tee -a "${result_dir}/run.txt" | myecho; then
+if "${JAVA_HOME}/bin/java" --illegal-access=permit --module-path target -cp cplib/cpmain.jar pkgcpmain.MainCallingJavaBaseJDKInternal 2>&1 | normalize | tee -a "${result_dir}/run.txt" | myecho; then
   echo "ERROR: Variant 2 - Expected exception but command succeeded"
   exit 1
 fi
 echo
 echo "3 - reflective call with --illegal-access=warn"
 echo "Should throw InaccessibleObjectException"
-if "${JAVA_HOME}/bin/java" --illegal-access=warn --module-path mlib -cp cplib/cpmain.jar pkgcpmain.MainCallingJavaBaseJDKInternal 2>&1 | normalize | tee -a "${result_dir}/run.txt" | myecho; then
+if "${JAVA_HOME}/bin/java" --illegal-access=warn --module-path target -cp cplib/cpmain.jar pkgcpmain.MainCallingJavaBaseJDKInternal 2>&1 | normalize | tee -a "${result_dir}/run.txt" | myecho; then
   echo "ERROR: Variant 3 - Expected exception but command succeeded"
   exit 1
 fi
 echo
 echo "4 - reflective call with --illegal-access=deny"
 echo "Should throw InaccessibleObjectException"
-if "${JAVA_HOME}/bin/java" --illegal-access=deny --module-path mlib -cp cplib/cpmain.jar pkgcpmain.MainCallingJavaBaseJDKInternal 2>&1 | normalize | tee -a "${result_dir}/run.txt" | myecho; then
+if "${JAVA_HOME}/bin/java" --illegal-access=deny --module-path target -cp cplib/cpmain.jar pkgcpmain.MainCallingJavaBaseJDKInternal 2>&1 | normalize | tee -a "${result_dir}/run.txt" | myecho; then
   echo "ERROR: Variant 4 - Expected exception but command succeeded"
   exit 1
 fi
 echo
 echo "5 - reflective call with explicit --add-opens"
 echo "Should work without problems"
-if ! "${JAVA_HOME}/bin/java" --add-opens=java.base/jdk.internal.math=ALL-UNNAMED --module-path mlib -cp cplib/cpmain.jar pkgcpmain.MainCallingJavaBaseJDKInternal 2>&1 | normalize | tee -a "${result_dir}/run.txt" | myecho; then
+if ! "${JAVA_HOME}/bin/java" --add-opens=java.base/jdk.internal.math=ALL-UNNAMED --module-path target -cp cplib/cpmain.jar pkgcpmain.MainCallingJavaBaseJDKInternal 2>&1 | normalize | tee -a "${result_dir}/run.txt" | myecho; then
   echo "ERROR: Variant 5 - Expected success but got exception"
   exit 1
 fi
@@ -86,28 +86,28 @@ echo "Checking variants of reflective access to java.base/sun.net.PortConfig. It
 echo
 echo "6 - reflective call without any options"
 echo "Should work without problems"
-if ! "${JAVA_HOME}/bin/java" --module-path mlib -cp cplib/cpmain.jar pkgcpmain.MainCallingJavaBaseSunNet 2>&1 | normalize | tee -a "${result_dir}/run.txt" | myecho; then
+if ! "${JAVA_HOME}/bin/java" --module-path target -cp cplib/cpmain.jar pkgcpmain.MainCallingJavaBaseSunNet 2>&1 | normalize | tee -a "${result_dir}/run.txt" | myecho; then
   echo "ERROR: Variant 6 - Expected success but got exception"
   exit 1
 fi
 echo
 echo "7 - reflective call with --illegal-access=permit"
 echo "Should work without problems"
-if ! "${JAVA_HOME}/bin/java" --illegal-access=permit --module-path mlib -cp cplib/cpmain.jar pkgcpmain.MainCallingJavaBaseSunNet 2>&1 | normalize | tee -a "${result_dir}/run.txt" | myecho; then
+if ! "${JAVA_HOME}/bin/java" --illegal-access=permit --module-path target -cp cplib/cpmain.jar pkgcpmain.MainCallingJavaBaseSunNet 2>&1 | normalize | tee -a "${result_dir}/run.txt" | myecho; then
   echo "ERROR: Variant 7 - Expected success but got exception"
   exit 1
 fi
 echo
 echo "8 - reflective call with --illegal-access=warn"
 echo "Should work without problems"
-if ! "${JAVA_HOME}/bin/java" --illegal-access=warn --module-path mlib -cp cplib/cpmain.jar pkgcpmain.MainCallingJavaBaseSunNet 2>&1 | normalize | tee -a "${result_dir}/run.txt" | myecho; then
+if ! "${JAVA_HOME}/bin/java" --illegal-access=warn --module-path target -cp cplib/cpmain.jar pkgcpmain.MainCallingJavaBaseSunNet 2>&1 | normalize | tee -a "${result_dir}/run.txt" | myecho; then
   echo "ERROR: Variant 8 - Expected success but got exception"
   exit 1
 fi
 echo
 echo "9 - reflective call with --illegal-access=deny"
 echo "Should throw InaccessibleObjectException"
-if "${JAVA_HOME}/bin/java" --illegal-access=deny --module-path mlib -cp cplib/cpmain.jar pkgcpmain.MainCallingJavaBaseSunNet 2>&1 | normalize | tee -a "${result_dir}/run.txt" | myecho; then
+if "${JAVA_HOME}/bin/java" --illegal-access=deny --module-path target -cp cplib/cpmain.jar pkgcpmain.MainCallingJavaBaseSunNet 2>&1 | normalize | tee -a "${result_dir}/run.txt" | myecho; then
   echo "ERROR: Variant 9 - Expected exception but command succeeded"
   exit 1
 fi
@@ -115,7 +115,7 @@ fi
 echo
 echo "10 - reflective call with explicit --add-opens"
 echo "Should work without problems"
-if ! "${JAVA_HOME}/bin/java" --add-opens=java.base/sun.net=ALL-UNNAMED --module-path mlib -cp cplib/cpmain.jar pkgcpmain.MainCallingJavaBaseSunNet 2>&1 | normalize | tee -a "${result_dir}/run.txt" | myecho; then
+if ! "${JAVA_HOME}/bin/java" --add-opens=java.base/sun.net=ALL-UNNAMED --module-path target -cp cplib/cpmain.jar pkgcpmain.MainCallingJavaBaseSunNet 2>&1 | normalize | tee -a "${result_dir}/run.txt" | myecho; then
   echo "ERROR: Variant 10 - Expected success but got exception"
   exit 1
 fi
@@ -135,35 +135,35 @@ echo "Checking variants of reflective access to java.desktop/com.sun.java.swing.
 echo
 echo "11 - reflective call without any options"
 echo "Should work without problems"
-if ! "${JAVA_HOME}/bin/java" --module-path mlib -cp cplib/cpmain.jar pkgcpmain.MainCallingJavaDesktop 2>&1 | normalize | tee -a "${result_dir}/run.txt" | myecho; then
+if ! "${JAVA_HOME}/bin/java" --module-path target -cp cplib/cpmain.jar pkgcpmain.MainCallingJavaDesktop 2>&1 | normalize | tee -a "${result_dir}/run.txt" | myecho; then
   echo "ERROR: Variant 11 - Expected success but got exception"
   exit 1
 fi
 echo
 echo "12 - reflective call with --illegal-access=permit"
 echo "Should work without problems"
-if ! "${JAVA_HOME}/bin/java" --illegal-access=permit --module-path mlib -cp cplib/cpmain.jar pkgcpmain.MainCallingJavaDesktop 2>&1 | normalize | tee -a "${result_dir}/run.txt" | myecho; then
+if ! "${JAVA_HOME}/bin/java" --illegal-access=permit --module-path target -cp cplib/cpmain.jar pkgcpmain.MainCallingJavaDesktop 2>&1 | normalize | tee -a "${result_dir}/run.txt" | myecho; then
   echo "ERROR: Variant 12 - Expected success but got exception"
   exit 1
 fi
 echo
 echo "13 - reflective call with --illegal-access=warn"
 echo "Should work without problems"
-if ! "${JAVA_HOME}/bin/java" --illegal-access=warn --module-path mlib -cp cplib/cpmain.jar pkgcpmain.MainCallingJavaDesktop 2>&1 | normalize | tee -a "${result_dir}/run.txt" | myecho; then
+if ! "${JAVA_HOME}/bin/java" --illegal-access=warn --module-path target -cp cplib/cpmain.jar pkgcpmain.MainCallingJavaDesktop 2>&1 | normalize | tee -a "${result_dir}/run.txt" | myecho; then
   echo "ERROR: Variant 13 - Expected success but got exception"
   exit 1
 fi
 echo
 echo "14 - reflective call with --illegal-access=deny"
 echo "Should throw InaccessibleObjectException"
-if "${JAVA_HOME}/bin/java" --illegal-access=deny --module-path mlib -cp cplib/cpmain.jar pkgcpmain.MainCallingJavaDesktop 2>&1 | normalize | tee -a "${result_dir}/run.txt" | myecho; then
+if "${JAVA_HOME}/bin/java" --illegal-access=deny --module-path target -cp cplib/cpmain.jar pkgcpmain.MainCallingJavaDesktop 2>&1 | normalize | tee -a "${result_dir}/run.txt" | myecho; then
   echo "ERROR: Variant 14 - Expected exception but command succeeded"
   exit 1
 fi
 echo
 echo "15 - reflective call with explicit --add-opens"
 echo "Should work without problems"
-if ! "${JAVA_HOME}/bin/java" --add-opens=java.desktop/com.sun.java.swing.plaf.nimbus=ALL-UNNAMED --module-path mlib -cp cplib/cpmain.jar pkgcpmain.MainCallingJavaDesktop 2>&1 | normalize | tee -a "${result_dir}/run.txt" | myecho; then
+if ! "${JAVA_HOME}/bin/java" --add-opens=java.desktop/com.sun.java.swing.plaf.nimbus=ALL-UNNAMED --module-path target -cp cplib/cpmain.jar pkgcpmain.MainCallingJavaDesktop 2>&1 | normalize | tee -a "${result_dir}/run.txt" | myecho; then
   echo "ERROR: Variant 15 - Expected success but got exception"
   exit 1
 fi
@@ -186,35 +186,35 @@ echo "    class pkgbexportedqualified.BFromModuleButExportedQualified is exporte
 echo
 echo "16 - reflective call without any options"
 echo "Should throw InaccessibleObjectException"
-if "${JAVA_HOME}/bin/java" --module-path mlib -cp cplib/cpmain.jar --add-modules modb pkgcpmain.MainCallingModB 2>&1 | normalize | tee -a "${result_dir}/run.txt" | myecho; then
+if "${JAVA_HOME}/bin/java" --module-path target -cp cplib/cpmain.jar --add-modules modb pkgcpmain.MainCallingModB 2>&1 | normalize | tee -a "${result_dir}/run.txt" | myecho; then
   echo "ERROR: Variant 16 - Expected exception but command succeeded"
   exit 1
 fi
 echo
 echo "17 - reflective call with --illegal-access=permit"
 echo "Should throw InaccessibleObjectException"
-if "${JAVA_HOME}/bin/java" --illegal-access=permit --module-path mlib -cp cplib/cpmain.jar --add-modules modb pkgcpmain.MainCallingModB 2>&1 | normalize | tee -a "${result_dir}/run.txt" | myecho; then
+if "${JAVA_HOME}/bin/java" --illegal-access=permit --module-path target -cp cplib/cpmain.jar --add-modules modb pkgcpmain.MainCallingModB 2>&1 | normalize | tee -a "${result_dir}/run.txt" | myecho; then
   echo "ERROR: Variant 17 - Expected exception but command succeeded"
   exit 1
 fi
 echo
 echo "18 - reflective call with --illegal-access=warn"
 echo "Should throw InaccessibleObjectException"
-if "${JAVA_HOME}/bin/java" --illegal-access=warn --module-path mlib -cp cplib/cpmain.jar --add-modules modb pkgcpmain.MainCallingModB 2>&1 | normalize | tee -a "${result_dir}/run.txt" | myecho; then
+if "${JAVA_HOME}/bin/java" --illegal-access=warn --module-path target -cp cplib/cpmain.jar --add-modules modb pkgcpmain.MainCallingModB 2>&1 | normalize | tee -a "${result_dir}/run.txt" | myecho; then
   echo "ERROR: Variant 18 - Expected exception but command succeeded"
   exit 1
 fi
 echo
 echo "19 - reflective call with --illegal-access=deny"
 echo "Should throw InaccessibleObjectException"
-if "${JAVA_HOME}/bin/java" --illegal-access=deny --module-path mlib -cp cplib/cpmain.jar --add-modules modb pkgcpmain.MainCallingModB 2>&1 | normalize | tee -a "${result_dir}/run.txt" | myecho; then
+if "${JAVA_HOME}/bin/java" --illegal-access=deny --module-path target -cp cplib/cpmain.jar --add-modules modb pkgcpmain.MainCallingModB 2>&1 | normalize | tee -a "${result_dir}/run.txt" | myecho; then
   echo "ERROR: Variant 19 - Expected exception but command succeeded"
   exit 1
 fi
 echo
 echo "20 - reflective call with explicit --add-opens"
 echo "Should work without problems"
-if ! "${JAVA_HOME}/bin/java" --add-opens=modb/pkgbinternal=ALL-UNNAMED --add-opens modb/pkgbexportedqualified=ALL-UNNAMED --module-path mlib -cp cplib/cpmain.jar --add-modules modb pkgcpmain.MainCallingModB 2>&1 | normalize | tee -a "${result_dir}/run.txt" | myecho; then
+if ! "${JAVA_HOME}/bin/java" --add-opens=modb/pkgbinternal=ALL-UNNAMED --add-opens modb/pkgbexportedqualified=ALL-UNNAMED --module-path target -cp cplib/cpmain.jar --add-modules modb pkgcpmain.MainCallingModB 2>&1 | normalize | tee -a "${result_dir}/run.txt" | myecho; then
   echo "ERROR: Variant 20 - Expected success but got exception"
   exit 1
 fi

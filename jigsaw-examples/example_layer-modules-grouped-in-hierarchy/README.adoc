@@ -144,3 +144,43 @@ This hybrid approach is necessary because:
 * Split packages between automatic modules prevent compiling all modules together
 * Each module requiring an automatic module must be compiled separately with only the needed automatic module on path
 * This example demonstrates module layers where different modules use different automatic module versions
+
+=== Module-Path Symlink for Dynamic Module Loading
+
+The Java code in `modmain/pkgmain/Main.java` uses the `ModuleLayer` API to dynamically load modules at runtime from hardcoded paths:
+
+[source,java]
+----
+// Dynamically creates layers and loads modules from ./foomlib and ./barmlib
+Module fooModule = fooLayer.findModule("modfoo").get();
+Module barModule = barLayer.findModule("modbar").get();
+----
+
+Maven (4) creates JARs in the `target/` directory with classifier-based names:
+
+[source]
+----
+target/example_layer-modules-grouped-in-hierarchy-m4-1.0-SNAPSHOT-modcommon.jar
+target/example_layer-modules-grouped-in-hierarchy-m4-1.0-SNAPSHOT-modmain.jar
+...
+----
+
+To maintain compatibility with the shared Java source code that references `mlib`, the migration uses a committed symlink:
+
+[source,bash]
+----
+m4/mlib -> target
+----
+
+This symlink:
+
+* Redirects the hardcoded `mlib` path to `target/` at runtime
+* Avoids modifying shared source code that is also used by the original (non-Maven) version
+* Is committed to Git (like the source symlinks)
+* Points to `target/` which Maven 4 populates with classifier-based JARs
+
+[NOTE]
+====
+Both source symlinks (`m4/src/modcommon/main/java` → `../../../../src/modcommon`) and the runtime symlink (`m4/mlib → target`) are committed to Git.
+This allows the M4 migration to work seamlessly after checkout without manual symlink creation.
+====

@@ -28,7 +28,7 @@ mkdir -p run-result
 # --add-modules ensures modbar and modfoo are resolved (otherwise they'd be unused)
 # shellcheck disable=SC2086  # JAVA_OPTIONS is intentionally unquoted for word splitting
 "${JAVA_HOME}/bin/java" ${JAVA_OPTIONS} \
-    --module-path mlib"${PATH_SEPARATOR}"amlib1 \
+    --module-path target"${PATH_SEPARATOR}"amlib1 \
     --add-modules modbar,modfoo \
     --module modmain/pkgmain.Main . \
     2>&1 | normalize | tee run-result/run.txt | myecho

@@ -17,8 +17,10 @@ MAVEN_JAVA_HOME="${JAVA17_HOME:-${JAVA_HOME}}"
 # Add Maven 4 to PATH
 export PATH="${M4_HOME}/bin:${PATH}"
 
-mkdir -p mlib
 mkdir -p target/classes
+
+# Note: mlib → target symlink is committed to Git for dynamic module loading
+# (Java code uses path + "/mlib" to load modules at runtime)
 
 # Step 1: Use Maven to download dependencies to amlib
 echo "=== Step 1: Download dependencies with Maven ==="
@@ -34,30 +36,31 @@ echo
 echo "=== Step 2: Compile mod.x* modules (separate compilation with javac) ==="
 for modx in mod.x_bottom mod.x_middle mod.x_top
 do
-   echo "javac ${JAVAC_OPTIONS} --release 11 -d target/classes --module-path mlib${PATH_SEPARATOR}amlib --module-source-path \"src/*/main/java\" \$(find -L src/${modx}/main/java -name \"*.java\")"
+   echo "javac ${JAVAC_OPTIONS} --release 11 -d target/classes --module-path target${PATH_SEPARATOR}amlib --module-source-path \"src/*/main/java\" \$(find -L src/${modx}/main/java -name \"*.java\")"
    # shellcheck disable=SC2086  # JAVAC_OPTIONS is intentionally unquoted for word splitting
    # shellcheck disable=SC2046  # Word splitting intentional for multiple Java source files
    "${JAVA_HOME}/bin/javac" ${JAVAC_OPTIONS} --release 11 -d target/classes \
-       --module-path mlib${PATH_SEPARATOR}amlib \
+       --module-path target${PATH_SEPARATOR}amlib \
        --module-source-path "src/*/main/java" \
        $(find -L src/${modx}/main/java -name "*.java") 2>&1
 done
 echo
 
-# Step 3: Compile remaining 12 modules with Maven (pom.xml lists all non-mod.x_* modules)
-echo "=== Step 3: Compile remaining 12 modules with Maven compiler plugin ==="
-echo "mvn compile"
-JAVA_HOME="${MAVEN_JAVA_HOME}" mvn compile
+# Step 3: Compile remaining 12 modules with Maven and create JARs
+echo "=== Step 3: Compile remaining 12 modules with Maven and create JARs ==="
+echo "mvn package"
+JAVA_HOME="${MAVEN_JAVA_HOME}" mvn package
 echo
 
-# Step 4: Create JARs
-echo "=== Step 4: Create module JARs ==="
+# Step 4: Create JARs in target/ (for modules compiled with javac, Maven-compiled modules already have JARs)
+echo "=== Step 4: Create module JARs for javac-compiled modules ==="
 pushd target/classes > /dev/null 2>&1
-for dir in */;
+for modx in mod.x_bottom mod.x_middle mod.x_top
 do
-    MODDIR=${dir%*/}
-    echo "jar $JAR_OPTIONS --create --file=../../mlib/${MODDIR}.jar -C ${MODDIR} ."
-    # shellcheck disable=SC2086  # JAR_OPTIONS is intentionally unquoted for word splitting
-    "${JAVA_HOME}/bin/jar" $JAR_OPTIONS --create --file="../../mlib/${MODDIR}.jar" -C "${MODDIR}" . 2>&1
+    if [ -d "${modx}" ]; then
+        echo "jar $JAR_OPTIONS --create --file=../${modx}.jar -C ${modx} ."
+        # shellcheck disable=SC2086  # JAR_OPTIONS is intentionally unquoted for word splitting
+        "${JAVA_HOME}/bin/jar" $JAR_OPTIONS --create --file="../${modx}.jar" -C "${modx}" . 2>&1
+    fi
 done
 popd >/dev/null 2>&1

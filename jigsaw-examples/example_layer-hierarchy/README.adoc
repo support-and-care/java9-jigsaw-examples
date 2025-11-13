@@ -145,10 +145,19 @@ The `compile.sh` script manually compiles the three `mod.x_*` modules separately
 [source,bash]
 ----
 # Compile mod.x_* modules separately (split package problem with automatic module)
-for mod in mod.x_bottom mod.x_middle mod.x_top; do
-  javac -d mods/${mod} --module-path amlib --module-source-path "../src" -m ${mod}
-  jar --create --file=mlib/${mod}.jar -C mods/${mod}/${mod} .
+for modx in mod.x_bottom mod.x_middle mod.x_top; do
+  javac --release 11 -d target/classes \
+    --module-path target:amlib \
+    --module-source-path "src/*/main/java" \
+    $(find -L src/${modx}/main/java -name "*.java")
 done
+
+# Package as JARs in target/ (accessible via mlib symlink)
+pushd target/classes > /dev/null
+for modx in mod.x_bottom mod.x_middle mod.x_top; do
+  jar --create --file=../${modx}.jar -C ${modx} .
+done
+popd > /dev/null
 ----
 
 *Phase 2 - Maven compilation of remaining modules:*
@@ -211,6 +220,35 @@ The automatic module `javax.json` is downloaded via `maven-dependency-plugin` to
   </executions>
 </plugin>
 ----
+
+*Dynamic module loading symlink:*
+
+The Java code in `mod.main/pkgmain/Main.java` uses the `ModuleLayer` API to dynamically load modules at runtime from a hardcoded path:
+
+[source,java]
+----
+layerBuilder.createJigsawLayers(LayerHierarchy.root, LayerHierarchy.root.getLayer(), path + "/mlib");
+----
+
+Since Maven (4) creates JARs in the `target/` directory (not `mlib/`), but the shared source code still references `mlib`, the migration uses a committed symbolic link:
+
+[source,bash]
+----
+m4/mlib -> target
+----
+
+This symlink:
+
+* Redirects the hardcoded `mlib` path to `target/` at runtime
+* Avoids modifying shared source code that is also used by the original (non-Maven) version
+* Is committed to Git (like the source symlinks)
+* Points to `target/` which Maven 4 populates with classifier-based JARs
+
+[NOTE]
+====
+Both source symlinks (`m4/src/*/main/java → ../../../../src/*`) and the runtime symlink (`m4/mlib → target`) are committed to Git.
+This allows the M4 migration to work seamlessly after checkout without manual symlink creation.
+====
 
 ==== Running the Maven 4 Version
 
