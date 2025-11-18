@@ -372,7 +372,7 @@ jobs:
       continue-on-error: true
 
     - name: Generate documentation
-      run: ./mvnw verify
+      run: ./mvnw verify -Dgithub.branch=${{ github.head_ref || github.ref_name }}
 
     - name: Create index.html from README.html
       run: cp target/generated-docs/README.html target/generated-docs/index.html
