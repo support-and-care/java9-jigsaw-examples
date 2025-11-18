@@ -384,33 +384,46 @@ jobs:
         path: target/generated-docs
         retention-days: 30
 
-    - name: Deploy to Netlify (Preview)
-      if: github.event_name == 'pull_request'
+    - name: Set Netlify alias
+      if: github.ref != 'refs/heads/main'
+      id: netlify-alias
+      run: |
+        if [ "${{ github.event_name }}" = "pull_request" ]; then
+          echo "alias=pr-${{ github.event.pull_request.number }}" >> $GITHUB_OUTPUT
+        else
+          # Use branch name, sanitize it for Netlify (replace / with -)
+          BRANCH_NAME="${{ github.ref_name }}"
+          SANITIZED_BRANCH=$(echo "$BRANCH_NAME" | sed 's/\//-/g')
+          echo "alias=$SANITIZED_BRANCH" >> $GITHUB_OUTPUT
+        fi
+
+    - name: Deploy to Netlify (branches and PRs)
+      if: github.ref != 'refs/heads/main'
+      id: netlify-deploy
       uses: nwtgck/actions-netlify@v3
       with:
         publish-dir: './target/generated-docs'
         production-deploy: false
         github-token: ${{ secrets.GITHUB_TOKEN }}
-        deploy-message: "Deploy from GitHub Actions - PR #${{ github.event.pull_request.number }}"
+        deploy-message: "Deploy from GitHub Actions - ${{ github.event.head_commit.message || github.event.pull_request.title }}"
         enable-pull-request-comment: true
         enable-commit-comment: false
         overwrites-pull-request-comment: true
+        alias: ${{ steps.netlify-alias.outputs.alias }}
       env:
         NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
         NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
 
-    - name: Deploy to Netlify (Branch Preview)
-      if: github.event_name == 'push' && github.ref != 'refs/heads/main'
-      uses: nwtgck/actions-netlify@v3
-      with:
-        publish-dir: './target/generated-docs'
-        production-deploy: false
-        github-token: ${{ secrets.GITHUB_TOKEN }}
-        deploy-message: "Deploy from GitHub Actions - branch ${{ github.ref_name }}"
-        alias: ${{ github.ref_name }}
-      env:
-        NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
-        NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
+    - name: Display Netlify URL
+      if: github.ref != 'refs/heads/main'
+      run: |
+        echo "### 🚀 Netlify Deployment" >> $GITHUB_STEP_SUMMARY
+        echo "" >> $GITHUB_STEP_SUMMARY
+        echo "✅ **Deployed successfully!**" >> $GITHUB_STEP_SUMMARY
+        echo "" >> $GITHUB_STEP_SUMMARY
+        echo "🔗 **URL:** ${{ steps.netlify-deploy.outputs.deploy-url }}" >> $GITHUB_STEP_SUMMARY
+        echo "" >> $GITHUB_STEP_SUMMARY
+        echo "📝 **Alias:** \`${{ steps.netlify-alias.outputs.alias }}\`" >> $GITHUB_STEP_SUMMARY
 
     - name: Upload to GitHub Pages
       if: github.event_name == 'push'
