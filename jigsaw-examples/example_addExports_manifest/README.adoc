@@ -44,6 +44,21 @@ For this to work
 
 see: https://mail.openjdk.java.net/pipermail/jpms-spec-experts/2016-September/000391.html
 
+[WARNING]
+.Don't try this at home
+====
+This example demonstrates an **anti-pattern**.
+Using `--add-reads` and `--add-exports` in production/main code is **strongly discouraged**.
+
+These flags should only be used for testing scenarios where you need test-only dependencies (like JUnit) without polluting production module descriptors.
+
+For a realistic example of proper usage, see https://github.com/support-and-care/java9-jigsaw-examples/issues/5[Issue #5: Realistic testing example].
+
+**Better alternatives**: Declare proper `requires` and `exports` in your `module-info.java` files instead.
+
+See also: https://www.youtube.com/shorts/JwEOIG8nXOk[Why you shouldn't use --add-exports].
+====
+
 === Output
 
 This example uses xref:../../README.adoc#golden-master-testing[golden master testing] to ensure output consistency.
