@@ -15,13 +15,14 @@ Part of the full xref:../../README.adoc[Java 9 Jigsaw modules example] suite.
 ====
 Originally written by https://github.com/mrtnlhmnn[Martin Lehmann], https://github.com/kristines[Kristine Schaal] and https://github.com/rgrammes[Rüdiger Grammes] (cf. https://github.com/accso/java9-jigsaw-examples[original repository]).
 
-Migrated for JPMS support documentation of Apache Maven^TM^ in the course of the https://open-elements.com/support-care-maven/[Maven Support & Care] program by https://github.com/ascheman[Gerd Aschemann] (and other team members) as https://github.com/support-and-care/java9-jigsaw-examples[forked repository].
+Migrated for Java Modules support documentation of Apache Maven^TM^ in the course of the https://open-elements.com/support-care-maven/[Maven Support & Care] program by https://github.com/ascheman[Gerd Aschemann] (and other team members) as https://github.com/support-and-care/java9-jigsaw-examples[forked repository].
 Please add discussions, requirements, bugfixes, etc. to the fork instead of the original.
 ====
 
 == What is this example about?
 
-This example is not really about the Jigsaw/JPMS module system. Instead it shows that usage of the new versioning scheme.
+This example is not really about Java Modules.
+Instead, it shows that usage of the new versioning scheme.
 
 For more background information, refer to https://openjdk.java.net/jeps/223[JEP 223].
 
