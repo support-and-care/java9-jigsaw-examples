@@ -32,20 +32,24 @@ However, the official terminology has since shifted to "Java Modules" or "Java P
 In this documentation, both terms may be used interchangeably, but "Java Modules" is the preferred term in current contexts.
 ====
 
+Meanwhile, we extended many examples to work (currently) with Maven 4 to demonstrate the current state of the art in terms of Maven support for Java Modules.
+
 == Setup
 
 . Clone this repository
 . Ensure you meet the _Minimal Requirements_
 . Then either follow the _Quick Setup_ or the _Full Setup_
-. Finally _Run Examples_
+. Finally, _Run Examples_
 
+[[sec:minimal-requirements]]
 === Minimal Requirements
 
-. If running on Windows, install a bash, like for example https://babun.github.io/[Babun] or https://gitforwindows.org/[git bash]
+. If running on Windows, install a bash, like, for example, https://babun.github.io/[Babun] or https://gitforwindows.org/[git bash]
 . Install Java JDKs:
-** See <<recommended-jdk>> for the recommended version for full CI (automated testing) compatibility
-** For xref:jigsaw-examples/example_gradle-project/README.adoc[Gradle example]: Java 17 or later (required by Gradle 9.x)
-** For xref:jigsaw-examples/example_compile-target-jdk8/README.adoc[cross-compilation example]: Java 8
+** See <<recommended-jdk>> for the recommended version for full CI (automated testing) compatibility.
+** For Maven 4 and xref:jigsaw-examples/example_gradle-project/README.adoc[Gradle example]: Java 17 or later is required.
+** For the xref:jigsaw-examples/example_compile-target-jdk8/README.adoc[cross-compilation example]: Java 8.
+. Install Maven 4 if you want to run the Maven 4 migrated examples (cf. <<maven-4-migration,migration to Maven 4>>).
 
 [[recommended-jdk]]
 [NOTE]
@@ -53,7 +57,7 @@ In this documentation, both terms may be used interchangeably, but "Java Modules
 ====
 The following JDK version is *strongly recommended* for full compatibility with CI and automated testing:
 
-[source,yaml]
+[source,yaml,indent=0]
 ----
 include::.github/workflows/build.yml[tag=java-version-minimal]
 ----
@@ -85,7 +89,7 @@ cp .envrc-template .envrc
 Then either:
 
 * *Option 1:* Source it manually before running examples: `source .envrc`
-* *Option 2:* Use https://direnv.net/[direnv] to automatically load environment when entering this directory
+* *Option 2:* Use https://direnv.net/[direnv] to automatically load the environment when entering this directory
 
 [NOTE]
 .SDKMAN Users
@@ -101,8 +105,8 @@ If you experience version conflicts, either disable `sdkman_auto_env` or ensure 
 . Edit file `env.sh` to configure `JAVA_HOME`, `JAVA_HOME_JDK8`, `GRAPHVIZ_HOME`, and `DEPVIS_HOME` (see TODO markers in the file)
 ** See <<recommended-jdk>> for the recommended `JAVA_HOME` value
 . Also edit file `env.sh` to configure the path separator.
-If run on Windows, use \; (a blackslash quoting a ;).
-If you run all stuff on *nix, use a colon : .
+If run on Windows, use `\;` (a blackslash quoting a `;`).
+If you run all stuff on *nix, use a colon `:` .
 
 === Running Examples
 
@@ -147,16 +151,15 @@ cd jigsaw-examples
 [[golden-master-testing]]
 === Golden Master Testing
 
-Most examples in this repository use golden master testing (also known as characterization testing or approval testing) to ensure output consistency.
+Most examples in this repository use golden master testing, also known as characterization testing or approval testing, to ensure output consistency.
 This technique captures the expected output of a program and compares it against actual output during subsequent runs.
 
-*How it works in this repository:*
-
+How it works in this repository::
 * Each example with golden master testing has an `expected-result/run.txt` file containing the captured expected output
 * When you run `./verify.sh` in an example directory, it executes the example and compares the actual output (saved to `run-result/run.txt`) with the expected output
 * The test passes if both outputs match exactly
 
-*Why some examples don't have golden master testing:*
+Why some examples don't have a golden master testing::
 
 Examples that use build tools (Maven, Gradle) or frameworks (Spring Boot) typically produce output that varies between runs.
 This includes timestamps, absolute file paths, download progress messages, port numbers, and environment-specific information.
@@ -164,20 +167,39 @@ For these examples, manual verification or integration tests are more appropriat
 
 === Additional information
 
-All examples have been tested with the <<recommended-jdk,recommended JDK version>> on Windows, Linux, and macOS.
-The examples were originally developed with Java 9 (which introduced JPMS) and have been continuously updated to work with current LTS versions.
+==== Shell based Build + Excution
 
-*Using Build Tool Wrappers:*
+Originally, the examples were using shell scripts to compile, execute and create additional artifacts, e.g., Java Docs.
+All examples run with scripts which have been tested with bash only.
 
+==== Operating Systems
+
+All the examples have been successfully tested with Windows (64bit), Linux and macOS - running the <<recommended-jdk,recommended JDK version>>.
+Originally developed for Java 9, which introduced Java Modules, the examples are frequently updated for current Java versions.
+
+==== Build tool usage
+
+For convenience and automatic testing, other (migrated) examples come with build scripts which call the respective build tool.
+
+_Important_: Set `JAVA_HOME` (or `JAVA17_HOME` separately) to JDK 17+ before running Maven 4 or Gradle (Wrapper): `export JAVA_HOME=/path/to/jdk17` (or use `JAVA_HOME=... ./gradlew ...`). Maven Wrapper examples only require JDK 11+ as they use Mavne 3.
+
+Build Tool Wrappers::
+All original Maven and Gradle examples now include build tool wrappers, so manual installation of Maven or Gradle is no longer required (to execute then):
 * For Maven examples: Use `./mvnw` (Unix/Mac) or `mvnw.cmd` (Windows) instead of `mvn`
 * For Gradle example: Use `./gradlew` (Unix/Mac) or `gradlew.cmd` (Windows) instead of `gradle`
-** *Important*: Set `JAVA_HOME` to JDK 17+ before running: `export JAVA_HOME=/path/to/jdk17` (or use `JAVA_HOME=... ./gradlew ...`)
 
-[NOTE]
+Maven 4 Builds:: As we simply want to use Maven 4 and to switch (minor) versions, a local installation of Maven 4 is required (cf. <<sec:minimal-requirements>>).
+
+[TIP]
 ====
-All scripts have been tested with bash only.
-There might be minor issues with the *.sh scripts whenever they call each other.
-To be sure, you should use all of these clean, compile, run, test etc. scripts in a bash.
+Use a local Maven repository to avoid polluting your global one, set a repository location in the top level directory:
+
+[source,bash]
+----
+export MAVEN_OPTS="-Dmaven.repo.local=${PWD}/.m2/repository"
+----
+
+Note that this overrides any other settings, e.g., by `mvn_settings.xml`.
 ====
 
 == Overall conventions
@@ -421,7 +443,7 @@ Migration attempted but not yet complete.
 
 *N/A*::
 Not applicable.
-Example uses Maven/Gradle directly, or migration is not relevant to JPMS features.
+Example uses Maven/Gradle directly, or migration is not relevant to Java Modules features.
 
 Click the status icon to jump to the example's Maven 4 Migration section for details.
 ****
@@ -713,7 +735,7 @@ Relates to all other examples in this section.
 
 | xref:jigsaw-examples/example_compile-target-jdk8/README.adoc[compile-target-jdk8]
 | What happens when one compiles with a modern JDK while targeting Java release 8 for backwards compatibility? |
-| xref:jigsaw-examples/example_compile-target-jdk8/README.adoc#sec:maven-4-migration[icon:exclamation-triangle[role=yellow]] / link:{example-base}/example_compile-target-jdk8/m4/[code]
+| N/A
 
 4+| *Examples on non-Jigsaw topics*
 
