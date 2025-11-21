@@ -15,7 +15,7 @@ Part of the full xref:../../README.adoc[Java 9 Jigsaw modules example] suite.
 ====
 Originally written by https://github.com/mrtnlhmnn[Martin Lehmann], https://github.com/kristines[Kristine Schaal] and https://github.com/rgrammes[Rüdiger Grammes] (cf. https://github.com/accso/java9-jigsaw-examples[original repository]).
 
-Migrated for JPMS support documentation of Apache Maven^TM^ in the course of the https://open-elements.com/support-care-maven/[Maven Support & Care] program by https://github.com/ascheman[Gerd Aschemann] (and other team members) as https://github.com/support-and-care/java9-jigsaw-examples[forked repository].
+Migrated for Java Modules support documentation of Apache Maven^TM^ in the course of the https://open-elements.com/support-care-maven/[Maven Support & Care] program by https://github.com/ascheman[Gerd Aschemann] (and other team members) as https://github.com/support-and-care/java9-jigsaw-examples[forked repository].
 Please add discussions, requirements, bugfixes, etc. to the fork instead of the original.
 ====
 
@@ -59,9 +59,9 @@ Because of that, _all_ modules already end up in the top layer, because top requ
 
 === Understanding the "Reads" Relationship and Split Package Problem
 
-==== JPMS "Reads" Semantics
+==== Java Modules "Reads" Semantics
 
-In the Java Platform Module System (JPMS), when module A "reads" module B, it means:
+In Java Modules, when module A "reads" module B, it means:
 
 * Module A has access to all packages that module B _exports_
 * This is established via `requires` declarations in `module-info.java` for explicit modules
@@ -86,7 +86,7 @@ In this example:
 
 * All modules are on the `--module-path`: `mlib` (application modules) + `amlib` (javax.json)
 * The compiler sees that `javax.json` reads three modules that all export the same package `pkgx`
-* This violates the JPMS rule: "A module cannot read two modules that export the same package"
+* This violates the Java Modules rule: "A module cannot read two modules that export the same package"
 * *Result:* Compilation fails with a split package error
 
 *Workaround:* The `mod.x_*` modules must be compiled _separately_ (see compile.sh lines 7-14), so they are never all on the module-path simultaneously when `javax.json` is present.
@@ -101,7 +101,7 @@ In this example:
 
 [NOTE]
 ====
-This demonstrates an important aspect of JPMS: _layer isolation at runtime_ provides stronger encapsulation than what's possible at compile time with automatic modules.
+This demonstrates an important aspect of Java Modules: _layer isolation at runtime_ provides stronger encapsulation than what's possible at compile time with automatic modules.
 The compile-time restriction is necessary because automatic modules have automatic reads to all modules, but at runtime, layers provide the isolation needed to avoid conflicts.
 
 For more details, see this https://mail.openjdk.java.net/pipermail/jigsaw-dev/2016-September/009290.html[discussion in the jigsaw-dev mailing list].
