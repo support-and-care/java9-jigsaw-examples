@@ -11,7 +11,7 @@
 
   <properties>
     <maven.compiler.source>11</maven.compiler.source>
-    <maven.compiler.target>11</maven.compiler.target>
+    <maven.compiler.target>25</maven.compiler.target>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
 
@@ -37,7 +37,7 @@
             <arg>${env.JAVA11_HOME}</arg>
             <!-- Required for modmain to access internal JDK and moda packages at compile time -->
             <arg>--add-exports</arg>
-            <arg>java.base/jdk.internal.misc=modmain</arg>
+            <arg>java.base/jdk.internal.org.xml.sax=modmain</arg>
             <arg>--add-exports</arg>
             <arg>moda/pkgainternal=modmain</arg>
           </compilerArgs>

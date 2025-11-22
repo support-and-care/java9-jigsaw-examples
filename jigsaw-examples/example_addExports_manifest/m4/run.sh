@@ -21,7 +21,7 @@ mkdir -p run-result
 # First run: Allow access to moda without using the "Add-Exports" entry from MANIFEST.MF
 # shellcheck disable=SC2086  # JAVA_OPTIONS is intentionally unquoted for word splitting
 "${JAVA11_HOME}/bin/java" ${JAVA_OPTIONS} \
-   --add-exports java.base/jdk.internal.misc=modmain \
+   --add-exports java.base/jdk.internal.org.xml.sax=modmain \
    --add-exports moda/pkgainternal=modmain \
    --module-path target --module modmain/pkgmain.Main 2>&1 | normalize | tee run-result/run.txt | myecho
 

@@ -1,4 +1,4 @@
 Manifest-Version: 1.0
 Created-By: 9-ea (Oracle Corporation)
-Add-Exports: java.base/jdk.internal.misc moda/pkgainternal
+Add-Exports: java.base/jdk.internal.org.xml.sax moda/pkgainternal
 Main-Class: pkgmain.Main
