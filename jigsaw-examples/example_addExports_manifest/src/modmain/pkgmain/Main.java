@@ -1,6 +1,6 @@
 package pkgmain;
 
-import jdk.internal.misc.SharedSecrets;
+import jdk.internal.org.xml.sax.InputSource;
 
 /**
  * This class cannot be compiled in Eclipse as compiler options --add-exports are needed.
@@ -14,9 +14,9 @@ import jdk.internal.misc.SharedSecrets;
 
 public class Main {
     public static void main(String[] args) {
-    	// Compiler and also Runtime option needed: --add-exports java.base/jdk.internal.misc=modmain
-    	SharedSecrets secrets = new SharedSecrets();
-        System.out.println("Do you want to know a secret: " + secrets.getClass().getName());
+    	// Compiler and also Runtime option needed: --add-exports java.base/jdk.internal.org.xml.sax=modmain
+        InputSource inputSource = new InputSource();
+        System.out.println("I need InputSource: " + inputSource.getClass().getName());
 
     	// Compiler and also Runtime option needed: --add-exports moda/pkgainternal=modmain
         System.out.println(new pkgainternal.A().doIt());

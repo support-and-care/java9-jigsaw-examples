@@ -13,9 +13,9 @@ fi
 # Maven 4 requires Java 17+ to run
 # Note: pom.xml uses source/target (not release) because --add-exports java.base
 # is incompatible with --release flag
-if [ -n "${JAVA17_HOME:-}" ]; then
-  export JAVA_HOME="${JAVA17_HOME}"
-fi
+#if [ -n "${JAVA17_HOME:-}" ]; then
+#  export JAVA_HOME="${JAVA17_HOME}"
+#fi
 
 # Add Maven 4 to PATH
 export PATH="${M4_HOME}/bin:${PATH}"

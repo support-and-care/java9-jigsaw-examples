@@ -31,7 +31,7 @@ echo "javac ${JAVAC_OPTIONS}  -d mods --module-path mlib --module-source-path sr
 # shellcheck disable=SC2046,SC2086  # Word splitting is intentional for find results; option variables should not be quoted
 "${JAVA_HOME}/bin/javac" ${JAVAC_OPTIONS}  -d mods \
     --module-path mlib \
-    --add-exports java.base/jdk.internal.misc=modmain \
+    --add-exports java.base/jdk.internal.org.xml.sax=modmain \
     --add-exports moda/pkgainternal=modmain \
     --module-source-path src $(find src/modmain -name '*.java')  \
     2>&1
