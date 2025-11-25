@@ -26,6 +26,6 @@ mvn --version
 echo
 
 echo "mvn clean package"
-echo "(Maven runs with JDK 17, targets Java 11 via maven.compiler.source/target)"
+echo "(Maven runs with JDK 17+, targets Java 25 via maven.compiler.source/target)"
 mvn clean package
 

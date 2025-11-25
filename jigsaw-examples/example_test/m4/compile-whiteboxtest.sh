@@ -10,11 +10,6 @@ if [ -z "${M4_HOME:-}" ]; then
   exit 1
 fi
 
-# Maven 4 requires Java 17+ to run
-# Note: pom.xml has <maven.compiler.release>11</maven.compiler.release> which ensures
-# Java 11 compatible bytecode even when using JDK 17 compiler with --release 11
-MAVEN_JAVA_HOME="${JAVA17_HOME:-${JAVA_HOME}}"
-
 # Add Maven 4 to PATH
 export PATH="${M4_HOME}/bin:${PATH}"
 
@@ -24,13 +19,13 @@ mkdir -p patchlib
 
 echo "=== Step 1: Show Maven version ==="
 echo "mvn --version"
-JAVA_HOME="${MAVEN_JAVA_HOME}" mvn --version
+JAVA_HOME="${JAVA_HOME}" mvn --version
 echo
 
 echo "=== Step 2: Compile modfib with Maven and download JUnit ==="
 echo "mvn clean test-compile"
-echo "(Maven runs with JDK 17, compiles for Java 11 via maven.compiler.release)"
-JAVA_HOME="${MAVEN_JAVA_HOME}" mvn clean test-compile
+echo "(Maven runs with JDK 17+, compiles for Java 25 via maven.compiler.release)"
+JAVA_HOME="${JAVA_HOME}" mvn clean test-compile
 echo
 
 # Create modfib JAR
@@ -47,7 +42,7 @@ popd >/dev/null 2>&1
 echo
 
 # Prepare dependencies for whitebox test
-JAVA_HOME="${MAVEN_JAVA_HOME}" mvn dependency:copy-dependencies -DoutputDirectory=amlib -DincludeScope=test
+JAVA_HOME="${JAVA_HOME}" mvn dependency:copy-dependencies -DoutputDirectory=amlib -DincludeScope=test
 
 # Package whitebox test JAR
 echo "jar ${JAR_OPTIONS} --create --file=patchlib/modfib.jar -C target/test-classes/modfib ."
