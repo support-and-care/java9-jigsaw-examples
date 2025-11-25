@@ -52,14 +52,7 @@
               <outputDirectory>${project.build.directory}/classes/modb</outputDirectory>
               <resources>
                 <resource>
-                  <directory>src/modb/main/java</directory>
-                  <includes>
-                    <include>**/*.properties</include>
-                    <include>**/*.txt</include>
-                  </includes>
-                  <excludes>
-                    <exclude>**/*.java</exclude>
-                  </excludes>
+                  <directory>src/modb/main/resources</directory>
                 </resource>
               </resources>
             </configuration>
@@ -74,36 +67,7 @@
               <outputDirectory>${project.build.directory}/classes/modc</outputDirectory>
               <resources>
                 <resource>
-                  <directory>src/modc/main/java</directory>
-                  <includes>
-                    <include>**/*.properties</include>
-                    <include>**/*.txt</include>
-                  </includes>
-                  <excludes>
-                    <exclude>**/*.java</exclude>
-                  </excludes>
-                </resource>
-              </resources>
-            </configuration>
-          </execution>
-          <execution>
-            <id>copy-modmain-resources</id>
-            <phase>process-resources</phase>
-            <goals>
-              <goal>copy-resources</goal>
-            </goals>
-            <configuration>
-              <outputDirectory>${project.build.directory}/classes/modmain</outputDirectory>
-              <resources>
-                <resource>
-                  <directory>src/modmain/main/java</directory>
-                  <includes>
-                    <include>**/*.properties</include>
-                    <include>**/*.txt</include>
-                  </includes>
-                  <excludes>
-                    <exclude>**/*.java</exclude>
-                  </excludes>
+                  <directory>src/modc/main/resources</directory>
                 </resource>
               </resources>
             </configuration>
