@@ -67,7 +67,52 @@ include::m4/run-result/run.txt[]
 [[sec:maven-4-migration]]
 == Maven 4 Migration
 
-This example was migrated to Maven 4 using the standard approach documented in the xref:../../README.adoc#maven-4-migration[central Maven 4 Migration guide].
+This example was migrated to Maven 4 with a special source tree structure to properly separate Java source files from resources, following Maven conventions.
 
-The source files follow the standard Module Source Hierarchy setup.
-Resource handling required explicit configuration of `maven-resources-plugin` to copy `.properties` files from the modular source directories to the target classes directories, as the hybrid compilation approach only packages compiled `.class` files by default.
+The `m4/src` directory follows proper Maven directory conventions with separate `java/` and `resources/` subdirectories:
+
+[source]
+----
+m4/src/
+├── modb/main/
+│   ├── java/              # Java source files only
+│   │   ├── module-info.java
+│   │   ├── pkgb/B.java
+│   │   └── pkgbinternal/BInternal.java
+│   └── resources/         # Resource files only
+│       ├── pkgb/b.properties
+│       ├── pkgbinternal/binternal.properties
+│       └── resources.modb/resources.properties
+├── modc/main/
+│   ├── java/              # Java source files only
+│   │   ├── module-info.java
+│   │   ├── pkgc/C.java
+│   │   └── pkgcinternal/CInternal.java
+│   └── resources/         # Resource files only
+│       ├── cnopackage.properties
+│       ├── pkgc/c.properties
+│       ├── pkgcinternal/cinternal.properties
+│       └── resources.modc/resources.properties
+└── modmain/main/
+    └── java/              # Java source files only (no resources)
+        ├── module-info.java
+        ├── pkgmain/Main.java
+        └── pkgmaininternal/IdGen.java
+----
+
+This structure differs from the original `src/` directory where Java and resource files coexist in the same package directories.
+The Maven build properly handles resources through explicit `maven-resources-plugin` configuration that copies resource files from `src/<module>/main/resources` to `target/classes/<module>`.
+
+[CAUTION]
+.Why Source Files Are Copied, Not Symlinked
+====
+Unlike other examples where we use symbolic links to reference the original `src/` directory, this example requires _full copies_ of all source files in `m4/src/`.
+
+The Java compiler cannot properly resolve module structure when individual source files are symlinked from locations outside the module source path.
+When using `--module-source-path`, `javac` expects all files of a module to reside within a single directory tree and fails with "module not found on module source path" errors when encountering symlinks pointing outside that tree.
+
+Therefore, `m4/src/` contains actual file copies of all Java sources and resources from the original `src/` directory, reorganized into Maven's standard directory structure.
+
+To ensure consistency between the original sources and the Maven 4 copies, the `m4/verify-sources.sh` script validates that all files are identical despite the different directory layouts.
+This script runs automatically as part of `m4/verify.sh`.
+====

@@ -14,6 +14,11 @@ fi
 echo "=== Verifying ${EXAMPLE_NAME} (Maven 4) ==="
 echo
 
+# Step 0: Verify source file consistency
+echo "Step 0: Verify source file consistency"
+./verify-sources.sh
+echo
+
 # Check if expected result exists
 if [ ! -f "${EXPECTED}" ]; then
   echo "❌ ERROR: Expected result not found at ${EXPECTED}"
