@@ -36,12 +36,10 @@
       <!-- Main module sources -->
       <source>
         <module>modfib</module>
-        <directory>src/modfib/main/java</directory>
       </source>
       <!-- Whitebox test sources for modfib (uses module-info-patch.maven) -->
       <source>
         <module>modfib</module>
-        <directory>src/modfib/test/java</directory>
         <scope>test</scope>
       </source>
     </sources>
