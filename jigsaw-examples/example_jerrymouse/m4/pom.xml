@@ -26,7 +26,6 @@
     <sources>
       <source>
         <module>modstarter</module>
-        <directory>src/modstarter/main/java</directory>
       </source>
     </sources>
 

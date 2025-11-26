@@ -29,19 +29,15 @@
       </source>
       <source>
         <module>mod.client</module>
-        <directory>src/mod.client/main/java</directory>
       </source>
       <source>
         <module>mod_client</module>
-        <directory>src/mod_client/main/java</directory>
       </source>
       <source>
         <module>modjava</module>
-        <directory>src/modjava/main/java</directory>
       </source>
       <source>
         <module>modmain</module>
-        <directory>src/modmain/main/java</directory>
       </source>
     </sources>
 
