@@ -10,6 +10,8 @@
 
 # IDE configuration
 .idea/
+*.iml
+.vscode/
 
 # Downloaded files
 .m2/
@@ -22,3 +24,6 @@
 
 # Maven artifacts
 target/
+
+# Log files
+*.log
