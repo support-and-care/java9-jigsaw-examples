@@ -207,7 +207,9 @@ jobs:
     - name: Set up Maven 4
       uses: stCarolas/setup-maven@v5
       with:
-        maven-version: '4.0.0-rc-4'
+        # tag::maven-4-version[]
+        maven-version: '4.0.0-rc-5'
+        # end::maven-4-version[]
 
     - name: Create .envrc with Java and Maven paths
       shell: bash
