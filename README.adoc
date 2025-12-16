@@ -49,7 +49,7 @@ Meanwhile, we extended many examples to work (currently) with Maven 4 to demonst
 ** See <<recommended-jdk>> for the recommended version for full CI (automated testing) compatibility.
 ** For Maven 4 and xref:jigsaw-examples/example_gradle-project/README.adoc[Gradle example]: Java 17 or later is required.
 ** For the xref:jigsaw-examples/example_compile-target-jdk8/README.adoc[cross-compilation example]: Java 8.
-. Install Maven 4 if you want to run the Maven 4 migrated examples (cf. <<maven-4-migration,migration to Maven 4>>).
+. Install Maven 4 if you want to run the Maven 4 migrated examples (cf. <<maven-4-migration,migration to Maven 4>> and <<recommended-maven4>>).
 
 [[recommended-jdk]]
 [NOTE]
@@ -224,6 +224,21 @@ Corresponding JAR files are in `example_.../patchlib`.
 
 Many examples have been migrated to Maven 4 using the new https://maven.apache.org/plugins-archives/maven-compiler-plugin-LATEST-4.x/modules.html[Module Source Hierarchy] layout.
 The Maven 4 builds are located in `m4/` subdirectories within each example.
+
+[[recommended-maven4]]
+[NOTE]
+.Recommended Maven 4 Version
+====
+The following Maven 4 version is used for CI and automated testing:
+
+[source,yaml,indent=0]
+----
+include::.github/workflows/build.yml[tag=maven-4-version]
+----
+
+Set `M4_HOME` to point to this version.
+For SDKMAN users: `sdk install maven 4...` (use the version shown above).
+====
 
 === Standard Migration Approach and Defaults
 
