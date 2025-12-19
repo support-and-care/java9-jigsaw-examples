@@ -1,0 +1,2 @@
+Add-Exports: java.base/jdk.internal.misc moda/pkgainternal
+Main-Class: pkgmain.Main

@@ -30,4 +30,4 @@ mkdir -p run-result
 "${JAVA11_HOME}/bin/java" ${JAVA_OPTIONS} \
    --add-modules moda \
    --module-path target \
-   -jar target/example_addExports_manifest-m4-1.0-SNAPSHOT-modmain.jar 2>&1 | normalize | tee -a run-result/run.txt | myecho
+   -jar target/modmain-1.0-SNAPSHOT.jar 2>&1 | normalize | tee -a run-result/run.txt | myecho

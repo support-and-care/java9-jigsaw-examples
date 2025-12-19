@@ -28,6 +28,11 @@
     <plugins>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-resources-plugin</artifactId>
+        <version>3.3.1</version>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
         <version>4.0.0-beta-3</version>
         <configuration>
@@ -46,40 +51,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-jar-plugin</artifactId>
-        <version>3.4.2</version>
-        <executions>
-          <!-- Skip default JAR creation -->
-          <execution>
-            <id>default-jar</id>
-            <phase>none</phase>
-          </execution>
-          <!-- Create module-specific JARs -->
-          <execution>
-            <id>moda</id>
-            <phase>package</phase>
-            <goals>
-              <goal>jar</goal>
-            </goals>
-            <configuration>
-              <classesDirectory>${project.build.outputDirectory}/moda</classesDirectory>
-              <classifier>moda</classifier>
-            </configuration>
-          </execution>
-          <execution>
-            <id>modmain</id>
-            <phase>package</phase>
-            <goals>
-              <goal>jar</goal>
-            </goals>
-            <configuration>
-              <classesDirectory>${project.build.outputDirectory}/modmain</classesDirectory>
-              <classifier>modmain</classifier>
-              <archive>
-                <manifestFile>src/modmain/main/java/META-INF/MANIFEST.MF</manifestFile>
-              </archive>
-            </configuration>
-          </execution>
-        </executions>
+        <version>4.0.0-beta-2-PR508-SNAPSHOT</version>
       </plugin>
     </plugins>
   </build>

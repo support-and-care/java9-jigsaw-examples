@@ -388,7 +388,13 @@ Examples requiring specific JDK versions may need `fork` and `executable` config
 Examples requiring specific JDK versions may need `fork` and `executable` configuration with environment-specific paths.
 
 Resource handling::
-Examples with non-.class resources (like xref:jigsaw-examples/example_resources/README.adoc#maven-4-migration[example_resources]) need `maven-resources-plugin` configuration to copy resources from the modular source directories (`src/<module>/main`) to the target classes directories, as the hybrid compilation approach only packages compiled `.class` files by default.
+Examples with non-.class resources (like xref:jigsaw-examples/example_resources/README.adoc#maven-4-migration[example_resources]) need resources copied from the modular source directories (`src/<module>/main/resources`) to the target classes directories (`target/classes/<module>/`).
++
+With https://github.com/apache/maven/pull/11505[Maven Core PR #11505], this happens automatically - the resources plugin discovers resources from the modular layout and copies them to the correct location.
++
+Special case: xref:jigsaw-examples/example_addExports_manifest/README.adoc#sec:maven-4-migration[example_addExports_manifest] requires a custom `MANIFEST.MF` in `src/modmain/main/resources/META-INF/`.
+This example uses real source directories (not symlinks) because the `MANIFEST.MF` must be copied alongside the Java sources.
+See the example's README for detailed migration notes.
 
 Multiple module versions::
 Examples requiring multiple versions of the same module (like xref:jigsaw-examples/example_layer-modules-module-resolution/README.adoc#maven-4-migration[example_layer-modules-module-resolution]) cannot use the standard Module Source Hierarchy approach, as the `<sources>` element expects one source location per module name.

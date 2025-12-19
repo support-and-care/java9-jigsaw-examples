@@ -35,7 +35,7 @@ mvn clean package
 echo
 echo "Copying JARs to mlib with simple names..."
 for mod in moda modb modc; do
-    echo "cp target/example_resolved-modules-m4-1.0-SNAPSHOT-${mod}.jar mlib/${mod}.jar"
-    cp "target/example_resolved-modules-m4-1.0-SNAPSHOT-${mod}.jar" "mlib/${mod}.jar"
+    echo "cp target/${mod}-1.0-SNAPSHOT.jar mlib/${mod}.jar"
+    cp "target/${mod}-1.0-SNAPSHOT.jar" "mlib/${mod}.jar"
 done
 

@@ -40,14 +40,14 @@ echo "Copying JARs to layer-specific directories..."
 
 # Copy foo layer modules (modfoo, modversion1) to foomlib/
 for mod in modfoo modversion1; do
-    echo "cp target/example_layer-modules-module-resolution-m4-1.0-${mod}.jar foomlib/${mod}.jar"
-    cp "target/example_layer-modules-module-resolution-m4-1.0-${mod}.jar" "foomlib/${mod}.jar"
+    echo "cp target/${mod}-1.0.jar foomlib/${mod}.jar"
+    cp "target/${mod}-1.0.jar" "foomlib/${mod}.jar"
 done
 
 # Copy bar layer modules (modbar, modversion2) to barmlib/
 for mod in modbar modversion2; do
-    echo "cp target/example_layer-modules-module-resolution-m4-1.0-${mod}.jar barmlib/${mod}.jar"
-    cp "target/example_layer-modules-module-resolution-m4-1.0-${mod}.jar" "barmlib/${mod}.jar"
+    echo "cp target/${mod}-1.0.jar barmlib/${mod}.jar"
+    cp "target/${mod}-1.0.jar" "barmlib/${mod}.jar"
 done
 
 # Compile second version of modcommon from src2 (version 2.0)
