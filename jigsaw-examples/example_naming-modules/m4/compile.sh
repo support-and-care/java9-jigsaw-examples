@@ -31,9 +31,9 @@ counter=0
 for dir in automatic-whatever automatic-whateverX-47.11 automatic-whateverX48.12 automatic-whateverX49-13
 do
     counter=$((counter+1))
-    echo "javac ${JAVAC_OPTIONS} -d classes/${dir} --release 25 \$(find ../src/${dir} -name \"*.java\")"
+    echo "javac ${JAVAC_OPTIONS} -d classes/${dir} --release 17 \$(find ../src/${dir} -name \"*.java\")"
     # shellcheck disable=SC2046,SC2086  # JAVAC_OPTIONS is intentionally unquoted for word splitting, the find command is intended to be expanded
-    "${JAVA_HOME}/bin/javac" ${JAVAC_OPTIONS} -d classes/${dir} --release 25 $(find ../src/${dir} -name "*.java") 2>&1
+    "${JAVA_HOME}/bin/javac" ${JAVAC_OPTIONS} -d classes/${dir} --release 17 $(find ../src/${dir} -name "*.java") 2>&1
 
     pushd classes/${dir} > /dev/null 2>&1
     echo "jar $JAR_OPTIONS --create --file=../../amlib${counter}/${dir}.jar ."

@@ -22,9 +22,9 @@ echo
 echo "Step 1: Compile classpath code (cpb) manually"
 echo
 
-echo "javac ${JAVAC_OPTIONS} -d classes --release 25 \$(find ../src/cpb -name \"*.java\")"
+echo "javac ${JAVAC_OPTIONS} -d classes --release 17 \$(find ../src/cpb -name \"*.java\")"
 # shellcheck disable=SC2046,SC2086  # JAVAC_OPTIONS is intentionally unquoted for word splitting, the find command is intended to be expanded
-"${JAVA_HOME}/bin/javac" ${JAVAC_OPTIONS} -d classes --release 25 $(find ../src/cpb -name "*.java") 2>&1
+"${JAVA_HOME}/bin/javac" ${JAVAC_OPTIONS} -d classes --release 17 $(find ../src/cpb -name "*.java") 2>&1
 
 # Package cpb as JAR in cplib/ (classpath library directory)
 pushd classes > /dev/null 2>&1

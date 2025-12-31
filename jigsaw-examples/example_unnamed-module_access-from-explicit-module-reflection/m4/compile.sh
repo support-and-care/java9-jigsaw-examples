@@ -22,9 +22,9 @@ echo "Step 1: Manually compile classpath code (cpb)"
 
 # Compile cpb (classpath code) manually
 pushd ../src > /dev/null 2>&1
-echo "javac ${JAVAC_OPTIONS} -d ../m4/classes/cpb --release 25 \$(find cpb -name \"*.java\")"
+echo "javac ${JAVAC_OPTIONS} -d ../m4/classes/cpb --release 17 \$(find cpb -name \"*.java\")"
 # shellcheck disable=SC2046,SC2086  # find output needs word splitting, JAVAC_OPTIONS intentionally unquoted
-"${JAVA_HOME}/bin/javac" ${JAVAC_OPTIONS} -d ../m4/classes/cpb --release 25 $(find cpb -name "*.java") 2>&1
+"${JAVA_HOME}/bin/javac" ${JAVAC_OPTIONS} -d ../m4/classes/cpb --release 17 $(find cpb -name "*.java") 2>&1
 
 # Package cpb as JAR in cplib/
 echo "jar ${JAR_OPTIONS} --create --file=../m4/cplib/cpb.jar -C ../m4/classes/cpb ."

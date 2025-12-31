@@ -35,9 +35,9 @@ function compileandjar() {
   rm -rf ../m4/"${classes}"
   mkdir -p ../m4/"${classes}"
 
-  echo "javac ${JAVAC_OPTIONS} -d ../m4/${classes} --release 25 \$(find ${modauto} -name \"*.java\")"
+  echo "javac ${JAVAC_OPTIONS} -d ../m4/${classes} --release 17 \$(find ${modauto} -name \"*.java\")"
   # shellcheck disable=SC2046,SC2086  # find output needs word splitting, JAVAC_OPTIONS intentionally unquoted
-  "${JAVA_HOME}/bin/javac" ${JAVAC_OPTIONS} -d ../m4/"${classes}" --release 25 $(find "${modauto}" -name "*.java") 2>&1
+  "${JAVA_HOME}/bin/javac" ${JAVAC_OPTIONS} -d ../m4/"${classes}" --release 17 $(find "${modauto}" -name "*.java") 2>&1
 
   echo "jar ${JAR_OPTIONS} --create --file=../m4/${amlib}/${modauto}.jar -C ../m4/${classes} ."
   # shellcheck disable=SC2086  # JAR_OPTIONS is intentionally unquoted for word splitting

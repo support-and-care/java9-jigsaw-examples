@@ -22,9 +22,9 @@ echo
 echo "Step 1: Compile automatic module (modauto1) manually"
 echo
 
-echo "javac ${JAVAC_OPTIONS} -d classes/modauto1 --release 25 \$(find ../src/modauto1 -name \"*.java\")"
+echo "javac ${JAVAC_OPTIONS} -d classes/modauto1 --release 17 \$(find ../src/modauto1 -name \"*.java\")"
 # shellcheck disable=SC2046,SC2086  # JAVAC_OPTIONS is intentionally unquoted for word splitting, the find command is intended to be expanded
-"${JAVA_HOME}/bin/javac" ${JAVAC_OPTIONS} -d classes/modauto1 --release 25 $(find ../src/modauto1 -name "*.java") 2>&1
+"${JAVA_HOME}/bin/javac" ${JAVAC_OPTIONS} -d classes/modauto1 --release 17 $(find ../src/modauto1 -name "*.java") 2>&1
 
 # Package modauto1 as JAR in amlib1/ (automatic module library directory)
 pushd classes/modauto1 > /dev/null 2>&1

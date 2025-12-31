@@ -36,9 +36,9 @@ function compileandjar() {
   rm -rf ../m4/classes/"${mod}"
   mkdir -p ../m4/classes/"${mod}"
 
-  echo "javac ${JAVAC_OPTIONS} -d ../m4/classes/${mod} --release 25 \$(find ${mod} -name \"*.java\")"
+  echo "javac ${JAVAC_OPTIONS} -d ../m4/classes/${mod} --release 17 \$(find ${mod} -name \"*.java\")"
   # shellcheck disable=SC2046,SC2086  # find output needs word splitting, JAVAC_OPTIONS intentionally unquoted
-  "${JAVA_HOME}/bin/javac" ${JAVAC_OPTIONS} -d ../m4/classes/"${mod}" --release 25 $(find "${mod}" -name "*.java") 2>&1
+  "${JAVA_HOME}/bin/javac" ${JAVAC_OPTIONS} -d ../m4/classes/"${mod}" --release 17 $(find "${mod}" -name "*.java") 2>&1
 
   echo "jar ${JAR_OPTIONS} --create --file=../m4/${amlib}/${mod}.jar -C ../m4/classes/${mod} ."
   # shellcheck disable=SC2086  # JAR_OPTIONS is intentionally unquoted for word splitting
@@ -65,11 +65,11 @@ echo
 echo "Step 4: Manually compile modfoo (requires modauto1)"
 pushd ../src/modfoo > /dev/null 2>&1
 mkdir -p ../../m4/mods/modfoo
-echo "javac ${JAVAC_OPTIONS} -d ../../m4/mods/modfoo --module-path ../../m4/target${PATH_SEPARATOR}../../m4/amlib1 --release 25 \$(find . -name \"*.java\")"
+echo "javac ${JAVAC_OPTIONS} -d ../../m4/mods/modfoo --module-path ../../m4/target${PATH_SEPARATOR}../../m4/amlib1 --release 17 \$(find . -name \"*.java\")"
 # shellcheck disable=SC2046,SC2086  # find output needs word splitting, JAVAC_OPTIONS intentionally unquoted
 "${JAVA_HOME}/bin/javac" ${JAVAC_OPTIONS} -d ../../m4/mods/modfoo \
     --module-path ../../m4/target"${PATH_SEPARATOR}"../../m4/amlib1 \
-    --release 25 \
+    --release 17 \
     $(find . -name "*.java") 2>&1
 
 echo "jar ${JAR_OPTIONS} --create --file=../../m4/target/modfoo.jar -C ../../m4/mods/modfoo ."
@@ -81,11 +81,11 @@ echo
 echo "Step 5: Manually compile modbar (requires modauto2)"
 pushd ../src/modbar > /dev/null 2>&1
 mkdir -p ../../m4/mods/modbar
-echo "javac ${JAVAC_OPTIONS} -d ../../m4/mods/modbar --module-path ../../m4/target${PATH_SEPARATOR}../../m4/amlib2 --release 25 \$(find . -name \"*.java\")"
+echo "javac ${JAVAC_OPTIONS} -d ../../m4/mods/modbar --module-path ../../m4/target${PATH_SEPARATOR}../../m4/amlib2 --release 17 \$(find . -name \"*.java\")"
 # shellcheck disable=SC2046,SC2086  # find output needs word splitting, JAVAC_OPTIONS intentionally unquoted
 "${JAVA_HOME}/bin/javac" ${JAVAC_OPTIONS} -d ../../m4/mods/modbar \
     --module-path ../../m4/target"${PATH_SEPARATOR}"../../m4/amlib2 \
-    --release 25 \
+    --release 17 \
     $(find . -name "*.java") 2>&1
 
 echo "jar ${JAR_OPTIONS} --create --file=../../m4/target/modbar.jar -C ../../m4/mods/modbar ."

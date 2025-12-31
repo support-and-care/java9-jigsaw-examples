@@ -42,12 +42,12 @@ echo
 # --patch-module modb=src/modb-patch/main/java: Treats patch sources (via symlink) as part of modb
 # --module-path target/classes: Provides compiled modb classes for dependency resolution
 # -d patches/modb: Compile output to directory patches/modb
-# --release 25: Target Java25 (matching the main modules)
+# --release 17: Target Java25 (matching the main modules)
 # Source file: src/modb-patch/main/java/pkgb/B.java (symlink → ../../../../src/modb-patch)
 echo "=== Step 3: Compile patch sources with javac ===="
-echo "javac ${JAVAC_OPTIONS} --release 25 --patch-module modb=src/modb-patch/main/java --module-path target/classes -d patches/modb src/modb-patch/main/java/pkgb/B.java"
+echo "javac ${JAVAC_OPTIONS} --release 17 --patch-module modb=src/modb-patch/main/java --module-path target/classes -d patches/modb src/modb-patch/main/java/pkgb/B.java"
 # shellcheck disable=SC2086  # JAVAC_OPTIONS is intentionally unquoted for word splitting
-"${JAVA_HOME}/bin/javac" ${JAVAC_OPTIONS} --release 25 --patch-module modb=src/modb-patch/main/java --module-path target/classes -d patches/modb src/modb-patch/main/java/pkgb/B.java 2>&1
+"${JAVA_HOME}/bin/javac" ${JAVAC_OPTIONS} --release 17 --patch-module modb=src/modb-patch/main/java --module-path target/classes -d patches/modb src/modb-patch/main/java/pkgb/B.java 2>&1
 echo
 
 echo "=== Step 4: Create patch JAR ===="

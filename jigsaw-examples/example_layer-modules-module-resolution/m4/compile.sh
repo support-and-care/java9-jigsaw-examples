@@ -49,9 +49,9 @@ echo
 echo "Compiling modcommon v2.0 from src2..."
 mkdir -p mods2
 
-echo "javac ${JAVAC_OPTIONS} -d mods2 --release 25 --module-version=2.0 --module-path target --module-source-path ../src2 \$(find ../src2/modcommon -name \"*.java\")"
+echo "javac ${JAVAC_OPTIONS} -d mods2 --release 17 --module-version=2.0 --module-path target --module-source-path ../src2 \$(find ../src2/modcommon -name \"*.java\")"
 # shellcheck disable=SC2046,SC2086  # JAVAC_OPTIONS is intentionally unquoted for word splitting, the find command is intended to be expanded
-"${JAVA_HOME}/bin/javac" ${JAVAC_OPTIONS} -d mods2 --release 25 --module-version=2.0 --module-path target --module-source-path ../src2 $(find ../src2/modcommon -name "*.java") 2>&1
+"${JAVA_HOME}/bin/javac" ${JAVAC_OPTIONS} -d mods2 --release 17 --module-version=2.0 --module-path target --module-source-path ../src2 $(find ../src2/modcommon -name "*.java") 2>&1
 
 # Package new modcommon v2.0 as jar in barmlib (overwrites v1.0)
 pushd mods2 > /dev/null 2>&1

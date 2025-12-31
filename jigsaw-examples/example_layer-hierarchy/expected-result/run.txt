@@ -1,4 +1,4 @@
-Layer 'boot' on level 'root' (java.base, java.compiler, java.datatransfer, java.desktop, java.logging, java.management, java.management.rmi, java.naming, java.prefs, java.rmi, java.security.jgss, java.security.sasl, java.smartcardio, java.xml, java.xml.crypto, javax.json, jdk.attach, jdk.charsets, jdk.compiler, jdk.crypto.cryptoki, jdk.editpad, jdk.internal.ed, jdk.internal.jvmstat, jdk.internal.le, jdk.internal.md, jdk.internal.opt, jdk.jartool, jdk.javadoc, jdk.jdeps, jdk.jdi, jdk.jdwp.agent, jdk.jfr, jdk.jlink, jdk.jpackage, jdk.jshell, jdk.jstatd, jdk.localedata, jdk.management, jdk.management.jfr, jdk.naming.dns, jdk.naming.rmi, jdk.security.auth, jdk.security.jgss, jdk.unsupported.desktop, jdk.zipfs, mod.layer, mod.main)
+Layer 'boot' on level 'root' (java.base, java.compiler, java.datatransfer, java.desktop, java.logging, java.management, java.management.rmi, java.naming, java.prefs, java.rmi, java.security.jgss, java.security.sasl, java.smartcardio, java.xml, java.xml.crypto, javax.json, jdk.charsets, jdk.compiler, jdk.crypto.cryptoki, jdk.crypto.ec, jdk.internal.opt, jdk.jartool, jdk.javadoc, jdk.jdeps, jdk.jfr, jdk.jlink, jdk.jpackage, jdk.localedata, jdk.management, jdk.management.jfr, jdk.naming.dns, jdk.naming.rmi, jdk.random, jdk.security.auth, jdk.security.jgss, jdk.unsupported.desktop, jdk.zipfs, mod.layer, mod.main)
 Contains these modules:
     module java.base
     module java.compiler
@@ -16,31 +16,23 @@ Contains these modules:
     module java.xml
     module java.xml.crypto
     module javax.json
-    module jdk.attach
     module jdk.charsets
     module jdk.compiler
     module jdk.crypto.cryptoki
-    module jdk.editpad
-    module jdk.internal.ed
-    module jdk.internal.jvmstat
-    module jdk.internal.le
-    module jdk.internal.md
+    module jdk.crypto.ec
     module jdk.internal.opt
     module jdk.jartool
     module jdk.javadoc
     module jdk.jdeps
-    module jdk.jdi
-    module jdk.jdwp.agent
     module jdk.jfr
     module jdk.jlink
     module jdk.jpackage
-    module jdk.jshell
-    module jdk.jstatd
     module jdk.localedata
     module jdk.management
     module jdk.management.jfr
     module jdk.naming.dns
     module jdk.naming.rmi
+    module jdk.random
     module jdk.security.auth
     module jdk.security.jgss
     module jdk.unsupported.desktop
@@ -48,7 +40,7 @@ Contains these modules:
     module mod.layer
     module mod.main
 Layer 'toplayer' on level 'top' (mod.u_bottom_middle_top, mod.x_top, mod.y_top, mod.z_top, mod.zreverse_bottom, mod.zreverse_middle, mod.zreverse_top)
-Parent 'boot' on level 'root' (java.base, java.compiler, java.datatransfer, java.desktop, java.logging, java.management, java.management.rmi, java.naming, java.prefs, java.rmi, java.security.jgss, java.security.sasl, java.smartcardio, java.xml, java.xml.crypto, javax.json, jdk.attach, jdk.charsets, jdk.compiler, jdk.crypto.cryptoki, jdk.editpad, jdk.internal.ed, jdk.internal.jvmstat, jdk.internal.le, jdk.internal.md, jdk.internal.opt, jdk.jartool, jdk.javadoc, jdk.jdeps, jdk.jdi, jdk.jdwp.agent, jdk.jfr, jdk.jlink, jdk.jpackage, jdk.jshell, jdk.jstatd, jdk.localedata, jdk.management, jdk.management.jfr, jdk.naming.dns, jdk.naming.rmi, jdk.security.auth, jdk.security.jgss, jdk.unsupported.desktop, jdk.zipfs, mod.layer, mod.main)
+Parent 'boot' on level 'root' (java.base, java.compiler, java.datatransfer, java.desktop, java.logging, java.management, java.management.rmi, java.naming, java.prefs, java.rmi, java.security.jgss, java.security.sasl, java.smartcardio, java.xml, java.xml.crypto, javax.json, jdk.charsets, jdk.compiler, jdk.crypto.cryptoki, jdk.crypto.ec, jdk.internal.opt, jdk.jartool, jdk.javadoc, jdk.jdeps, jdk.jfr, jdk.jlink, jdk.jpackage, jdk.localedata, jdk.management, jdk.management.jfr, jdk.naming.dns, jdk.naming.rmi, jdk.random, jdk.security.auth, jdk.security.jgss, jdk.unsupported.desktop, jdk.zipfs, mod.layer, mod.main)
 Contains these modules:
     module mod.u_bottom_middle_top
     module mod.x_top

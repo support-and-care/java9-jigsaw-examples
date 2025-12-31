@@ -32,10 +32,10 @@ echo
 echo "=== Step 2: Compile mod.x* modules (separate compilation with javac) ==="
 for modx in mod.x_bottom mod.x_middle mod.x_top
 do
-   echo "javac ${JAVAC_OPTIONS} --release 25 -d target/classes --module-path target${PATH_SEPARATOR}amlib --module-source-path \"src/*/main/java\" \$(find -L src/${modx}/main/java -name \"*.java\")"
+   echo "javac ${JAVAC_OPTIONS} --release 17 -d target/classes --module-path target${PATH_SEPARATOR}amlib --module-source-path \"src/*/main/java\" \$(find -L src/${modx}/main/java -name \"*.java\")"
    # shellcheck disable=SC2086  # JAVAC_OPTIONS is intentionally unquoted for word splitting
    # shellcheck disable=SC2046  # Word splitting intentional for multiple Java source files
-   "${JAVA_HOME}/bin/javac" ${JAVAC_OPTIONS} --release 25 -d target/classes \
+   "${JAVA_HOME}/bin/javac" ${JAVAC_OPTIONS} --release 17 -d target/classes \
        --module-path target${PATH_SEPARATOR}amlib \
        --module-source-path "src/*/main/java" \
        $(find -L src/${modx}/main/java -name "*.java") 2>&1

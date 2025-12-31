@@ -39,9 +39,9 @@ echo
 pushd ../src > /dev/null 2>&1
 for dir in cpb cpmain;
 do
-    echo "javac ${JAVAC_OPTIONS} -cp ../m4/target/*${PATH_SEPARATOR}../m4/classes/cpb -d ../m4/classes/${dir} --release 25 \$(find ${dir} -name \"*.java\")"
+    echo "javac ${JAVAC_OPTIONS} -cp ../m4/target/*${PATH_SEPARATOR}../m4/classes/cpb -d ../m4/classes/${dir} --release 17 \$(find ${dir} -name \"*.java\")"
     # shellcheck disable=SC2046,SC2086  # JAVAC_OPTIONS is intentionally unquoted for word splitting, the find command is intended to be expanded
-    "${JAVA_HOME}/bin/javac" ${JAVAC_OPTIONS} -cp ../m4/target/*"${PATH_SEPARATOR}"../m4/classes/cpb -d ../m4/classes/${dir} --release 25 $(find ${dir} -name "*.java") 2>&1
+    "${JAVA_HOME}/bin/javac" ${JAVAC_OPTIONS} -cp ../m4/target/*"${PATH_SEPARATOR}"../m4/classes/cpb -d ../m4/classes/${dir} --release 17 $(find ${dir} -name "*.java") 2>&1
 
     echo "jar $JAR_OPTIONS --create --file=../m4/cplib/${dir}.jar -C ../m4/classes/${dir} ."
     # shellcheck disable=SC2086  # JAR_OPTIONS is intentionally unquoted for word splitting

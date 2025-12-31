@@ -1,7 +1,7 @@
-Runtime.version() says, we are using Java version 25.0.1, build version 8
+Runtime.version() says, we are using Java version 17.0.16, build version 8
 System properties say, we are using Java version as follows:
-  java.version = 25.0.1
-  java.runtime.version = 25.0.1+8-LTS
-  java.vm.version = 25.0.1+8-LTS
-  java.specification.version = 25
-  java.vm.specification.version = 25
+  java.version = 17.0.16
+  java.runtime.version = 17.0.16+8
+  java.vm.version = 17.0.16+8
+  java.specification.version = 17
+  java.vm.specification.version = 17
