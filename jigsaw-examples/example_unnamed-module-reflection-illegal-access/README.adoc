@@ -49,7 +49,30 @@ An explicit `--add-opens` is hence needed.
 
 *Note that the kill switch **only works for classes which had been available before Java9**, i.e. were part of Java8. See also explanation https://docs.oracle.com/javase/9/tools/java.htm#JSWOR624[here].*
 
-See all 20 different variants of how to use the `--illegal-access=...` command line option or the `--add-opens` option in the run script `run.sh`.
+[[note:jdk_17_compatibility_changes]]
+[NOTE]
+.JDK 17+ Compatibility Changes
+====
+The `--illegal-access` flag was deprecated in Java 16 and *removed in Java 17* (https://openjdk.org/jeps/403[JEP 403]).
+Since Java 17, the behavior is always equivalent to `--illegal-access=deny` - deep reflective access to JDK internals is blocked by default.
+
+This example originally contained 20 variants demonstrating different combinations of `--illegal-access=permit/warn/deny` and `--add-opens`.
+For JDK 17+ compatibility, the following variants were removed:
+
+* *Variants 2-4*: Used `--illegal-access=permit/warn/deny` for `java.base/jdk.internal.math`
+* *Variants 6-9*: Used `--illegal-access` for `java.base/sun.net` (already commented out)
+* *Variants 11-14*: Relied on `--illegal-access=permit` being the default for `java.desktop/sun.awt`
+* *Variants 17-19*: Used `--illegal-access` for module `modb`
+
+The remaining variants (1, 5, 10, 15, 16, 20) demonstrate the only two behaviors now available in JDK 17+:
+
+. *Without options*: Reflective access to non-exported packages is blocked (throws `InaccessibleObjectException`)
+. *With explicit `--add-opens`*: Reflective access is permitted
+
+For applications migrating to JDK 17+, replace any `--illegal-access` usage with explicit `--add-opens` flags.
+====
+
+See the run script `run.sh` for the remaining variants demonstrating `--add-opens` usage.
 
 === Output
 
@@ -103,7 +126,7 @@ Hybrid compilation approach in `m4/compile.sh`:
 +
 The compilation order is critical: modules must be compiled and packaged before cpmain.
 +
-. Runtime uses 20 test variants with various `--illegal-access` and `--add-opens` flags to demonstrate JDK encapsulation behavior
+. Runtime uses test variants with `--add-opens` flags to demonstrate JDK encapsulation behavior (see <<note:jdk_17_compatibility_changes,JDK 17+ Compatibility Changes>> note above)
 
 This hybrid approach is necessary because:
 
@@ -111,4 +134,4 @@ This hybrid approach is necessary because:
 * Classpath code (unnamed module) must be compiled separately from explicit modules
 * Compilation order matters: cpmain depends on modb during compilation
 * The classpath/module-path split must be maintained at both compile-time and runtime
-* The example demonstrates illegal reflective access behavior with various JVM flags
+* The example demonstrates illegal reflective access behavior and `--add-opens` usage

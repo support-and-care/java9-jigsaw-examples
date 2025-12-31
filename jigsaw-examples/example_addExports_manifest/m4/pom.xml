@@ -32,9 +32,6 @@
         <version>4.0.0-beta-3</version>
         <configuration>
           <compilerArgs>
-            <!-- Use JDK 11's system modules for compilation (to access JDK 11 internals) -->
-            <arg>--system</arg>
-            <arg>${env.JAVA11_HOME}</arg>
             <!-- Required for modmain to access internal JDK and moda packages at compile time -->
             <arg>--add-exports</arg>
             <arg>java.base/jdk.internal.org.xml.sax=modmain</arg>
