@@ -429,9 +429,23 @@ No software is ready, ever ;-) So here are some ideas left (any other feedback v
 * [ ] New example for test coverage when doing whitebox tests
 * [ ] Known issues:
 +
+[[note:jdk-25-migration]]
 [NOTE]
+.JDK 25 Migration
 ====
-All examples work with current Java LTS versions (11, 17).
+All examples have been migrated to JDK 25 (see <<recommended-jdk>>).
+JDK 11 and 17 support has been removed from CI.
+
+*JDK 17+ breaking change - `--illegal-access` removed:*
+The `--illegal-access` flag was removed in Java 17 (https://openjdk.org/jeps/403[JEP 403]).
+The xref:jigsaw-examples/example_unnamed-module-reflection-illegal-access/README.adoc[example_unnamed-module-reflection-illegal-access] has been updated accordingly:
+test variants using `--illegal-access=permit/warn/deny` were removed, leaving only variants demonstrating the two behaviors available in JDK 17+:
+
+. Without options: Reflective access to non-exported packages throws `InaccessibleObjectException`
+. With explicit `--add-opens`: Reflective access is permitted
+
+See the xref:jigsaw-examples/example_unnamed-module-reflection-illegal-access/README.adoc#note:jdk_17_compatibility_changes[example's JDK 17+ Compatibility Changes] note for details.
+
 The xref:jigsaw-examples/example_spring-hibernate/README.adoc[example_spring-hibernate] may need updates for optimal Java 17+ compatibility.
 ====
 
