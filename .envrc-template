@@ -38,10 +38,5 @@ export DEPVIS_HOME=/path/to/depvis
 # Note: M4_HOME is added to PATH in m4/compile.sh and m4/run.sh scripts, not globally
 export M4_HOME=/path/to/maven4
 
-# Path to Maven 3 (optional, for future m3/ migration comparisons)
-# SDKMAN Users: Use 'sdk install maven 3.9.11' then 'sdk home maven 3.9.11'
-# Optional
-export M3_HOME=/path/to/maven3
-
 # Add Java to PATH to ensure it is the first Java version found by any shell execution
 export PATH="$JAVA_HOME/bin:$PATH"
