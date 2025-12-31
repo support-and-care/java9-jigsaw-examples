@@ -524,7 +524,6 @@ Before running any examples, `jigsaw-examples/env.sh` must be configured with:
 - `JAVA8_HOME`: Only needed for `example_compile-target-jdk8`
 - `JAVA17_HOME`: Only needed for `example_gradle-project` (Gradle 9.x requires JDK 17+)
 - `M4_HOME`: Path to Maven 4 (required for `m4/` migration subdirectories)
-- `M3_HOME`: Path to Maven 3 (optional, for future `m3/` migration comparisons)
 - `GRAPHVIZ_HOME`: Path to GraphViz 2.38+ for module visualization
 - `DEPVIS_HOME`: Path to depvis tool (https://github.com/accso/java9-jigsaw-depvis)
 

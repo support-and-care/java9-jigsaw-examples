@@ -25,10 +25,6 @@ set -eu -o pipefail
 # Note: M4_HOME/bin is added to PATH in m4/ scripts, not here
 [ -z "${M4_HOME:-}" ] && export M4_HOME=TODO/path/to/maven4/goes/here
 
-# Path to Maven 3 (optional, for future m3/ migration comparisons)
-# SDKMAN Users: Use 'sdk install maven 3.9.11' or similar
-[ -z "${M3_HOME:-}" ] && export M3_HOME=TODO/path/to/maven3/goes/here
-
 # Path to GraphViz >=2.38
 [ -z "${GRAPHVIZ_HOME:-}" ] && export GRAPHVIZ_HOME=TODO/path/to/graphviz2.38/goes/here
 # Path to DepVis , see https://github.com/accso/java9-jigsaw-depvis
