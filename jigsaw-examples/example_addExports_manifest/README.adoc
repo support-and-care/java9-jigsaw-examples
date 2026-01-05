@@ -84,3 +84,53 @@ include::run-result/run.txt[]
 ----
 include::m4/run-result/run.txt[]
 ----
+
+=== Maven 4 Migration Notes
+
+This example requires special handling for Maven 4 migration due to the `MANIFEST.MF` file that must be included in the JAR.
+
+==== Directory Structure
+
+Unlike most other examples that use symlinks from `m4/src/<module>/main/java` to the original sources, this example uses a real directory structure for `modmain`:
+
+[source]
+----
+m4/src/modmain/main/
+├── java/
+│   ├── module-info.java
+│   └── pkgmain/
+│       └── Main.java
+└── resources/
+    └── META-INF/
+        └── MANIFEST.MF
+----
+
+The `moda` module still uses a symlink since it doesn't require resources.
+
+==== MANIFEST.MF Content
+
+The `MANIFEST.MF` contains custom entries that are merged with the JAR tool's default manifest:
+
+[source]
+----
+Add-Exports: java.base/jdk.internal.misc moda/pkgainternal
+Main-Class: pkgmain.Main
+----
+
+[NOTE]
+====
+The standard `Manifest-Version` and `Created-By` entries are omitted from the source `MANIFEST.MF` because they are automatically added by the JAR tool.
+Including them would cause duplicate entry warnings.
+====
+
+==== Required Maven PRs
+
+This example depends on two Maven improvements:
+
+. https://github.com/apache/maven/pull/11505[Maven Core PR #11505]: Automatic module-aware resource handling
+** Automatically discovers resources from `src/<module>/main/resources`
+** Copies them to `target/classes/<module>/`
+
+. https://github.com/apache/maven-jar-plugin/pull/508[JAR Plugin PR #508]: Automatic JAR-per-module creation
+** Creates individual JARs for each module (e.g., `modmain-1.0-SNAPSHOT.jar`)
+** Reads `Main-Class` from the module's `MANIFEST.MF` in `target/classes/<module>/META-INF/`

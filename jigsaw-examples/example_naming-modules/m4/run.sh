@@ -25,11 +25,12 @@ do
         echo "JAR-file: ${JAR} in ${dir}"
 
         # get name of JAR-file
-        # For target/ JARs (Phase 2): extract classifier after last hyphen before .jar
+        # For target/ JARs (Phase 2): extract module name before version
         # For amlib JARs: use the whole basename
         if [[ "${dir}" == "target" ]]; then
-            # Extract classifier from pattern: artifactId-version-classifier.jar
-            MOD="$(basename "${JAR}" .jar | sed 's/.*-\([^-]*\)$/\1/')"
+            # Extract module name from pattern: modulename-version.jar
+            # Remove .jar extension, then remove -version suffix (version is last hyphen-separated part)
+            MOD="$(basename "${JAR}" .jar | sed 's/-[0-9][0-9.]*$//')"
         else
             MOD="$(basename "${JAR}" | sed s/'.jar'//g | sed s/'-'/'.'/g | cut -d '.' -f 1-2)"
         fi
